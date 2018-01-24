@@ -1,6 +1,8 @@
 # JTwoD
 > A Java game Engine
 
+[![GitHub issues](https://img.shields.io/github/issues/nathan-fiscaletti/jtwod.svg)](https://github.com/nathan-fiscaletti/jtwod/issues) [![GitHub forks](https://img.shields.io/github/forks/nathan-fiscaletti/jtwod.svg)](https://github.com/nathan-fiscaletti/jtwod/network) [![GitHub stars](https://img.shields.io/github/stars/nathan-fiscaletti/jtwod.svg)](https://github.com/nathan-fiscaletti/jtwod/stargazers) [![GitHub license](https://img.shields.io/github/license/nathan-fiscaletti/jtwod.svg)](https://github.com/nathan-fiscaletti/jtwod/blob/master/LICENSE)
+
 ### Building
 
 To build the library, clone the repository and use the provided build script.
