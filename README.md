@@ -19,3 +19,11 @@ $ ./build.sh (--release | --debug)
 ```sh
 C:\> build.bat (--release | --debug)
 ```
+
+### Games currently using this engine
+
+[Glide: A space shooter](http://github.com/nathan-fiscaletti/glide)
+
+### Examples
+
+See [src/jtwod/examples](https://github.com/nathan-fiscaletti/jtwod/tree/master/src/jtwod/examples) for some example implementations of this library.
