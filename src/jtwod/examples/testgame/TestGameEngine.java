@@ -73,7 +73,7 @@ public final class TestGameEngine extends Engine {
         /*
          * Initialize the new Screen that we will be using to render things out.
          */
-        Scene<TestGameEngine> mainScreen = new Scene<TestGameEngine>("Main Screen", this) {
+        Scene<TestGameEngine> mainScene = new Scene<TestGameEngine>("Main Screen", this) {
 
             /**
              * The Serial version UID.
@@ -238,7 +238,7 @@ public final class TestGameEngine extends Engine {
         /*
          * Set the main screen for the engine to get things rolling.
          */
-        this.setScreen(mainScreen);
+        this.setScene(mainScene);
         this.setFullScreen(true);
     }
 }

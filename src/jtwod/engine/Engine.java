@@ -58,7 +58,7 @@ public abstract class Engine {
     /**
      * The current screen being displayed.
      */
-    private Scene<? extends Engine> currentScreen;
+    private Scene<? extends Engine> currentScene;
 
     /**
      * Initialize a new Engine.
@@ -160,28 +160,28 @@ public abstract class Engine {
     public abstract void onEngineStart();
 
     /**
-     * Change the currently active screen.
+     * Change the currently active Scene.
      *
-     * @param screen
+     * @param scene
      */
-    public final void setScreen(Scene<? extends Engine> screen)
+    public final void setScene(Scene<? extends Engine> scene)
     {
-        if (currentScreen != null) {
+        if (currentScene != null) {
             try {
-                currentScreen.stop();
+                currentScene.stop();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            windowFrame.remove(currentScreen);
+            windowFrame.remove(currentScene);
         }
 
-        currentScreen = screen;
-        currentScreen.setPreferredSize(this.getWindowSize().asAwtDimension());
-        currentScreen.setMaximumSize(this.getWindowSize().asAwtDimension());
-        currentScreen.setMinimumSize(this.getWindowSize().asAwtDimension());
-        windowFrame.add(currentScreen);
+        currentScene = scene;
+        currentScene.setPreferredSize(this.getWindowSize().asAwtDimension());
+        currentScene.setMaximumSize(this.getWindowSize().asAwtDimension());
+        currentScene.setMinimumSize(this.getWindowSize().asAwtDimension());
+        windowFrame.add(currentScene);
         windowFrame.pack();
-        currentScreen.start();
+        currentScene.start();
     }
 
     /**

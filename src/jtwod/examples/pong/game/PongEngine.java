@@ -48,9 +48,9 @@ public class PongEngine extends Engine {
         this.addGlobalDrawable(new PongBackground(this));
         
         /**
-         * Set the main screen.
+         * Set the main Scene.
          */
-        this.setScreen(new PongScene(this));
+        this.setScene(new PongScene(this));
     }
     
 }
