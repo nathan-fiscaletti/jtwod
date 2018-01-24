@@ -5,7 +5,8 @@ package jtwod.engine.sound;
  * @author Nathan
  *
  */
-public final class Music {
+public final class Music 
+{
     /**
      * The music object we're wrapping around.
      */
@@ -35,5 +36,4 @@ public final class Music {
     {
         music.pause();
     }
-
 }

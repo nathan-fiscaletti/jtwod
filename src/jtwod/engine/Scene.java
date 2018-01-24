@@ -80,10 +80,18 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Called to initialize properties.
+     * Called to prepare the Scene.
      */
-    protected void initialize() {
+    protected void prepare() {
         // Not implemented by default.
+    }
+    
+    /**
+     * Called when the Scene has been stopped.
+     */
+    protected void scatter()
+    {
+    	    // Not implemented by default.
     }
 
     /**
@@ -109,7 +117,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
      *
      * @param keyEvent
      */
-    protected void onKeyPressed(KeyEvent keyEvent)
+    protected void keyPressed(KeyEvent keyEvent)
     {
         // Not implemented by default.
     }
@@ -119,7 +127,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
      *
      * @param keyEvent
      */
-    protected void onKeyReleased(KeyEvent keyEvent)
+    protected void keyReleased(KeyEvent keyEvent)
     {
         // Not implemented by default.
     }
@@ -157,11 +165,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
                 frames = 0;
             }
         }
-        try {
-            stop();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.scatter();
     }
 
     /**
@@ -265,17 +269,37 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e){
-                onKeyPressed(e);
+                triggerKeyPressed(e);
             }
 
             @Override
             public void keyReleased(KeyEvent e){
-                onKeyReleased(e);
+                triggerKeyReleased(e);
             }
         });
-        this.initialize();
+        this.prepare();
     }
-
+    
+    /**
+     * Invokes keyPressed with an event.
+     *
+     * @param e The KeyEvent.
+     */
+    private void triggerKeyPressed(KeyEvent e)
+    {
+    	    this.keyPressed(e);
+    }
+    
+    /**
+     * Invokes keyReleased with an event.
+     *
+     * @param e The KeyEvent.
+     */
+    private void triggerKeyReleased(KeyEvent e)
+    {
+    		this.keyReleased(e);
+    }
+    
     /**
      * Internal renderFrame function.
      */

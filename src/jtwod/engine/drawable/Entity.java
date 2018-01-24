@@ -15,8 +15,8 @@ import jtwod.engine.metrics.Vector;
  *
  * @author Nathan Fiscaletti
  */
-public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEngine> {
-
+public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEngine>
+{
     /**
      * The velocity of the entity.
      */

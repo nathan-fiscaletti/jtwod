@@ -29,7 +29,8 @@ public final class SpriteSheet {
      * @param colWidth
      * @param rowHeight
      */
-    public SpriteSheet(Texture texture, int colWidth, int rowHeight){
+    public SpriteSheet(Texture texture, int colWidth, int rowHeight)
+    {
         this.texture = texture;
         this.colWidth = colWidth;
         this.rowHeight = rowHeight;
@@ -42,7 +43,8 @@ public final class SpriteSheet {
      * @param row
      * @return
      */
-    public Texture getTexture(int col, int row){
+    public Texture getTexture(int col, int row)
+    {
         return this.texture.getSubTexture (
                 ( col-1 ) * this.colWidth,
                 ( row-1 ) * this.rowHeight,

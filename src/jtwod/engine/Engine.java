@@ -101,7 +101,7 @@ public abstract class Engine {
      */
     public Engine()
     {
-        // Initialize nothing.
+        // Empty initializer.
     }
 
     /**

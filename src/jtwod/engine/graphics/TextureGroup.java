@@ -8,7 +8,8 @@ import java.util.HashMap;
  * Class used to manage TextureGroup for a game.
  * @author Nathan
  */
-public final class TextureGroup {
+public final class TextureGroup
+{
     /**
      * The Textures.
      */

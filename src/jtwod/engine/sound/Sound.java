@@ -7,7 +7,8 @@ import jtwod.engine.Engine;
  * @author Nathan
  *
  */
-public final class Sound {
+public final class Sound 
+{
 
     /**
      * The tinysound Sound object to wrap around.

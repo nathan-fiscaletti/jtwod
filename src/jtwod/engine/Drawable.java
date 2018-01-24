@@ -1,13 +1,15 @@
 package jtwod.engine;
 
 import java.awt.Graphics;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Class for implementing both render and update methods.
  *
  * @author Nathan
  */
-public abstract class Drawable<ParentEngine extends Engine> {
+public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter {
 
     /**
      * Enumeration used to define Center constraints in Drawable objects.
@@ -55,6 +57,28 @@ public abstract class Drawable<ParentEngine extends Engine> {
      * Update this renderer.
      */
     protected abstract void update();
+    
+    /**
+     * Event triggered when a key is pressed.
+     *
+     * @param e The event associated with the key press.
+     */
+    @Override
+    public void keyPressed(KeyEvent e)
+    {
+    		// Not implemented by default.
+    }
+    
+    /**
+     * Event triggered when a key is pressed.
+     *
+     * @param e The event associated with the key release.
+     */
+    @Override
+    public void keyReleased(KeyEvent e)
+    {
+    		// Not implemented by default.
+    }
 
     /**
      * Update whether or not this Drawable should render in the global scope.

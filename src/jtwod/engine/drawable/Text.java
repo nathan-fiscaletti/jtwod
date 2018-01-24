@@ -8,7 +8,8 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine> {
+public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
+{
 
     /**
      * The text to display.
@@ -149,7 +150,8 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
      *
      * @return
      */
-    public final String getText() {
+    public final String getText()
+    {
         return text;
     }
 
@@ -157,7 +159,8 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
      * Update the current text.
      * @param text
      */
-    public final void setText(String text) {
+    public final void setText(String text)
+    {
         this.text = text;
     }
 
@@ -176,7 +179,8 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
      *
      * @param font
      */
-    public final void setFont(Font font) {
+    public final void setFont(Font font)
+    {
         this.font = font;
     }
 
@@ -185,7 +189,8 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
      *
      * @return
      */
-    public final Color getColor() {
+    public final Color getColor()
+    {
         return color;
     }
 
@@ -194,7 +199,8 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
      *
      * @param color
      */
-    public final void setColor(Color color) {
+    public final void setColor(Color color)
+    {
         this.color = color;
     }
 
@@ -203,7 +209,8 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
      *
      * @return
      */
-    public final Center getCenter() {
+    public final Center getCenter()
+    {
         return center;
     }
 
@@ -213,7 +220,8 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
      * @param center
      * @param position
      */
-    public final void setPosition(Center center, Vector position) {
+    public final void setPosition(Center center, Vector position)
+    {
         this.center = center;
         this.setPosition(position);
     }

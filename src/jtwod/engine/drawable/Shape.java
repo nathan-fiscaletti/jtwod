@@ -36,7 +36,8 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
      * @author Nathan
      *
      */
-    public enum ConstrainedEventType {
+    public enum ConstrainedEventType 
+    {
         LeftXAxis,
         RightXAxis,
         TopYAxis,

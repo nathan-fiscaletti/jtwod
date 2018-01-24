@@ -146,6 +146,7 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
      */
     public final void spawnEntity(Entity<ParentEngine> entity)
     {
+    		this.parentScreen.addKeyListener(entity);
         this.entities.add(entity);
     }
 
@@ -156,6 +157,7 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
      */
     public final void deSpawnEntity(Entity<ParentEngine> entity)
     {
+    		this.parentScreen.removeKeyListener(entity);
         this.entities.remove(entity);
     }
 
@@ -164,8 +166,10 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
      */
     public final void deSpawnAllEntities()
     {
-        while(entities.size() > 0)
-            entities.remove();
+    		while(entities.size() > 0) {
+        		Entity<ParentEngine> entity = entities.pollFirst();
+            this.parentScreen.removeKeyListener(entity);
+        }
     }
 
 }

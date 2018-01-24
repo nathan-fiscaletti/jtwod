@@ -81,13 +81,12 @@ public final class TestGameEngine extends Engine {
             private static final long serialVersionUID = -1982332528698274277L;
 
             /*
-             * Override this function to handle the initialization of the Screen.
-             * This is called after the screen is primed. (Threads initialized etc).
+             * Override this function to handle the Priming of the Screen.
              * 
-             * @see jtwod.engine.Screen#initialize()
+             * @see jtwod.engine.Screen#prime()
              */
             @Override
-            protected final void initialize()
+            protected final void prepare()
             {
                 /*
                  * Assign a new EntityController to the screen.
@@ -162,7 +161,7 @@ public final class TestGameEngine extends Engine {
              * @param keyEvent The key event.
              */
             @Override
-            protected final void onKeyPressed(KeyEvent keyEvent) {
+            protected final void keyPressed(KeyEvent keyEvent) {
                 if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
                     myPlayer.setVelocity(myPlayer.getVelocity().setY(3));
                 } else if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
@@ -180,7 +179,7 @@ public final class TestGameEngine extends Engine {
              * @param keyEvent The key event.
              */
             @Override
-            protected final void onKeyReleased(KeyEvent keyEvent) {
+            protected final void keyReleased(KeyEvent keyEvent) {
                 if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
                     myPlayer.setVelocity(myPlayer.getVelocity().setY(0));
                 } else if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {

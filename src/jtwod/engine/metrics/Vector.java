@@ -3,8 +3,8 @@ package jtwod.engine.metrics;
 import jtwod.engine.drawable.Shape;
 import jtwod.engine.Engine;
 
-public final class Vector {
-
+public final class Vector
+{
     /**
      * The X value.
      */
@@ -163,7 +163,8 @@ public final class Vector {
      *
      * @return Vector
      */
-    public final Vector plusY(int plus) {
+    public final Vector plusY(int plus) 
+    {
         return new Vector(this.x, this.y + plus);
     }
 
@@ -174,7 +175,8 @@ public final class Vector {
      *
      * @return Vector
      */
-    public final Vector plusX(int plus) {
+    public final Vector plusX(int plus) 
+    {
         return new Vector(this.x + plus, this.y);
     }
 
@@ -186,7 +188,8 @@ public final class Vector {
      *
      * @return Vector
      */
-    public final Vector plus(int x, int y) {
+    public final Vector plus(int x, int y) 
+    {
         return new Vector(this.x + x, this.y + y);
     }
 
@@ -197,7 +200,8 @@ public final class Vector {
      *
      * @return Vector
      */
-    public final Vector plus(Vector velocity) {
+    public final Vector plus(Vector velocity) 
+    {
         return new Vector(this.x + velocity.x, this.y + velocity.y);
     }
 
@@ -233,7 +237,8 @@ public final class Vector {
      *
      * @return Vector
      */
-    public final static Vector Zero() {
+    public final static Vector Zero() 
+    {
         return new Vector(0, 0);
     }
 
@@ -241,8 +246,13 @@ public final class Vector {
      * The maximum vector allowed with an additional buffer.
      * @return
      */
-    public final static Vector Max(int buffer, Engine engine) {
-        Vector result = new Vector(engine.getWindowSize().getWidth() + buffer, engine.getWindowSize().getHeight() + buffer);
+    public final static Vector Max(int buffer, Engine engine) 
+    {
+        Vector result = new Vector(
+        	    engine.getWindowSize().getWidth() + buffer, 
+            engine.getWindowSize().getHeight() + buffer
+        );
+        
         result.bufferX = buffer;
         result.bufferY = buffer;
 
@@ -255,7 +265,11 @@ public final class Vector {
      */
     public final static Vector Max(int bufferX, int bufferY, Engine engine)
     {
-        Vector result = new Vector(engine.getWindowSize().getWidth() + bufferX, engine.getWindowSize().getHeight() + bufferY);
+        Vector result = new Vector(
+        	    engine.getWindowSize().getWidth() + bufferX, 
+        	    engine.getWindowSize().getHeight() + bufferY
+        	);
+        
         result.bufferX = bufferX;
         result.bufferY = bufferY;
 
@@ -266,7 +280,8 @@ public final class Vector {
      * The maximum vector allowed.
      * @return
      */
-    public final static Vector Max(Engine engine) {
+    public final static Vector Max(Engine engine) 
+    {
         return Vector.Max(0, engine);
     }
 }

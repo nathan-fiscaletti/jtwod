@@ -8,7 +8,8 @@ import jtwod.engine.metrics.Vector;
 
 import java.awt.Graphics;
 
-public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine> {
+public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine>
+{
     /**
      * The image to draw.
      */
@@ -24,7 +25,8 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
      *
      * @param engine
      */
-    public Image(Texture texture, Vector position, ParentEngine engine) {
+    public Image(Texture texture, Vector position, ParentEngine engine)
+    {
         super(engine);
         this.center = Center.None;
         this.texture = texture;
@@ -108,7 +110,8 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
      *
      * @return
      */
-    public final Center getCenter() {
+    public final Center getCenter()
+    {
         return center;
     }
 
@@ -118,7 +121,8 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
      * @param center
      * @param position
      */
-    public final void setPosition(Center center, Vector position) {
+    public final void setPosition(Center center, Vector position)
+    {
         this.center = center;
         this.setPosition(position);
     }

@@ -1,7 +1,7 @@
 package jtwod.engine.metrics;
 
-public final class AspectRatio {
-    
+public final class AspectRatio
+{    
     /**
      * The aspect ratio.
      */
@@ -17,7 +17,8 @@ public final class AspectRatio {
      * 
      * @author Nathan
      */
-    public enum AspectRatioControlAxis {
+    public enum AspectRatioControlAxis 
+    {
         WidthControlled,
         HeightControlled
     }

@@ -11,8 +11,8 @@ import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.util.Arrays;
 
-public final class Texture {
-
+public final class Texture
+{
     /**
      * The base image for this texture.
      */

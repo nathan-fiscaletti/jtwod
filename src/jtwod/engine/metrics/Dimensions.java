@@ -3,7 +3,8 @@ package jtwod.engine.metrics;
 /**
  * Used to represent an objects Dimensions.
  */
-public final class Dimensions {
+public final class Dimensions 
+{
     /**
      * The width.
      */
@@ -47,7 +48,8 @@ public final class Dimensions {
      *
      * @return width
      */
-    public final int getWidth() {
+    public final int getWidth() 
+    {
         return width;
     }
 
@@ -61,7 +63,8 @@ public final class Dimensions {
      *
      * @param width the new width.
      */
-    public final Dimensions setWidth(int width) {
+    public final Dimensions setWidth(int width) 
+    {
         this.width = width;
         this.recalculate();
         
@@ -73,7 +76,8 @@ public final class Dimensions {
      *
      * @return height
      */
-    public final int getHeight() {
+    public final int getHeight() 
+    {
         return height;
     }
 
@@ -87,7 +91,8 @@ public final class Dimensions {
      *
      * @param height the new width.
      */
-    public final Dimensions setHeight(int height) {
+    public final Dimensions setHeight(int height) 
+    {
         this.height = height;
         this.recalculate();
         
@@ -99,7 +104,8 @@ public final class Dimensions {
      *
      * @return aspectRatio
      */
-    public final AspectRatio getAspectRatio() {
+    public final AspectRatio getAspectRatio() 
+    {
         return aspectRatio;
     }
 
@@ -110,7 +116,8 @@ public final class Dimensions {
      *
      * @param aspectRatio
      */
-    public final Dimensions setAspectRatio(AspectRatio aspectRatio) {
+    public final Dimensions setAspectRatio(AspectRatio aspectRatio) 
+    {
         this.aspectRatio = aspectRatio;
         this.recalculate();
         
@@ -121,7 +128,8 @@ public final class Dimensions {
      * Convert this object to an AWT Dimension.
      * @return
      */
-    public final java.awt.Dimension asAwtDimension(){
+    public final java.awt.Dimension asAwtDimension()
+    {
         return new java.awt.Dimension(this.width, this.height);
     }
 

@@ -1,5 +1,6 @@
 package jtwod.examples.pong.game;
 
+import java.awt.event.KeyEvent;
 import java.util.Random;
 
 import jtwod.engine.Scene;
@@ -32,6 +33,16 @@ public class Ball extends Entity<PongEngine> {
     }
     
     @Override
+    public final void keyPressed(KeyEvent keyEvent)
+    {
+    		if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+            if (! this.isStarted()) {
+                this.setStarted(true);
+            }
+        }
+    }
+    
+    @Override
     protected void onConstrained(ConstrainedEventType event)
     {
         switch (event) {
@@ -41,16 +52,16 @@ public class Ball extends Entity<PongEngine> {
                 this.setVelocity(currentVelocity.setY(-(currentVelocity.getY())));
                 break;
             case LeftXAxis:
-                PongEngine.paddle2.score += this.worth;
+            		PongEntityController.paddle2.score += this.worth;
                 this.worth = 1;
                 PongEngine.round += 1;
-                this.startOnPaddle(PongEngine.paddle1);
+                this.startOnPaddle(PongEntityController.paddle1);
                 break;
             case RightXAxis:
-                PongEngine.paddle1.score += this.worth;
+            		PongEntityController.paddle1.score += this.worth;
                 this.worth = 1;
                 PongEngine.round += 1;
-                this.startOnPaddle(PongEngine.paddle2);
+                this.startOnPaddle(PongEntityController.paddle2);
                 break;
         }
     }
