@@ -34,7 +34,6 @@ public class Ball extends Entity<PongEngine> {
     @Override
     protected void onConstrained(ConstrainedEventType event)
     {
-        System.out.println("onConstrained(" + event.toString() + ");");
         switch (event) {
             case TopYAxis :
             case BottomYAxis :
@@ -59,11 +58,8 @@ public class Ball extends Entity<PongEngine> {
     public void startOnPaddle(Paddle paddle)
     {
         this.currentPaddle = paddle.paddleID;
-        
         this.setVelocity(Vector.Zero());
         this.setStarted(false);
-        
-        System.out.println("Starting on paddle: " + paddle.paddleID);
     }
     
     public void setToSpawnLocation(Paddle paddle)
