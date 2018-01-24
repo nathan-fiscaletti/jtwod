@@ -1,2 +1,5 @@
 bin/
 .DS_Store
+lib-jtwod-static.jar
+lib-jtwod-static-debug.jar
+tmp/
