@@ -1,10 +1,23 @@
 #!/bin/bash
 
+# Check for compile flag.
 if [[ "$1" != "--debug" ]]; then
     if [[ "$1" != "--release" ]]; then
         echo "Usage: ./build.sh (--release | --debug)"
-        exit
+        exit 1
     fi
+fi
+
+# Verify that the javac command is in path
+if ! [ -x "$(command -v javac)" ]; then
+  echo "Error: Command 'javac' not in path." >&2
+  exit 2
+fi
+
+# Verify that the jar command is in path
+if ! [ -x "$(command -v jar)" ]; then
+  echo "Error: Command 'jar' not in path." >&2
+  exit 2
 fi
 
 # Create Temporary Directory
