@@ -11,30 +11,27 @@ import java.awt.*;
 /**
  * A base object in the engine.
  *
- * @param <ParentEngine>
+ * @param <ParentEngine> The ParentEngine type for this Shape.
  */
 public abstract class Shape<ParentEngine extends Engine> extends Drawable<ParentEngine>
 {
     /**
-     * The position.
+     * The position of the Shape.
      */
     private Vector position;
 
     /**
-     * The bounds.
+     * The size of the Shape.
      */
     private Dimensions size;
 
     /**
-     * The constraint.
+     * The positional constraint for the Shape.
      */
     private Vector positionConstraint;
     
     /**
-     * Enumeration definition for cosntraint event types.
-     *
-     * @author Nathan
-     *
+     * Enumeration definition for constraint event types.
      */
     public enum ConstrainedEventType 
     {
@@ -59,7 +56,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     /**
      * Called when this Shape was constrained on a specific axis.
      *
-     * @param event
+     * @param event The constraint border that this Shape was constrained on.
      */
     protected void onConstrained(ConstrainedEventType event)
     {
@@ -67,19 +64,19 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     }
 
     /**
-     * Render the object out.
+     * Render the Shape out.
      *
-     * @param g
-     * @param screen
+     * @param graphics The Graphics to use.
+     * @param scene The Scene to render this Shape out to.
      */
     @Override
-    protected void render(Graphics g, Scene<ParentEngine> screen)
+    protected void render(Graphics graphics, Scene<ParentEngine> scene)
     {
         // Not implemented by default.
     }
 
     /**
-     * Update the object.
+     * Update the Shape.
      */
     @Override
     protected void update()
@@ -88,7 +85,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     }
 
     /**
-     * Perform an update on the object.
+     * Perform an update on the Shape.
      */
     public void performUpdate()
     {
@@ -97,34 +94,34 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     }
 
     /**
-     * Check if this entity is colliding with another.
+     * Check if this Shape is colliding with another.
      *
-     * @param entity
-     * @return
+     * @param shape The other Shape that we want to see if this Shape is colliding with.
+     * @return True if the Shapes are colliding.
      */
-    public final boolean isCollidingWith(Entity<ParentEngine> entity)
+    public final boolean isCollidingWith(Shape<ParentEngine> shape)
     {
         Rectangle r = new Rectangle();
         r.setBounds(this.position.getX(), this.position.getY(), this.getSize().getWidth(), this.getSize().getHeight());
 
         Rectangle r2 = new Rectangle();
-        r2.setBounds(entity.getPosition().getX(), entity.getPosition().getY(), entity.getSize().getWidth(), entity.getSize().getHeight());
+        r2.setBounds(shape.getPosition().getX(), shape.getPosition().getY(), shape.getSize().getWidth(), shape.getSize().getHeight());
 
         return (r.intersects(r2));
     }
 
     /**
-     * Move the entity from it's current position to a new position.
+     * Move the Shape starting from it's current position.
      *
-     * @param moveTo
+     * @param distance The distance to move the Shape.
      */
-    public final void move(Vector moveTo)
+    public final void move(Vector distance)
     {
-        this.position = this.position.plus(moveTo);
+        this.position = this.position.plus(distance);
     }
 
     /**
-     * Update the position of the object based on it's constraints.
+     * Update the position of the Shape based on it's positional constraints.
      */
     public final void updateConstraints()
     {
@@ -134,9 +131,9 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     }
 
     /**
-     * Get the position.
+     * Retrieve the position of this Shape.
      *
-     * @return
+     * @return The position of this Shape
      */
     public final Vector getPosition()
     {
@@ -144,7 +141,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     }
 
     /**
-     * Update the position.
+     * Update the position of this Shape.
      *
      * @param position the new position.
      */
@@ -154,7 +151,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     }
 
     /**
-     * Get the size.
+     * Get the size of this Shape.
      *
      * @return
      */
@@ -164,9 +161,9 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     }
 
     /**
-     * Update the size.
+     * Update the size of this Shape.
      *
-     * @param size the new bounds.
+     * @param size the new size.
      */
     public final void setSize(Dimensions size)
     {
@@ -174,9 +171,9 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     }
 
     /**
-     * Update the position constraint.
+     * Update the position constraint for this Shape.
      *
-     * @param positionConstraint
+     * @param positionConstraint The new positional constraint.
      */
     public final void setPositionConstraint(Vector positionConstraint)
     {
@@ -187,7 +184,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
      * Retrieves a Shape for the specified engine at the largest size possible.
      *
      * @param engine The engine to pull the Shape from.
-     * @return
+     * @return The largest possible Shape for the associated Engine.
      */
     public final static <ParentEngine extends Engine> Shape<ParentEngine> MaxSizeBaseObject
     (
@@ -205,9 +202,11 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     
     /**
      * A custom implementation of the Vector constraint mechanism.
-     * This will call back to the onConstrained function.
+     * This will call back to the {@link Shape#onConstrained(ConstrainedEventType)} function.
+     * 
+     * We use this instead of {@link Vector#constrain(Vector)}
      *
-     * @param constraint
+     * @param constraint The constraint to use.
      */
     private void constrainCustom(Vector constraint)
     {

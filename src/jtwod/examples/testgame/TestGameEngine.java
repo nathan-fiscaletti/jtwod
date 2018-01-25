@@ -215,7 +215,7 @@ public final class TestGameEngine extends Engine {
             protected final void render(Graphics graphics, Scene<TestGameEngine> screen) {
                 // Create the background.
                 Image<TestGameEngine> image = new Image<TestGameEngine>(
-                    Texture.blackTexture(
+                    Texture.colorTexture(Color.black,
                         new Dimensions(
                             (int)this.getParentEngine().getWindowSize().getWidth(),
                             (int)this.getParentEngine().getWindowSize().getHeight()

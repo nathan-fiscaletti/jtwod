@@ -17,6 +17,7 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter {
     public enum Center {
         Vertically,
         Horizontally,
+        Parent,
         None
     }
 

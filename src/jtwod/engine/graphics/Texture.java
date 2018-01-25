@@ -11,17 +11,20 @@ import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * Class for representing a Texture.
+ */
 public final class Texture
 {
     /**
-     * The base image for this texture.
+     * The base BufferedImage for this Texture.
      */
     private BufferedImage image;
 
     /**
-     * Create a new texture.
+     * Create a new Texture.
      *
-     * @param path
+     * @param path The path to the image on disk.
      */
     public Texture(String path)
     {
@@ -37,7 +40,7 @@ public final class Texture
     /**
      * Construct the Texture.
      *
-     * @param image
+     * @param image The BufferedImage object to use as a base for the Texture.
      */
     public Texture(BufferedImage image)
     {
@@ -47,7 +50,7 @@ public final class Texture
     /**
      * Get this Texture as a BufferedImage.
      *
-     * @return
+     * @return This Texture as a BufferedImage.
      */
     public final BufferedImage asBufferedImage()
     {
@@ -55,13 +58,13 @@ public final class Texture
     }
 
     /**
-     * Get a sub texture from this Texture.
+     * Get a sub Texture from this Texture.
      *
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @return
+     * @param x The x coordinate in which to look for the sub Texture.
+     * @param y The y coordinate in which to look for the sub Texture.
+     * @param width The width of the Texture you'd like to pull.
+     * @param height The height of the Texture you'd like to pull.
+     * @return The sub Texture .
      */
     public final Texture getSubTexture(int x, int y, int width, int height)
     {
@@ -69,31 +72,57 @@ public final class Texture
     }
 
     /**
-     * Retrieve a black texture of the defined size.
+     * Get the gray scale version of this Texture.
      *
-     * @param size
-     * @return
+     * @return The gray scale version of this Texture.
      */
-    public final static Texture blackTexture(Dimensions size)
+    public final Texture asGrayScaleTexture()
     {
-        return new Texture(new BufferedImage (
-                size.getWidth(),
-                size.getHeight(),
-                BufferedImage.TYPE_INT_RGB
-        ));
+        BufferedImage ret = this.image;
+        ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+        ColorConvertOp op = new ColorConvertOp(cs, null);
+        ret = op.filter(ret, null);
+
+        return new Texture(ret);
     }
 
     /**
-     * Retrieve a white texture of the defined size.
+     * Retrieve the width.
      *
-     * @param size
-     * @return
+     * @return The width of this Texture.
      */
-    public final static Texture whiteTexture(Dimensions size)
+    public final int getWidth()
     {
-        BufferedImage image = blackTexture(size).asBufferedImage();
+        return this.image.getWidth();
+    }
+
+    /**
+     * Retrieve the height.
+     * 
+     * @return The height of this Texture.
+     */
+    public final int getHeight()
+    {
+        return this.image.getHeight();
+    }
+    
+    /**
+     * Retrieve a Texture of a specific color and size.
+     *
+     * @param colo The color of the Texture.
+     * @param size The size of the Texture.
+     * @return A Texture of the specified Color and Size.
+     */
+    public final static Texture colorTexture(Color color, Dimensions size)
+    {
+        BufferedImage image = new BufferedImage (
+                size.getWidth(),
+                size.getHeight(),
+                BufferedImage.TYPE_INT_RGB
+        );
+        
         int[]data=((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-        Arrays.fill(data, Color.WHITE.getRGB());
+        Arrays.fill(data, color.getRGB());
 
         return new Texture(image);
     }
@@ -101,12 +130,12 @@ public final class Texture
     /**
      * Retrieve the placeholder Texture for the unknown texture.
      *
-     * @param size
-     * @return
+     * @param size The size of the Texture.
+     * @return The placeholder Texture for unknown Textures of the specified size.
      */
     public final static Texture unknownTexture(Dimensions size)
     {
-        BufferedImage image = blackTexture(size).asBufferedImage();
+        BufferedImage image = Texture.colorTexture(Color.BLACK, size).asBufferedImage();
 
         Graphics graphics = image.getGraphics();
         graphics.setColor( Color.white );
@@ -131,39 +160,5 @@ public final class Texture
         graphics.drawChars("?".toCharArray(), 0, 1, (size.getWidth() / 2) - (graphics.getFontMetrics().stringWidth("?") / 2), size.getHeight() - (size.getHeight() / 4));
 
         return new Texture(image);
-    }
-
-    /**
-     * Get the gray scale version of this Texture.
-     *
-     * @return
-     */
-    public final Texture asGrayScaleTexture()
-    {
-        BufferedImage ret = this.image;
-        ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
-        ColorConvertOp op = new ColorConvertOp(cs, null);
-        ret = op.filter(ret, null);
-
-        return new Texture(ret);
-    }
-
-    /**
-     * Retrieve the width.
-     *
-     * @return
-     */
-    public final int getWidth()
-    {
-        return this.image.getWidth();
-    }
-
-    /**
-     * Retrieve the height.
-     * @return
-     */
-    public final int getHeight()
-    {
-        return this.image.getHeight();
     }
 }

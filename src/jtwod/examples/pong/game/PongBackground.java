@@ -1,5 +1,6 @@
 package jtwod.examples.pong.game;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import jtwod.engine.Drawable;
@@ -31,7 +32,7 @@ public class PongBackground extends Drawable<PongEngine>
     protected final void render(Graphics graphics, Scene<PongEngine> screen) {
         // Create the background.
         Image<PongEngine> image = new Image<PongEngine>(
-            Texture.blackTexture(
+            Texture.colorTexture(Color.black,
                 new Dimensions(
                     (int)this.getParentEngine().getWindowSize().getWidth(),
                     (int)this.getParentEngine().getWindowSize().getHeight()

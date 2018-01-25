@@ -1,6 +1,8 @@
 package jtwod.examples.pong.game;
 
 
+import java.awt.Color;
+
 import jtwod.engine.Engine;
 import jtwod.engine.graphics.Texture;
 import jtwod.engine.metrics.AspectRatio;
@@ -36,8 +38,8 @@ public class PongEngine extends Engine {
     @Override
     public final void loadTextures()
     {
-        this.getTextureGroup().addTexture("Ball", Texture.whiteTexture(ballDimensions));
-        this.getTextureGroup().addTexture("Paddle", Texture.whiteTexture(paddleDimensions));
+        this.getTextureGroup().addTexture("Ball", Texture.colorTexture(Color.white, ballDimensions));
+        this.getTextureGroup().addTexture("Paddle", Texture.colorTexture(Color.gray, paddleDimensions));
     }
     
     @Override

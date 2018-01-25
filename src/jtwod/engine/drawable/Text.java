@@ -8,36 +8,41 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Graphics;
 
+/**
+ * Text that can be rendered out as a Drawable.
+ * 
+ * @param <ParentEngine> The ParentEngine type for this Text object.
+ */
 public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
 {
 
     /**
-     * The text to display.
+     * The text to display for this Text object.
      */
     private String text;
 
     /**
-     * The font to display.
+     * The font to display for this Text object.
      */
     private Font font;
 
     /**
-     * The color at which to display the font.
+     * The color at which to display the font for this Text object.
      */
     private Color color;
 
     /**
-     * The center constraint to use.
+     * The center constraint to use for this Text object.
      */
     private Center center;
 
     /**
-     * Create the new Text object.
+     * Create the new Text object and default to Center.Parent.
      *
-     * @param text
-     * @param font
-     * @param color
-     * @param engine
+     * @param text The text to display.
+     * @param font The font to use.
+     * @param color The color to make the text.
+     * @param engine The parent Engine associated with this Drawable.
      */
     public Text(String text, Font font, Color color, ParentEngine engine)
     {
@@ -45,37 +50,17 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
         this.text = text;
         this.font = font;
         this.color = color;
-        this.center = Center.None;
+        this.center = Center.Parent;
     }
-
+    
     /**
-     * Create the new Text object.
+     * Create the new Text object and default to Center.None.
      *
-     * @param text
-     * @param font
-     * @param color
-     * @param centerType
-     * @param position
-     * @param engine
-     */
-    public Text(String text, Font font, Color color, Center centerType, Vector position, ParentEngine engine)
-    {
-        super(engine);
-        this.text = text;
-        this.font = font;
-        this.color = color;
-        this.center = centerType;
-        this.setPosition(position);
-    }
-
-    /**
-     * Create the new Text object.
-     *
-     * @param text
-     * @param font
-     * @param color
-     * @param position
-     * @param engine
+     * @param text The text to display.
+     * @param font THe font to use.
+     * @param color The color to make the text.
+     * @param position The position in which to put the Text.
+     * @param engine The parent Engine for this Text object.
      */
     public Text(String text, Font font, Color color, Vector position, ParentEngine engine)
     {
@@ -88,13 +73,33 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     }
 
     /**
-     * Render the text out to the screen.
+     * Create the new Text object.
      *
-     * @param graphics
-     * @param screen
+     * @param text The text to display.
+     * @param font THe font to use.
+     * @param color The color to make the text.
+     * @param centerType The Drawable.Center value to use.
+     * @param position The position in which to put the Text working along side the Drawable.Center value.
+     * @param engine The parent Engine for this Text object.
+     */
+    public Text(String text, Font font, Color color, Center centerType, Vector position, ParentEngine engine)
+    {
+        super(engine);
+        this.text = text;
+        this.font = font;
+        this.color = color;
+        this.center = centerType;
+        this.setPosition(position);
+    }
+
+    /**
+     * Render the text out to the scene.
+     *
+     * @param graphics The Graphics object to use.
+     * @param scene The scene to draw the Graphics out to.
      */
     @Override
-    public final void render(Graphics graphics, Scene<ParentEngine> screen)
+    public final void render(Graphics graphics, Scene<ParentEngine> scene)
     {
         Font resetFont = graphics.getFont();
         Color resetColor = graphics.getColor();
@@ -130,6 +135,23 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
                     )
                 );
                 break;
+            case Parent :
+                graphics.drawChars(
+                    this.text.toCharArray(),
+                    0,
+                    this.text.length(),
+                    (
+                        this.getParentEngine().getWindowSize().getWidth() / 2
+                    ) - (
+                        graphics.getFontMetrics().stringWidth(text) / 2
+                    ),
+                    (
+                        this.getParentEngine().getWindowSize().getHeight() / 2
+                    ) - (
+                        graphics.getFontMetrics().getHeight() / 2
+                    )
+                );
+                break;
             case None :
                 graphics.drawChars(
                     this.text.toCharArray(),
@@ -146,9 +168,9 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     }
 
     /**
-     * Retrieve the current text.
+     * Retrieve the current text for this Text object.
      *
-     * @return
+     * @return The current text.
      */
     public final String getText()
     {
@@ -156,8 +178,9 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     }
 
     /**
-     * Update the current text.
-     * @param text
+     * Update the current text for this Text object.
+     *
+     * @param text The new text.
      */
     public final void setText(String text)
     {
@@ -165,9 +188,9 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     }
 
     /**
-     * Retrieve the current font.
+     * Retrieve the current font for this Text object.
      *
-     * @return
+     * @return The current font.
      */
     public final Font getFont()
     {
@@ -175,9 +198,9 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     }
 
     /**
-     * Update the current Font.
+     * Update the current Font for this Text object.
      *
-     * @param font
+     * @param font The new Font.
      */
     public final void setFont(Font font)
     {
@@ -185,9 +208,9 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     }
 
     /**
-     * Retrieve the current color.
+     * Retrieve the current color for this Text object.
      *
-     * @return
+     * @return the current text Color.
      */
     public final Color getColor()
     {
@@ -195,9 +218,9 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     }
 
     /**
-     * Update the current Color.
+     * Update the current Color for this Text object.
      *
-     * @param color
+     * @param color The new Color.
      */
     public final void setColor(Color color)
     {
@@ -205,9 +228,9 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     }
 
     /**
-     * Retrieve the current Center constraint.
+     * Retrieve the current Center constraint for this Text object.
      *
-     * @return
+     * @return the current center constraint.
      */
     public final Center getCenter()
     {
@@ -215,10 +238,10 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     }
 
     /**
-     * Update the current position and Center constraint.
+     * Update the current position and Center constraint for this Text object.
      *
-     * @param center
-     * @param position
+     * @param center The new center constraint.
+     * @param position The new position.
      */
     public final void setPosition(Center center, Vector position)
     {

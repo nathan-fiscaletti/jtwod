@@ -14,8 +14,6 @@ public final class AspectRatio
     
     /**
      * Enumeration for which axis controls the aspect ratio.
-     * 
-     * @author Nathan
      */
     public enum AspectRatioControlAxis 
     {

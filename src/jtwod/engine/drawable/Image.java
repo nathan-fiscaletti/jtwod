@@ -8,10 +8,15 @@ import jtwod.engine.metrics.Vector;
 
 import java.awt.Graphics;
 
+/**
+ * An Image that can be rendered out as a Drawable.
+ * 
+ * @param <ParentEngine> The ParentEngine type for this Image.
+ */
 public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine>
 {
     /**
-     * The image to draw.
+     * The Texture to draw.
      */
     private Texture texture;
 
@@ -21,9 +26,11 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
     private Center center;
 
     /**
-     * Construct the Image.
+     * Construct the Image and default to Center.None
      *
-     * @param engine
+     * @param texture The Texture to use for the Image.
+     * @param position The initial Position to use for the Image.
+     * @param engine The parent Engine for this Image.
      */
     public Image(Texture texture, Vector position, ParentEngine engine)
     {
@@ -33,9 +40,40 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
         this.setPosition(position);
         this.setSize(new Dimensions(texture.getWidth(), texture.getHeight()));
     }
+    
+    /**
+     * Construct the Image and default to Center.Parent.
+     *
+     * @param texture The Texture to use for the Image.
+     * @param engine The parent Engine for this Image.
+     */
+    public Image(Texture texture, ParentEngine engine)
+    {
+        super(engine);
+        this.center = Center.Parent;
+        this.texture = texture;
+        this.setPosition(Vector.Zero());
+        this.setSize(new Dimensions(texture.getWidth(), texture.getHeight()));
+    }
+    
+    /**
+     * Construct the Image.
+     *
+     * @param texture The Texture to use for the Image.
+     * @param center The Drawable.Center value to use.
+     * @param position The position to use along with the Drawable.Center value.
+     * @param engine The parent Engine for this Image.
+     */
+    public Image(Texture texture, Center center, Vector position, ParentEngine engine)
+    {
+        super(engine);
+        this.texture = texture;
+        this.center = center;
+        this.setPosition(position);
+    }
 
     /**
-     * Render the image out.
+     * Render the Image out.
      *
      * @param graphics
      * @param screen
@@ -68,6 +106,22 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
                     screen
                 );
                 break;
+            case Parent :
+                graphics.drawImage(
+                    this.texture.asBufferedImage(),
+                    (
+                        this.getParentEngine().getWindowSize().getWidth() / 2
+                    ) - (
+                        this.getSize().getWidth() / 2
+                    ),
+                    (
+                        this.getParentEngine().getWindowSize().getHeight() / 2
+                    ) - (
+                        this.getSize().getHeight() / 2
+                    ),
+                    screen
+                );
+                break;
             case None :
                 graphics.drawImage(
                     this.texture.asBufferedImage(),
@@ -80,7 +134,7 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
     }
 
     /**
-     * Update the texture.
+     * Update the Texture for this Image.
      *
      * @param texture
      */
@@ -96,7 +150,7 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
     }
 
     /**
-     * Retrieve the image.
+     * Retrieve the Texture for this Image.
      *
      * @return
      */
@@ -106,7 +160,7 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
     }
 
     /**
-     * Retrieve the current Center constraint.
+     * Retrieve the current Center constraint for this Image.
      *
      * @return
      */
@@ -116,7 +170,7 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
     }
 
     /**
-     * Update the current position and Center constraint.
+     * Update the current position and Center constraint for this Image.
      *
      * @param center
      * @param position

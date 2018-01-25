@@ -10,50 +10,49 @@ import jtwod.engine.metrics.Dimensions;
 import jtwod.engine.metrics.Vector;
 
 /**
- * Parent class for all Entities
- * that get rendered to the screen.
- *
- * @author Nathan Fiscaletti
+ * Parent class for all Entities.
+ * 
+ * @param <ParentEngine> The ParentEngine type for this Entity.
  */
 public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEngine>
 {
     /**
-     * The velocity of the entity.
+     * The velocity of the Entity.
      */
     private Vector velocity;
 
     /**
-     * The Game that the entity is attached to.
+     * The Game that the Entity is attached to.
      */
-    private Scene<ParentEngine> parentScreen;
+    private Scene<ParentEngine> parentScene;
 
     /**
-     * The rendered Texture for the entity.
+     * The rendered Texture for the Entity.
      */
     private Texture renderedTexture;
 
     /**
-     * Kill the entity after this many seconds.
+     * Kill the Entity after this many seconds.
      */
     private int shouldKillAfter = 0;
 
     /**
-     * If set to true, the death animation will be played when this entity is killed.
+     * If set to true, the death animation will be played when this Entity is killed.
      */
     private boolean shouldPlayDeathAnimation = false;
 
     /**
-     * Used to manage the death animation.
+     * Used to manage the death animation for this Entity.
      */
     private int deathTick = 0;
 
     /**
-     * The number of ticks that the entity has been alive.
+     * The number of ticks that the Entity has been alive.
      */
     private int lifeLived = 0;
 
     /**
-     * If set to true, the entity will die.
+     * If set to true, the Entity will die.
      */
     private boolean isDead = false;
 
@@ -66,24 +65,24 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     protected Random random;
 
     /**
-     * Create a new instance of the Entity Class.
+     * Create a new instance of an Entity.
      *
      * @param position The initial position.
-     * @param screen The screen to attach the entity to.
+     * @param screen The Scene to attach the entity to.
      */
-    public Entity(Vector position, Scene<ParentEngine> screen)
+    public Entity(Vector position, Scene<ParentEngine> scene)
     {
-        super(screen.getParentEngine());
+        super(scene.getParentEngine());
 
         this.setPosition(position);
         this.velocity = Vector.Zero();
         this.setPositionConstraint(Vector.Zero());
-        this.parentScreen = screen;
+        this.parentScene = scene;
         this.random = new Random();
     }
 
     /**
-     * Called when the entity is killed.
+     * Called when the Entity is killed.
      */
     public void onDeath()
     {
@@ -91,7 +90,7 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     }
 
     /**
-     * Called when the entity wants to update it's sprite.
+     * Called when the Entity wants to update it's sprite.
      */
     public void updateSprite()
     {
@@ -99,7 +98,7 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     }
 
     /**
-     * Called when an entity collides with another.
+     * Called when an entity collides with another Entity.
      *
      * @param collidedWith
      */
@@ -156,13 +155,13 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     /**
      * Render the entities sprite out to the screen.
      *
-     * @param g The graphics object to use for rendering.
-     * @param screen The screen that we are rendering out to.
+     * @param graphics The graphics object to use for rendering.
+     * @param scene The Scene that we are rendering out to.
      */
     @Override
-    public final void render(Graphics g, Scene<ParentEngine> screen)
+    public final void render(Graphics graphics, Scene<ParentEngine> scene)
     {
-        g.drawImage(this.getRenderedTexture().asBufferedImage(), this.getPosition().getX(), this.getPosition().getY(), screen);
+        graphics.drawImage(this.getRenderedTexture().asBufferedImage(), this.getPosition().getX(), this.getPosition().getY(), scene);
     }
 
     /**
@@ -177,7 +176,7 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     }
 
     /**
-     * Retrieve the Texture.
+     * Retrieve the Texture that is currently being rendered out for this Entity.
      *
      * @return
      */
@@ -189,7 +188,7 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     }
 
     /**
-     * Tell the entity that it should die.
+     * Tell the Entity that it should die and set it's Velocity to 0.
      */
     public final void kill()
     {
@@ -198,7 +197,8 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     }
 
     /**
-     * Tell this entity to die after X ticks from being spawned.
+     * Tell this Entity to die after X ticks from being spawned.
+     *
      * @param ticks
      */
     public final void killAfter(int ticks)
@@ -217,7 +217,7 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     }
 
     /**
-     * Set the Velocity.
+     * Set the Velocity for the Entity.
      *
      * @param velocity
      */
@@ -227,7 +227,7 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     }
 
     /**
-     * Retrieve the current velocity.
+     * Retrieve the current velocity for the Entity.
      *
      * @return
      */
@@ -237,13 +237,13 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     }
 
     /**
-     * Get the parent screen.
+     * Get the parent Scene.
      *
      * @return
      */
-    public Scene<ParentEngine> getParentScreen()
+    public Scene<ParentEngine> getParentScene()
     {
-        return this.parentScreen;
+        return this.parentScene;
     }
 
     /**
@@ -285,11 +285,11 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
                     deathTick ++;
                 }else if(deathTick == 15){
                     this.onDeath();
-                    this.parentScreen.getController().deSpawnEntity(this);
+                    this.parentScene.getController().deSpawnEntity(this);
                 }
             } else {
                 this.onDeath();
-                this.parentScreen.getController().deSpawnEntity(this);
+                this.parentScene.getController().deSpawnEntity(this);
             }
         }
     }

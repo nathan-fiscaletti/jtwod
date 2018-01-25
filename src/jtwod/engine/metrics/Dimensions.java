@@ -1,7 +1,7 @@
 package jtwod.engine.metrics;
 
 /**
- * Used to represent an objects Dimensions.
+ * Used to represent Dimensions.
  */
 public final class Dimensions 
 {
