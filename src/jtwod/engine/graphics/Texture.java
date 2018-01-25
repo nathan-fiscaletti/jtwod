@@ -157,7 +157,14 @@ public final class Texture
 
         graphics.setColor(Color.red);
         graphics.setFont(new Font("Ariel", Font.BOLD, size.getHeight()));
-        graphics.drawChars("?".toCharArray(), 0, 1, (size.getWidth() / 2) - (graphics.getFontMetrics().stringWidth("?") / 2), size.getHeight() - (size.getHeight() / 4));
+        graphics.drawChars(
+            "?".toCharArray(), 
+            0, 1, 
+            (size.getWidth() / 2) 
+          - (graphics.getFontMetrics().stringWidth("?") / 2), 
+            size.getHeight() 
+          - (size.getHeight() / 4)
+        );
 
         return new Texture(image);
     }
