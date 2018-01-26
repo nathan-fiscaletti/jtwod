@@ -1,11 +1,11 @@
 package jtwod.engine;
 
-import jtwod.engine.drawable.Entity;
-import jtwod.engine.drawable.Shape;
-
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.Random;
+
+import jtwod.engine.drawable.Entity;
+import jtwod.engine.drawable.Shape;
 
 public abstract class EntityController<ParentEngine extends Engine> extends Drawable<ParentEngine> {
 
@@ -31,7 +31,7 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
      */
     public EntityController(Scene<ParentEngine> screen)
     {
-        super(screen.getParentEngine());
+        super(-1, screen.getParentEngine());
         this.parentScreen = screen;
     }
 
@@ -146,7 +146,7 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
      */
     public final void spawnEntity(Entity<ParentEngine> entity)
     {
-    		this.parentScreen.addKeyListener(entity);
+    	this.parentScreen.addKeyListener(entity);
         this.entities.add(entity);
     }
 

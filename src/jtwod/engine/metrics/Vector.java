@@ -1,7 +1,7 @@
 package jtwod.engine.metrics;
 
-import jtwod.engine.drawable.Shape;
 import jtwod.engine.Engine;
+import jtwod.engine.drawable.Shape;
 
 public final class Vector
 {

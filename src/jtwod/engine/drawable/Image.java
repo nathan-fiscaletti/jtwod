@@ -13,7 +13,7 @@ import java.awt.Graphics;
  * 
  * @param <ParentEngine> The ParentEngine type for this Image.
  */
-public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine>
+public class Image<ParentEngine extends Engine> extends Shape<ParentEngine>
 {
     /**
      * The Texture to draw.
@@ -32,9 +32,9 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
      * @param position The initial Position to use for the Image.
      * @param engine The parent Engine for this Image.
      */
-    public Image(Texture texture, Vector position, ParentEngine engine)
+    public Image(int layer, Texture texture, Vector position, ParentEngine engine)
     {
-        super(engine);
+        super(layer, engine);
         this.center = Center.None;
         this.texture = texture;
         this.setPosition(position);
@@ -47,9 +47,9 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
      * @param texture The Texture to use for the Image.
      * @param engine The parent Engine for this Image.
      */
-    public Image(Texture texture, ParentEngine engine)
+    public Image(int layer, Texture texture, ParentEngine engine)
     {
-        super(engine);
+        super(layer, engine);
         this.center = Center.Parent;
         this.texture = texture;
         this.setPosition(Vector.Zero());
@@ -64,9 +64,9 @@ public final class Image<ParentEngine extends Engine> extends Shape<ParentEngine
      * @param position The position to use along with the Drawable.Center value.
      * @param engine The parent Engine for this Image.
      */
-    public Image(Texture texture, Center center, Vector position, ParentEngine engine)
+    public Image(int layer, Texture texture, Center center, Vector position, ParentEngine engine)
     {
-        super(engine);
+        super(layer, engine);
         this.texture = texture;
         this.center = center;
         this.setPosition(position);

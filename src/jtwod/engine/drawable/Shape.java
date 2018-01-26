@@ -2,7 +2,6 @@ package jtwod.engine.drawable;
 
 import jtwod.engine.Drawable;
 import jtwod.engine.Engine;
-import jtwod.engine.Scene;
 import jtwod.engine.metrics.Dimensions;
 import jtwod.engine.metrics.Vector;
 
@@ -44,9 +43,9 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     /**
      * Construct the Shape.
      */
-    public Shape(ParentEngine engine)
+    public Shape(int layer, ParentEngine engine)
     {
-        super(engine);
+        super(layer, engine);
 
         this.position = Vector.Zero();
         this.size = Dimensions.Zero();
@@ -59,18 +58,6 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
      * @param event The constraint border that this Shape was constrained on.
      */
     protected void onConstrained(ConstrainedEventType event)
-    {
-        // Not implemented by default.
-    }
-
-    /**
-     * Render the Shape out.
-     *
-     * @param graphics The Graphics to use.
-     * @param scene The Scene to render this Shape out to.
-     */
-    @Override
-    protected void render(Graphics graphics, Scene<ParentEngine> scene)
     {
         // Not implemented by default.
     }
@@ -192,7 +179,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
         Engine engine,
         int buffer
     ) {
-        return new Shape<ParentEngine>(type.cast(engine)){
+        return new Shape<ParentEngine>(-1, type.cast(engine)){
             {
                 this.setSize(new Dimensions(engine.getWindowSize().getWidth() + buffer, engine.getWindowSize().getHeight() + buffer));
                 this.setPosition(Vector.Zero().plusX(-buffer).plusY(-buffer));

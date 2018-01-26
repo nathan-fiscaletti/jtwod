@@ -1,12 +1,10 @@
 package jtwod.engine.drawable;
 
-import java.awt.*;
 import java.util.Random;
 
 import jtwod.engine.Engine;
 import jtwod.engine.Scene;
 import jtwod.engine.graphics.Texture;
-import jtwod.engine.metrics.Dimensions;
 import jtwod.engine.metrics.Vector;
 
 /**
@@ -14,7 +12,7 @@ import jtwod.engine.metrics.Vector;
  * 
  * @param <ParentEngine> The ParentEngine type for this Entity.
  */
-public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEngine>
+public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEngine>
 {
     /**
      * The velocity of the Entity.
@@ -25,11 +23,6 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
      * The Game that the Entity is attached to.
      */
     private Scene<ParentEngine> parentScene;
-
-    /**
-     * The rendered Texture for the Entity.
-     */
-    private Texture renderedTexture;
 
     /**
      * Kill the Entity after this many seconds.
@@ -70,11 +63,10 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
      * @param position The initial position.
      * @param screen The Scene to attach the entity to.
      */
-    public Entity(Vector position, Scene<ParentEngine> scene)
+    public Entity(Vector position, Texture texture, Scene<ParentEngine> scene)
     {
-        super(scene.getParentEngine());
+        super(100000, texture, position, scene.getParentEngine());
 
-        this.setPosition(position);
         this.velocity = Vector.Zero();
         this.setPositionConstraint(Vector.Zero());
         this.parentScene = scene;
@@ -113,7 +105,7 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     @Override
     protected void update()
     {
-        // Not implemented by default.
+        
     }
 
     /**
@@ -150,41 +142,6 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
     public void onExitBounds()
     {
         this.kill();
-    }
-
-    /**
-     * Render the entities sprite out to the screen.
-     *
-     * @param graphics The graphics object to use for rendering.
-     * @param scene The Scene that we are rendering out to.
-     */
-    @Override
-    public final void render(Graphics graphics, Scene<ParentEngine> scene)
-    {
-        graphics.drawImage(this.getRenderedTexture().asBufferedImage(), this.getPosition().getX(), this.getPosition().getY(), scene);
-    }
-
-    /**
-     * Update the Texture and the bounds.
-     *
-     * @param sprite
-     */
-    public final void setRenderedTexture(Texture texture)
-    {
-        this.renderedTexture = texture;
-        this.setSize(new Dimensions(texture.getWidth(), texture.getHeight()));
-    }
-
-    /**
-     * Retrieve the Texture that is currently being rendered out for this Entity.
-     *
-     * @return
-     */
-    public final Texture getRenderedTexture()
-    {
-        return (this.renderedTexture != null)
-            ? this.renderedTexture
-            : Texture.unknownTexture(new Dimensions(32,32));
     }
 
     /**
@@ -275,13 +232,13 @@ public abstract class Entity<ParentEngine extends Engine> extends Shape<ParentEn
         if (this.isDead) {
             if (this.shouldPlayDeathAnimation) {
                 if(deathTick < 5){
-                    this.renderedTexture = this.getParentEngine().getTextureGroup().getTexture("des1");
+                    this.setTexture(this.getParentEngine().getTextureGroup().getTexture("des1"));
                     deathTick ++;
                 }else if(deathTick >= 5 && deathTick < 10){
-                    this.renderedTexture = this.getParentEngine().getTextureGroup().getTexture("des2");
+                    this.setTexture(this.getParentEngine().getTextureGroup().getTexture("des2"));
                     deathTick ++;
                 }else if(deathTick >= 10 && deathTick < 15){
-                    this.renderedTexture = this.getParentEngine().getTextureGroup().getTexture("des3");
+                    this.setTexture(this.getParentEngine().getTextureGroup().getTexture("des3"));
                     deathTick ++;
                 }else if(deathTick == 15){
                     this.onDeath();

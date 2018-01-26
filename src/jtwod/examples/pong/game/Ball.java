@@ -15,8 +15,7 @@ public class Ball extends Entity<PongEngine> {
     public int worth = 1;
     
     public Ball(Vector position, Scene<PongEngine> screen) {
-        super(position, screen);
-        this.setRenderedTexture(this.getParentEngine().getTextureGroup().getTexture("Ball"));
+        super(position, screen.getParentEngine().getTextureGroup().getTexture("Ball"), screen);
         this.setPositionConstraint(Vector.Max(this.getSize().getWidth(), 0, getParentEngine()));
     }
     

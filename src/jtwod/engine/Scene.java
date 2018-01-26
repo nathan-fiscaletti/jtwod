@@ -17,6 +17,11 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
      * Serial Version UID
      */
     private static final long serialVersionUID = -1303916252996012557L;
+    
+    /**
+     * The Drawables to render out to this Scene.
+     */
+    private DrawableGroup<ParentEngine> drawableGroup;
 
     /**
      * The name of the Scene.
@@ -65,6 +70,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
         this.name = name;
         this.parentEngine = engine;
         this.controller = new EntityController<ParentEngine>(this) {};
+        this.drawableGroup = new DrawableGroup<ParentEngine>(this.getParentEngine());
     }
 
     /**
@@ -77,6 +83,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
         this.name = name;
         this.parentEngine = engine;
         this.controller = controller;
+        this.drawableGroup = new DrawableGroup<ParentEngine>(this.getParentEngine());
     }
 
     /**
@@ -92,16 +99,6 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     protected void scatter()
     {
     	    // Not implemented by default.
-    }
-
-    /**
-     * Called when a frame should be rendered out.
-     *
-     * @param graphics
-     */
-    protected void renderFrame(Graphics graphics)
-    {
-        // Not implemented by default.
     }
 
     /**
@@ -212,15 +209,6 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Retrieve the EntityController as a specific type.
-     *
-     * @return
-     */
-    public final <ControllerType extends EntityController<? extends Engine>> ControllerType getController(Class<ControllerType> type) {
-        return type.cast(this.controller);
-    }
-
-    /**
      * Assign a new EntityController to the screen.
      *
      * @param controller
@@ -255,11 +243,19 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
      *
      * @return
      */
-    public ParentEngine getParentEngine()
+    public final ParentEngine getParentEngine()
     {
         return this.parentEngine;
     }
-
+    
+    /**
+     * Retrieve the DrawableGroup for this Scene.
+     */
+    public final DrawableGroup<ParentEngine> getDrawableGroup()
+    {
+        return this.drawableGroup;
+    }
+    
     /**
      * Internal initialization function.
      */
@@ -313,22 +309,11 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
 
         Graphics graphics = bs.getDrawGraphics();
 
-        for (Drawable<? extends Engine> drawable : parentEngine.getGlobalDrawables()) {
-            if (drawable.shouldRenderWhenGlobal() && !drawable.isTopMost()) {
-                drawable.render(graphics, null);
-            }
-        }
-
-        this.renderFrame(graphics);
-
+        this.drawableGroup.render(graphics, this);
+        
+        // Entities will always be rendered on top.
         if (this.controller != null) {
             this.controller.render(graphics, this);
-        }
-
-        for (Drawable<? extends Engine> drawable : parentEngine.getGlobalDrawables()) {
-            if (drawable.shouldRenderWhenGlobal() && drawable.isTopMost()) {
-                drawable.render(graphics, null);
-            }
         }
 
         graphics.dispose();
@@ -342,12 +327,8 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
      */
     private void runUpdate()
     {
-        for (Drawable<? extends Engine> drawable : parentEngine.getGlobalDrawables()) {
-            if (drawable.shouldRenderWhenGlobal()) {
-                drawable.update();
-            }
-        }
-
+        this.drawableGroup.update();
+        
         if (this.controller != null) {
             this.controller.update();
         }

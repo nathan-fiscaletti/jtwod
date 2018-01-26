@@ -4,11 +4,9 @@ import jtwod.engine.Drawable;
 import jtwod.engine.Engine;
 import jtwod.engine.EntityController;
 import jtwod.engine.Scene;
-
 import jtwod.engine.drawable.Entity;
 import jtwod.engine.drawable.Image;
 import jtwod.engine.drawable.Text;
-
 import jtwod.engine.graphics.Texture;
 
 import jtwod.engine.metrics.AspectRatio;
@@ -17,7 +15,6 @@ import jtwod.engine.metrics.Vector;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 
 import java.awt.event.KeyEvent;
 
@@ -83,7 +80,7 @@ public final class TestGameEngine extends Engine {
             /*
              * Override this function to handle the Priming of the Screen.
              * 
-             * @see jtwod.engine.Screen#prime()
+             * @see jtwod.engine.Screen#prepare()
              */
             @Override
             protected final void prepare()
@@ -101,13 +98,8 @@ public final class TestGameEngine extends Engine {
                          * for the entity sprite, and then we constrain the entities position
                          * to the bounds of the screen so that they cannot leave it.
                          */
-                        myPlayer = new Entity<TestGameEngine>(Vector.Zero(), this.getParentScreen()) {
+                        myPlayer = new Entity<TestGameEngine>(Vector.Zero(), this.getParentEngine().getTextureGroup().getTexture("Player"), this.getParentScreen()) {
                             {
-                                // Set the sprite for the entity to a white 10x10 image.
-                                this.setRenderedTexture(
-                                    this.getParentEngine().getTextureGroup().getTexture("Player")
-                                );
-
                                 // Constrain the entity to the screen bounds.
                                 this.setPositionConstraint(
                                     Vector.Max(
@@ -127,21 +119,23 @@ public final class TestGameEngine extends Engine {
                         this.spawnEntity(myPlayer);
                     }
                 });
-            }
+                
+                
+                // Add the background to the Scene.
+                Image<TestGameEngine> background = new Image<TestGameEngine>(0,
+                        Texture.colorTexture(
+                                Color.black, 
+                                this.getParentEngine().getWindowSize()
+                        ), 
+                        Vector.Zero(), 
+                        this.getParentEngine()
+                );
+                
+                this.getDrawableGroup().addDrawable(background);
 
-            /**
-             * Render out a frame to the Screen.
-             * Here we just draw out a blank black background.
-             *
-             * Our entity will be automatically rendered by the EntityController
-             * attached to this screen.
-             *
-             * @param graphics The graphics object to use for rendering.
-             */
-            @Override
-            protected final void renderFrame(Graphics graphics) {
-                // Create the Text.
+                // Add text to the scene.
                 Text<TestGameEngine> text = new Text<TestGameEngine>(
+                    1,
                     "Use the arrow keys to move around!",
                     new Font("Ariel", Font.BOLD, 24),
                     Color.white,
@@ -149,9 +143,8 @@ public final class TestGameEngine extends Engine {
                     Vector.Zero().plusY(130),
                     this.getParentEngine()
                 );
-
-                // Render the text out.
-                text.render(graphics, this);
+                
+                this.getDrawableGroup().addDrawable(text);
             }
 
             /**
@@ -192,49 +185,6 @@ public final class TestGameEngine extends Engine {
             }
         };
         
-        /**
-         * Let's add our background to the global Drawables
-         * instead of rendering it directly from the screen.
-         * 
-         * This will add a black background to all screens.
-         */
-        this.addGlobalDrawable(new Drawable<TestGameEngine>(this) {
-            /*
-             * Make sure that this Drawable is not topmost.
-             */
-            {
-                this.setTopMost(false);
-            }
-            
-            /*
-             * Render the graphics for the Drawable out.
-             *
-             * @see jtwod.engine.Drawable#render(java.awt.Graphics, jtwod.engine.Screen)
-             */
-            @Override
-            protected final void render(Graphics graphics, Scene<TestGameEngine> screen) {
-                // Create the background.
-                Image<TestGameEngine> image = new Image<TestGameEngine>(
-                    Texture.colorTexture(Color.black,
-                        new Dimensions(
-                            (int)this.getParentEngine().getWindowSize().getWidth(),
-                            (int)this.getParentEngine().getWindowSize().getHeight()
-                        )
-                    ),
-                    Vector.Zero(),
-                    this.getParentEngine()
-                );
-                
-                // Render it out
-                image.render(graphics, screen);
-            }
-
-            @Override
-            protected final void update() {
-                // Not implemented.
-            }
-        });
-
         /*
          * Set the main screen for the engine to get things rolling.
          */

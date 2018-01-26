@@ -22,37 +22,77 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter {
     }
 
     /**
-     * If set to false, this will not render when it is in the global render scope.
+     * If set to false, this Drawable will not render out.
      */
-    private boolean shouldRenderWhenGlobal = true;
+    private boolean isVisible = true;
+    
+    /**
+     * If set to false, you will not be able to add child Drawables to this Drawable.
+     */
+    private boolean canHaveChildren = true;
 
     /**
-     * If set to true, this render will render on top of everything else.
+     * The layer on which to render the Drawable.
      */
-    private boolean topMost = false;
+    private int layer = 0;
 
     /**
      * The parent engine for this Drawable.
      */
     private ParentEngine parentEngine;
-
+    
     /**
-     * Create the renderer with a parent engine.
+     * The DrawableGroup associated with this Drawable, if any.
+     */
+    private DrawableGroup<ParentEngine> parentDrawableGroup;
+    
+    /**
+     * The Drawables to render out to this Scene.
+     */
+    private DrawableGroup<ParentEngine> subDrawableGroup;
+    
+    /**
+     * Create the Drawable with a parent Engine and assign it to the specified layer.
      *
+     * @param layer
      * @param engine
      */
-    public Drawable(ParentEngine engine)
+    public Drawable(int layer, ParentEngine engine)
     {
+        this.layer = layer;
         this.parentEngine = engine;
+        this.subDrawableGroup = new DrawableGroup<ParentEngine>(engine);
+    }
+    
+    /**
+     * Create the Drawable with a parent Engine and assign it to the specified layer.
+     *
+     * @param layer
+     * @param engine
+     * @param canHaveChildren
+     */
+    public Drawable(int layer, ParentEngine engine, boolean canHaveChildren)
+    {
+        this.layer = layer;
+        this.parentEngine = engine;
+        
+        if (canHaveChildren) {
+            this.subDrawableGroup = new DrawableGroup<ParentEngine>(engine);
+        } else {
+            this.canHaveChildren = false;
+        }
     }
 
     /**
      * Render graphics out to a screen.
      *
      * @param graphics
-     * @param screen
+     * @param scene
      */
-    protected abstract void render(Graphics graphics, Scene<ParentEngine> screen);
+    public void render(Graphics graphics, Scene<ParentEngine> scene)
+    {
+        this.subDrawableGroup.render(graphics, scene);
+    }
 
     /**
      * Update this renderer.
@@ -82,43 +122,33 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter {
     }
 
     /**
-     * Update whether or not this Drawable should render in the global scope.
+     * Update whether or not this Drawable should render.
      *
      * @param shouldRenderWhenGlobal
      */
-    public final void setShouldRenderWhenGlobal(boolean shouldRenderWhenGlobal)
+    public final void setVisible(boolean visible)
     {
-        this.shouldRenderWhenGlobal = shouldRenderWhenGlobal;
+        this.isVisible = visible;
     }
 
     /**
-     * Checks if this renderer should render in the global scope.
+     * Checks if this Drawable should Render.
      *
      * @return
      */
-    public final boolean shouldRenderWhenGlobal()
+    public final boolean isVisible()
     {
-        return this.shouldRenderWhenGlobal;
+        return this.isVisible;
     }
 
     /**
-     * Update whether or not this Drawable should render on top of everything else.
-     *
-     * @param topMost
-     */
-    public final void setTopMost(boolean topMost)
-    {
-        this.topMost = topMost;
-    }
-
-    /**
-     * Checks if this Drawable should render on top of everything else.
+     * Retrieves the layer on which to render this Drawable.
      *
      * @return
      */
-    public final boolean isTopMost()
+    public final int getLayer()
     {
-        return this.topMost;
+        return this.layer;
     }
 
     /**
@@ -129,5 +159,33 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter {
     public final ParentEngine getParentEngine()
     {
         return this.parentEngine;
+    }
+    
+    /**
+     * Retrieve the DrawableGroup associated with this Drawable, if any.
+     *
+     * @return
+     */
+    public final DrawableGroup<ParentEngine> getParentDrawableGroup()
+    {
+        return this.parentDrawableGroup;
+    }
+    
+    public final DrawableGroup<ParentEngine> getSubDrawableGroup()
+    {
+        if (! this.canHaveChildren) {
+            System.err.print("Warning: Trying to access sub DrawableGroup on a childless Drawable.");
+        }
+        return this.subDrawableGroup;
+    }
+    
+    /**
+     * Updates which parent DrawableGroup is associated with this Drawable.
+     *
+     * @param group
+     */
+    public final void setParentDrawableGroup(DrawableGroup<ParentEngine> group)
+    {
+        this.parentDrawableGroup = group;
     }
 }

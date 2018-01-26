@@ -1,10 +1,8 @@
 package jtwod.examples.pong.game;
 
 import java.awt.Color;
-import java.awt.Graphics;
 
 import jtwod.engine.Drawable;
-import jtwod.engine.Scene;
 import jtwod.engine.drawable.Image;
 import jtwod.engine.graphics.Texture;
 import jtwod.engine.metrics.Dimensions;
@@ -19,19 +17,12 @@ public class PongBackground extends Drawable<PongEngine>
 	 */
 	public PongBackground(PongEngine engine)
 	{
-		super(engine);
-        this.setTopMost(false);
-    }
-    
-    /*
-     * Render the graphics for the Drawable out.
-     *
-     * @see jtwod.engine.Drawable#render(java.awt.Graphics, jtwod.engine.Screen)
-     */
-    @Override
-    protected final void render(Graphics graphics, Scene<PongEngine> screen) {
-        // Create the background.
-        Image<PongEngine> image = new Image<PongEngine>(
+	    // Set this to layer 0.
+		super(0, engine);
+		
+		// Add the background image
+		this.getSubDrawableGroup().addDrawable(new Image<PongEngine>(
+            0, // First layer
             Texture.colorTexture(Color.black,
                 new Dimensions(
                     (int)this.getParentEngine().getWindowSize().getWidth(),
@@ -40,13 +31,10 @@ public class PongBackground extends Drawable<PongEngine>
             ),
             Vector.Zero(),
             this.getParentEngine()
-        );
-        
-        // Render it out
-        image.render(graphics, screen);
+        ));
     }
-
-    @Override
+    
+	@Override
     protected final void update() {
         // Not implemented.
     }

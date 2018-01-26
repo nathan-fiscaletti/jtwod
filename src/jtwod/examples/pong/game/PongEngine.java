@@ -45,11 +45,6 @@ public class PongEngine extends Engine {
     @Override
     public void onEngineStart() {
         /**
-         * Add the background to the global drawables.
-         */
-        this.addGlobalDrawable(new PongBackground(this));
-        
-        /**
          * Set the main Scene.
          */
         this.setScene(new PongScene(this));

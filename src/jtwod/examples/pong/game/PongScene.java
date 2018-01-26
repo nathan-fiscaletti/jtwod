@@ -2,7 +2,6 @@ package jtwod.examples.pong.game;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 
 import jtwod.engine.Drawable;
 import jtwod.engine.Scene;
@@ -22,6 +21,8 @@ public class PongScene extends Scene<PongEngine> {
     public static Text<PongEngine> scoreText;
     public static Text<PongEngine> roundText;
     public static Text<PongEngine> worthText;
+    
+    public static PongBackground background;
 	
 	public PongScene(PongEngine engine) {
 		super("Pong", engine);
@@ -34,6 +35,7 @@ public class PongScene extends Scene<PongEngine> {
         
         // Add the logo to the drawables.
         logoText = new Text<PongEngine>(
+            1,
             "Dropshot Pong",
             new Font("Systen", Font.BOLD, 48),
             Color.yellow,
@@ -43,6 +45,7 @@ public class PongScene extends Scene<PongEngine> {
         );
         
         instructionsText = new Text<PongEngine>(
+            1,
             "Press 'Space' to begin!",
             new Font("Systen", Font.BOLD, 18),
             Color.gray,
@@ -52,6 +55,7 @@ public class PongScene extends Scene<PongEngine> {
         );
         
         scoreText = new Text<PongEngine>(
+            1,
             "0 - 0",
             new Font("Systen", Font.BOLD, 24),
             Color.white,
@@ -61,6 +65,7 @@ public class PongScene extends Scene<PongEngine> {
         );
         
         roundText = new Text<PongEngine>(
+            1,
             "Round " + PongEngine.round,
             new Font("Systen", Font.BOLD, 16),
             Color.white,
@@ -70,6 +75,7 @@ public class PongScene extends Scene<PongEngine> {
         );
         
         worthText = new Text<PongEngine>(
+            1,
             "Round Worth 0",
             new Font("Systen", Font.BOLD, 14),
             Color.white,
@@ -77,27 +83,32 @@ public class PongScene extends Scene<PongEngine> {
             Vector.Zero().plusY(210),
             this.getParentEngine()
         );
+        
+        background = new PongBackground(this.getParentEngine());
+        
+        this.getDrawableGroup().addDrawable(logoText);
+        this.getDrawableGroup().addDrawable(instructionsText);
+        this.getDrawableGroup().addDrawable(scoreText);
+        this.getDrawableGroup().addDrawable(background);
+        this.getDrawableGroup().addDrawable(roundText);
+        this.getDrawableGroup().addDrawable(worthText);
     }
     
     @Override
     public void update()
     {
-    		scoreText.setText(PongEntityController.paddle1.score + " - " + PongEntityController.paddle2.score);
+        if (! PongEntityController.ball.isStarted()) {
+            logoText.setVisible(true);
+            instructionsText.setVisible(true);
+            worthText.setVisible(false);
+        } else {
+            logoText.setVisible(false);
+            instructionsText.setVisible(false);
+            worthText.setVisible(true);
+        }
+        
+        scoreText.setText(PongEntityController.paddle1.score + " - " + PongEntityController.paddle2.score);
         roundText.setText("Round " + PongEngine.round);
         worthText.setText("Round Worth " + PongEntityController.ball.worth);
-    }
-    
-    @Override
-    public final void renderFrame(Graphics graphics)
-    {
-    		if (! PongEntityController.ball.isStarted()) {
-    			logoText.render(graphics, this);
-    			instructionsText.render(graphics, this);
-    		} else {
-    			worthText.render(graphics, this);
-    		}
-    		
-    		roundText.render(graphics, this);
-    		scoreText.render(graphics, this);
     }
 }
