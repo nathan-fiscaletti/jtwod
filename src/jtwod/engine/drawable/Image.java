@@ -156,7 +156,9 @@ public class Image<ParentEngine extends Engine> extends Shape<ParentEngine>
      */
     public final Texture getTexture()
     {
-        return this.texture;
+        return (this.texture != null) 
+            ? this.texture
+            : Texture.unknownTexture(new Dimensions(32, 32));
     }
 
     /**

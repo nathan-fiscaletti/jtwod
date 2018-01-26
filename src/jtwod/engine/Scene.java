@@ -98,7 +98,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
      */
     protected void scatter()
     {
-    	    // Not implemented by default.
+            // Not implemented by default.
     }
 
     /**
@@ -184,7 +184,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
      * @throws Exception
      */
     public final synchronized void stop()
-	{
+    {
         this.running = false;
     }
 
@@ -283,7 +283,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
      */
     private void triggerKeyPressed(KeyEvent e)
     {
-    	    this.keyPressed(e);
+            this.keyPressed(e);
     }
     
     /**
@@ -293,7 +293,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
      */
     private void triggerKeyReleased(KeyEvent e)
     {
-    		this.keyReleased(e);
+            this.keyReleased(e);
     }
     
     /**

@@ -81,14 +81,14 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
 
             // Check bounds
             if (
-            	! entity.getPosition().isInsideBoundsOf(
-            		Shape.MaxSizeBaseObject(
-            				entity.getParentEngine().getClass(),
-							this.getParentEngine(),
-							128
-					)
-				)
-			) {
+                ! entity.getPosition().isInsideBoundsOf(
+                    Shape.MaxSizeBaseObject(
+                            entity.getParentEngine().getClass(),
+                            this.getParentEngine(),
+                            128
+                    )
+                )
+            ) {
                 entity.onExitBounds();
             }
 
@@ -146,7 +146,7 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
      */
     public final void spawnEntity(Entity<ParentEngine> entity)
     {
-    	this.parentScreen.addKeyListener(entity);
+        this.parentScreen.addKeyListener(entity);
         this.entities.add(entity);
     }
 
@@ -157,7 +157,7 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
      */
     public final void deSpawnEntity(Entity<ParentEngine> entity)
     {
-    		this.parentScreen.removeKeyListener(entity);
+            this.parentScreen.removeKeyListener(entity);
         this.entities.remove(entity);
     }
 
@@ -166,8 +166,8 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
      */
     public final void deSpawnAllEntities()
     {
-    		while(entities.size() > 0) {
-        		Entity<ParentEngine> entity = entities.pollFirst();
+            while(entities.size() > 0) {
+                Entity<ParentEngine> entity = entities.pollFirst();
             this.parentScreen.removeKeyListener(entity);
         }
     }

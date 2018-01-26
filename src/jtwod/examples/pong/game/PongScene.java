@@ -9,26 +9,26 @@ import jtwod.engine.drawable.Text;
 import jtwod.engine.metrics.Vector;
 
 public class PongScene extends Scene<PongEngine> {
-	
-	/**
-	 * Serial Version UID
-	 */
-	private static final long serialVersionUID = 4347149361762469174L;
-	
-	// Custom Drawables
-    public static Text<PongEngine> logoText;
-    public static Text<PongEngine> instructionsText;
-    public static Text<PongEngine> scoreText;
-    public static Text<PongEngine> roundText;
-    public static Text<PongEngine> worthText;
+    
+    /**
+     * Serial Version UID
+     */
+    private static final long serialVersionUID = 4347149361762469174L;
+    
+    // Custom Drawables
+    public Text<PongEngine> logoText;
+    public Text<PongEngine> instructionsText;
+    public Text<PongEngine> scoreText;
+    public Text<PongEngine> roundText;
+    public Text<PongEngine> worthText;
     
     public static PongBackground background;
-	
-	public PongScene(PongEngine engine) {
-		super("Pong", engine);
-	}
+    
+    public PongScene(PongEngine engine) {
+        super("Pong", engine);
+    }
 
-	@Override
+    @Override
     public final void prepare()
     {
         this.setController(new PongEntityController(this));

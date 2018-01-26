@@ -107,7 +107,7 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e)
     {
-    		// Not implemented by default.
+            // Not implemented by default.
     }
     
     /**
@@ -118,7 +118,7 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter {
     @Override
     public void keyReleased(KeyEvent e)
     {
-    		// Not implemented by default.
+            // Not implemented by default.
     }
 
     /**

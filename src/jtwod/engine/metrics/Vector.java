@@ -229,7 +229,7 @@ public final class Vector
                 this.y < shape.getPosition().y ||
                 this.x > shape.getPosition().x + shape.getSize().getWidth() ||
                 this.y > shape.getPosition().y + shape.getSize().getHeight()
-		);
+        );
     }
 
     /**
@@ -249,7 +249,7 @@ public final class Vector
     public final static Vector Max(int buffer, Engine engine) 
     {
         Vector result = new Vector(
-        	    engine.getWindowSize().getWidth() + buffer, 
+                engine.getWindowSize().getWidth() + buffer, 
             engine.getWindowSize().getHeight() + buffer
         );
         
@@ -266,9 +266,9 @@ public final class Vector
     public final static Vector Max(int bufferX, int bufferY, Engine engine)
     {
         Vector result = new Vector(
-        	    engine.getWindowSize().getWidth() + bufferX, 
-        	    engine.getWindowSize().getHeight() + bufferY
-        	);
+                engine.getWindowSize().getWidth() + bufferX, 
+                engine.getWindowSize().getHeight() + bufferY
+            );
         
         result.bufferX = bufferX;
         result.bufferY = bufferY;

@@ -34,7 +34,7 @@ public class Ball extends Entity<PongEngine> {
     @Override
     public final void keyPressed(KeyEvent keyEvent)
     {
-    		if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+            if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
             if (! this.isStarted()) {
                 this.setStarted(true);
             }
@@ -51,13 +51,13 @@ public class Ball extends Entity<PongEngine> {
                 this.setVelocity(currentVelocity.setY(-(currentVelocity.getY())));
                 break;
             case LeftXAxis:
-            		PongEntityController.paddle2.score += this.worth;
+                    PongEntityController.paddle2.score += this.worth;
                 this.worth = 1;
                 PongEngine.round += 1;
                 this.startOnPaddle(PongEntityController.paddle1);
                 break;
             case RightXAxis:
-            		PongEntityController.paddle1.score += this.worth;
+                    PongEntityController.paddle1.score += this.worth;
                 this.worth = 1;
                 PongEngine.round += 1;
                 this.startOnPaddle(PongEntityController.paddle2);

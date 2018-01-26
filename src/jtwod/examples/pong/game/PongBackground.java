@@ -10,23 +10,23 @@ import jtwod.engine.metrics.Vector;
 
 public class PongBackground extends Drawable<PongEngine>
 {
-	/**
-	 * Construct the background and set it to be bottom most.
-	 *
-	 * @param engine The parent engine for this Drawable.
-	 */
-	public PongBackground(PongEngine engine)
-	{
-	    // Set this to layer 0.
-		super(0, engine);
-		
-		// Add the background image
-		this.getSubDrawableGroup().addDrawable(new Image<PongEngine>(
+    /**
+     * Construct the background and set it to be bottom most.
+     *
+     * @param engine The parent engine for this Drawable.
+     */
+    public PongBackground(PongEngine engine)
+    {
+        // Set this to layer 0.
+        super(0, engine);
+        
+        // Add the background image
+        this.getSubDrawableGroup().addDrawable(new Image<PongEngine>(
             0, // First layer
             Texture.colorTexture(Color.black,
                 new Dimensions(
-                    (int)this.getParentEngine().getWindowSize().getWidth(),
-                    (int)this.getParentEngine().getWindowSize().getHeight()
+                    this.getParentEngine().getWindowSize().getWidth(),
+                    this.getParentEngine().getWindowSize().getHeight()
                 )
             ),
             Vector.Zero(),
@@ -34,7 +34,7 @@ public class PongBackground extends Drawable<PongEngine>
         ));
     }
     
-	@Override
+    @Override
     protected final void update() {
         // Not implemented.
     }

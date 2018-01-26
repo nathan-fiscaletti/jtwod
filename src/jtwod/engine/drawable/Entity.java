@@ -105,7 +105,7 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
     @Override
     protected void update()
     {
-        
+        // Not implemented by default.
     }
 
     /**

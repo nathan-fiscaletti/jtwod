@@ -11,15 +11,15 @@ if NOT "%1"=="--debug" (
 REM Verify that the javac command is in path.
 WHERE javac > nul
 IF %ERRORLEVEL% NEQ 0 (
-	ECHO Error: Command 'javac' not in path.
-	exit /B 2
+    ECHO Error: Command 'javac' not in path.
+    exit /B 2
 )
 
 REM Verify that the jar command is in path.
 WHERE jar > nul
 IF %ERRORLEVEL% NEQ 0 (
-	ECHO Error: Command 'jar' not in path.
-	exit /B 3
+    ECHO Error: Command 'jar' not in path.
+    exit /B 3
 )
 
 REM Compile jtwod files.
