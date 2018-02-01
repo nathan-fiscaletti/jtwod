@@ -3,3 +3,10 @@ bin/
 lib-jtwod-static.jar
 lib-jtwod-static-debug.jar
 tmp/
+/nbproject/private/
+.project
+build.xml
+lib/CopyLibs/
+lib/nblibraries.properties
+manifest.mf
+nbproject/
