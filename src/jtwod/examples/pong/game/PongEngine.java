@@ -12,12 +12,12 @@ public class PongEngine extends Engine {
 
     
     // Configuration
-    public final static int startingBallSpeed = 15;    
-    public final static int paddleToWallPadding = 25;
-    public final static int ballToPaddlePadding = 10;
-    public final static int paddleSpeed = 10;
-    public final static Dimensions paddleDimensions = new Dimensions(20, 75);
-    public final static Dimensions ballDimensions = new Dimensions(20, 20);
+    public final static int        startingBallSpeed   = 15;    
+    public final static int        paddleToWallPadding = 25;
+    public final static int        ballToPaddlePadding = 10;
+    public final static int        paddleSpeed         = 10;
+    public final static Dimensions paddleDimensions    = new Dimensions(20, 75);
+    public final static Dimensions ballDimensions      = new Dimensions(20, 20);
     
     // Game Variables
     public static int round = 1;

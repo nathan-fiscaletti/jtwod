@@ -10,3 +10,4 @@ lib/CopyLibs/
 lib/nblibraries.properties
 manifest.mf
 nbproject/
+/build/

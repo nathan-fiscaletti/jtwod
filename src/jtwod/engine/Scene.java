@@ -7,9 +7,9 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 
 /**
- * Represents a screen that can be rendered out to the window.
+ * Represents a Scene that can be rendered out to the window.
  *
- * @param <ParentEngine> The engine type that this screen is associated with.
+ * @param <ParentEngine> The engine type that this Scene is associated with.
  */
 public abstract class Scene<ParentEngine extends Engine> extends Canvas implements Runnable
 {
@@ -19,29 +19,29 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     private static final long serialVersionUID = -1303916252996012557L;
     
     /**
-     * The Drawables to render out to this Scene.
+     * The DrawableGroup to render out to this Scene.
      */
-    private DrawableGroup<ParentEngine> drawableGroup;
+    private final DrawableGroup<ParentEngine> drawableGroup;
 
     /**
      * The name of the Scene.
      */
-    private String name;
+    private final String name;
 
     /**
      * The entity controller for controlling
      * any entities you might want to have
-     * attached to this screen.
+     * attached to this Scene.
      */
     private EntityController<ParentEngine> controller;
 
     /**
-     * The Ticks Per Second for this screen.
+     * The Ticks Per Second for this Scene.
      */
     private int tps;
 
     /**
-     * The Frames Per Second for this screen.
+     * The Frames Per Second for this Scene.
      */
     private int fps;
 
@@ -56,34 +56,37 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     private Thread thread;
 
     /**
-     * The parent Engine for this screen.
+     * The parent Engine for this Scene.
      */
-    private ParentEngine parentEngine;
+    private final ParentEngine parentEngine;
 
     /**
-     * Initialize the screen with a parent engine.
+     * Initialize the Scene with a parent engine.
      *
-     * @param engine
+     * @param name The name of the Scene.
+     * @param engine The parent Engine this Scene is associated with.
      */
     public Scene(String name, ParentEngine engine)
     {
         this.name = name;
         this.parentEngine = engine;
         this.controller = new EntityController<ParentEngine>(this) {};
-        this.drawableGroup = new DrawableGroup<ParentEngine>(this.getParentEngine());
+        this.drawableGroup = new DrawableGroup(this.getParentEngine());
     }
 
     /**
-     * Initialize the screen with a parent engine and an EntityController.
+     * Initialize the Scene with a parent engine and an EntityController.
      *
-     * @param controller
+     * @param name The name of the Scene.
+     * @param engine The parent Engine this Scene is associated with.
+     * @param controller The EntityController to associate with this Scene.
      */
     public Scene(String name, ParentEngine engine, EntityController<ParentEngine> controller)
     {
         this.name = name;
         this.parentEngine = engine;
         this.controller = controller;
-        this.drawableGroup = new DrawableGroup<ParentEngine>(this.getParentEngine());
+        this.drawableGroup = new DrawableGroup<>(this.getParentEngine());
     }
 
     /**
@@ -98,11 +101,11 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
      */
     protected void scatter()
     {
-            // Not implemented by default.
+        // Not implemented by default.
     }
 
     /**
-     * Called when an update to this screen should occure.
+     * Called when an update to this Scene should occur.
      */
     protected void update()
     {
@@ -112,7 +115,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     /**
      * Called when a key is pressed down.
      *
-     * @param keyEvent
+     * @param keyEvent The <code>KeyEvent</code> object associated with the key press.
      */
     protected void keyPressed(KeyEvent keyEvent)
     {
@@ -122,7 +125,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     /**
      * Called when a key is released.
      *
-     * @param keyEvent
+     * @param keyEvent The <code>KeyEvent</code> object associated with the key release.
      */
     protected void keyReleased(KeyEvent keyEvent)
     {
@@ -130,7 +133,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Primary run body for controlling screens.
+     * Primary run body for controlling the Scene.
      */
     @Override
     public final void run() {
@@ -166,7 +169,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Initialize the screens primary thread.
+     * Initialize the Scenes primary thread.
      */
     public final synchronized void start()
     {
@@ -180,28 +183,27 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Stop the screens primary thread.
-     * @throws Exception
-     */
+     * Stop the Scenes primary thread.
+     */    
     public final synchronized void stop()
     {
         this.running = false;
     }
 
     /**
-     * Retrieve the name for the Screen.
+     * Retrieve the name for the Scene.
      *
-     * @return
+     * @return The name for this Scene.
      */
-    public final String getName()
+    public final String getSceneName()
     {
         return this.name;
     }
 
     /**
-     * Retrieve the controller for the screen.
+     * Retrieve the controller for the Scene.
      *
-     * @return
+     * @return The EntityController associated with this Scene.
      */
     public final EntityController<ParentEngine> getController()
     {
@@ -209,9 +211,9 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Assign a new EntityController to the screen.
+     * Assign a new EntityController to the Scene.
      *
-     * @param controller
+     * @param controller The new EntityController for this Scene.
      */
     public final void setController(EntityController<ParentEngine> controller)
     {
@@ -219,9 +221,9 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Retrieve the Ticks Per Second for the screen.
+     * Retrieve the Ticks Per Second for the Scene.
      *
-     * @return
+     * @return The current Ticks Per Second for this Scene.
      */
     public final int getTps()
     {
@@ -229,9 +231,9 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Retrieve the Frames Per Second for the screen.
+     * Retrieve the Frames Per Second for the Scene.
      *
-     * @return
+     * @return The current Frames Per Second for this Scene.
      */
     public final int getFps()
     {
@@ -241,7 +243,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     /**
      * Retrieve the parent engine.
      *
-     * @return
+     * @return The parent Engine associated with this Scene.
      */
     public final ParentEngine getParentEngine()
     {
@@ -250,6 +252,8 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     
     /**
      * Retrieve the DrawableGroup for this Scene.
+     * 
+     * @return The DrawableGroup associated with the Scene.
      */
     public final DrawableGroup<ParentEngine> getDrawableGroup()
     {
