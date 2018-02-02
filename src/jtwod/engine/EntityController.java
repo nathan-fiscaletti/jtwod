@@ -9,6 +9,32 @@ import jtwod.engine.drawable.Shape;
 /**
  * For controlling all <code>{@link jtwod.engine.drawable.Entity Entitiy}</code>
  * objects associated with a <code>{@link jtwod.engine.Scene Scene}</code>.
+ *  
+ * <p>
+ * Each <b>tick</b> that occurs on an
+ * <code>{@link jtwod.engine.EntityController EntityController}</code>
+ * is handled in this order:
+ * </p>
+ * <ol>
+ * <li>
+ * <code>
+ * {@link EntityController#runControlUpdate()}
+ * </code>
+ * </li>
+ * <li>
+ * <code>
+ * {@link EntityController#iterateEntityPerControlUpdate(Entity)}
+ * </code>
+ * </li>
+ * <li>
+ * Internal check for
+ * <code>{@link jtwod.engine.drawable.Entity Entity}</code>
+ * Collision.
+ * </li>
+ * <li>
+ * <code>{@link jtwod.engine.drawable.Entity#update()}</code>
+ * </li>
+ * </ol>
  * 
  * @param <ParentEngine> 
  * The type for the parent <code>{@link jtwod.engine.Engine Engine}</code> 
@@ -20,7 +46,8 @@ import jtwod.engine.drawable.Shape;
  * @see EntityController#runControlUpdate() 
  * @see EntityController#spawnEntity(jtwod.engine.drawable.Entity) 
  * @see EntityController#removeEntity(jtwod.engine.drawable.Entity) 
- * @see EntityController#removeAllEntities() 
+ * @see EntityController#removeAllEntities()
+ * @see Drawable#update() 
  */
 public abstract class EntityController<
     ParentEngine extends Engine
@@ -61,7 +88,7 @@ public abstract class EntityController<
      * on each tick.
      * 
      * <p>
-     * Each tick that occurs on an
+     * Each <b>tick</b> that occurs on an
      * <code>{@link jtwod.engine.EntityController EntityController}</code>
      * is handled in this order:
      * </p>
@@ -96,7 +123,7 @@ public abstract class EntityController<
      * <code>{@link jtwod.engine.drawable.Entity Entity}</code> basis.
      * 
      * <p>
-     * Each tick that occurs on an
+     * Each <b>tick</b> that occurs on an
      * <code>{@link jtwod.engine.EntityController EntityController}</code>
      * is handled in this order:
      * </p>
