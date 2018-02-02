@@ -58,7 +58,7 @@ IF %ERRORLEVEL% NEQ 0 (
     ECHO Could not generate javadocs, Error: command 'javadoc' not in path.
 ) ELSE (
     ECHO Generating JavaDocs^.^.^. ^(^.^/docs^)
-    javadoc -sourcepath ./src/ -d ./docs -subpackages jtwod -exclude jtwod.examples > nul
+    javadoc -sourcepath ./src/ -d ./docs -subpackages jtwod -exclude jtwod.examples >nul 2>nul
 )
 
 @echo Done.
