@@ -129,7 +129,7 @@ public final class Vector
     /**
      * Update the X axis buffer.
      * 
-     * @param buffer
+     * @param bufferX
      */
     public final void setXBuffer(int bufferX)
     {
@@ -149,7 +149,7 @@ public final class Vector
     /**
      * Update the Y axis buffer.
      * 
-     * @param buffer
+     * @param bufferY
      */
     public final void setYBuffer(int bufferY)
     {

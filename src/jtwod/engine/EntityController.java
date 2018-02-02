@@ -18,12 +18,12 @@ import jtwod.engine.drawable.Shape;
  * <ol>
  * <li>
  * <code>
- * {@link EntityController#runControlUpdate()}
+ * {@link jtwod.engine.EntityController#runControlUpdate()}
  * </code>
  * </li>
  * <li>
  * <code>
- * {@link EntityController#iterateEntityPerControlUpdate(Entity)}
+ * {@link jtwod.engine.EntityController#iterateEntityPerControlUpdate(Entity)}
  * </code>
  * </li>
  * <li>
@@ -95,12 +95,12 @@ public abstract class EntityController<
      * <ol>
      * <li>
      * <code>
-     * {@link EntityController#runControlUpdate()}
+     * {@link jtwod.engine.EntityController#runControlUpdate()}
      * </code>
      * </li>
      * <li>
      * <code>
-     * {@link EntityController#iterateEntityPerControlUpdate(Entity)}
+     * {@link jtwod.engine.EntityController#iterateEntityPerControlUpdate(Entity)}
      * </code>
      * </li>
      * <li>
@@ -130,12 +130,12 @@ public abstract class EntityController<
      * <ol>
      * <li>
      * <code>
-     * {@link EntityController#runControlUpdate()}
+     * {@link jtwod.engine.EntityController#runControlUpdate()}
      * </code>
      * </li>
      * <li>
      * <code>
-     * {@link EntityController#iterateEntityPerControlUpdate(Entity)}
+     * {@link jtwod.engine.EntityController#iterateEntityPerControlUpdate(Entity)}
      * </code>
      * </li>
      * <li>
@@ -202,9 +202,9 @@ public abstract class EntityController<
             if (
                 ! entity.getPosition().isInsideBoundsOf(
                     Shape.MaxSizeBaseObject(
-                            entity.getParentEngine().getClass(),
-                            this.getParentEngine(),
-                            128
+                        entity.getParentEngine().getClass(),
+                        this.getParentEngine(),
+                        128
                     )
                 )
             ) {
@@ -300,5 +300,4 @@ public abstract class EntityController<
             this.parentScene.removeKeyListener(entity);
         }
     }
-
 }

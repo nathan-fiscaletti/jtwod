@@ -5,6 +5,7 @@ lib-jtwod-static-debug.jar
 tmp/
 /nbproject/private/
 .project
+.classpath
 build.xml
 lib/CopyLibs/
 lib/nblibraries.properties

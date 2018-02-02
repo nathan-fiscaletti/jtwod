@@ -26,6 +26,11 @@ public abstract class Scene<
 > extends Canvas implements Runnable
 {
     /**
+     * The Serial Version UID for this Serializable Object.
+     */
+    private static final long serialVersionUID = 5380604501382560639L;
+    
+    /**
      * The <code>{@link jtwod.engine.DrawableGroup DrawableGroup}</code> to
      * render out to this <code>{@link jtwod.engine.Scene Scene}</code>.
      */
