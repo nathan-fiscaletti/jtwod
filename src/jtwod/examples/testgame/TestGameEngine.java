@@ -80,16 +80,16 @@ public final class TestGameEngine extends Engine {
             /*
              * Override this function to handle the Priming of the Screen.
              * 
-             * @see jtwod.engine.Screen#prepare()
+             * @see jtwod.engine.Screen#allocate()
              */
             @Override
-            protected final void prepare()
+            protected final void allocate()
             {
                 /*
                  * Assign a new EntityController to the screen.
                  * When the entity controller is initialized, we spawn our player onto it.
                  */
-                this.setController(new EntityController<TestGameEngine>(this) {
+                this.setEntityController(new EntityController<TestGameEngine>(this) {
                     {
                         /*
                          * Initialize the player entity.
@@ -98,7 +98,7 @@ public final class TestGameEngine extends Engine {
                          * for the entity sprite, and then we constrain the entities position
                          * to the bounds of the screen so that they cannot leave it.
                          */
-                        myPlayer = new Entity<TestGameEngine>(Vector.Zero(), this.getParentEngine().getTextureGroup().getTexture("Player"), this.getParentScreen()) {
+                        myPlayer = new Entity<TestGameEngine>(Vector.Zero(), this.getParentEngine().getTextureGroup().getTexture("Player"), this.getParentScene()) {
                             {
                                 // Constrain the entity to the screen bounds.
                                 this.setPositionConstraint(
@@ -122,7 +122,7 @@ public final class TestGameEngine extends Engine {
                 
                 
                 // Add the background to the Scene.
-                Image<TestGameEngine> background = new Image<TestGameEngine>(0,
+                Image<TestGameEngine> background = new Image<>(0,
                         Texture.colorTexture(
                                 Color.black, 
                                 this.getParentEngine().getWindowSize()
@@ -134,7 +134,7 @@ public final class TestGameEngine extends Engine {
                 this.getDrawableGroup().addDrawable(background);
 
                 // Add text to the scene.
-                Text<TestGameEngine> text = new Text<TestGameEngine>(
+                Text<TestGameEngine> text = new Text<>(
                     1,
                     "Use the arrow keys to move around!",
                     new Font("Ariel", Font.BOLD, 24),
@@ -155,14 +155,21 @@ public final class TestGameEngine extends Engine {
              */
             @Override
             protected final void keyPressed(KeyEvent keyEvent) {
-                if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                    myPlayer.setVelocity(myPlayer.getVelocity().setY(3));
-                } else if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
-                    myPlayer.setVelocity(myPlayer.getVelocity().setY(-3));
-                } else if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                    myPlayer.setVelocity(myPlayer.getVelocity().setX(-3));
-                } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    myPlayer.setVelocity(myPlayer.getVelocity().setX(3));
+                switch (keyEvent.getKeyCode()) {
+                    case KeyEvent.VK_DOWN:
+                        myPlayer.setVelocity(myPlayer.getVelocity().setY(3));
+                        break;
+                    case KeyEvent.VK_UP:
+                        myPlayer.setVelocity(myPlayer.getVelocity().setY(-3));
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        myPlayer.setVelocity(myPlayer.getVelocity().setX(-3));
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        myPlayer.setVelocity(myPlayer.getVelocity().setX(3));
+                        break;
+                    default:
+                        break;
                 }
             }
 
@@ -173,14 +180,21 @@ public final class TestGameEngine extends Engine {
              */
             @Override
             protected final void keyReleased(KeyEvent keyEvent) {
-                if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                    myPlayer.setVelocity(myPlayer.getVelocity().setY(0));
-                } else if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
-                    myPlayer.setVelocity(myPlayer.getVelocity().setY(0));
-                } else if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                    myPlayer.setVelocity(myPlayer.getVelocity().setX(0));
-                } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    myPlayer.setVelocity(myPlayer.getVelocity().setX(0));
+                switch (keyEvent.getKeyCode()) {
+                    case KeyEvent.VK_DOWN:
+                        myPlayer.setVelocity(myPlayer.getVelocity().setY(0));
+                        break;
+                    case KeyEvent.VK_UP:
+                        myPlayer.setVelocity(myPlayer.getVelocity().setY(0));
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        myPlayer.setVelocity(myPlayer.getVelocity().setX(0));
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        myPlayer.setVelocity(myPlayer.getVelocity().setX(0));
+                        break;
+                    default:
+                        break;
                 }
             }
         };
@@ -189,6 +203,5 @@ public final class TestGameEngine extends Engine {
          * Set the main screen for the engine to get things rolling.
          */
         this.setScene(mainScene);
-        this.setFullScreen(true);
     }
 }

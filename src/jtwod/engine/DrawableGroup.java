@@ -2,33 +2,51 @@ package jtwod.engine;
 
 import java.awt.Graphics;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 
 /**
- * Class used to store a group of Drawables.
- * @param <ParentEngine>
+ * Class used to store a group of <code>Drawable</code>s.
+ *
+ * @param <ParentEngine> 
+ * The type for the parent <code>{@link jtwod.engine.Engine Engine}</code> 
+ * associated with this 
+ * <code>{@link jtwod.engine.DrawableGroup DrawableGroup}</code>.
+ * 
+ * @see DrawableGroup#addDrawable(jtwod.engine.Drawable) 
+ * @see DrawableGroup#removeDrawable(jtwod.engine.Drawable) 
+ * @see Drawable#getParentDrawableGroup() 
+ * @see Drawable#getSubDrawableGroup() 
  */
-public final class DrawableGroup<ParentEngine extends Engine> extends Drawable<ParentEngine> {
+public final class DrawableGroup<
+    ParentEngine extends Engine
+> extends Drawable<ParentEngine>
+{
+    /**
+     * The list of <code>{@link jtwod.engine.Drawable Drawable}</code>s
+     * associated with their own layers.
+     */
+    private final LinkedList<Drawable<ParentEngine>> drawables;
     
     /**
-     * Construct the Drawable Group with it's parent engine.
+     * Construct the
+     * <code>{@link jtwod.engine.DrawableGroup DrawableGroup}</code>
+     * with it's parent <code>{@link jtwod.engine.Engine Engine}</code>.
      *
-     * @param engine
+     * @param engine The parent <code>{@link jtwod.engine.Engine Engine}</code>
+     *               with which this DrawableGroup will be associated.
      */
-    public DrawableGroup(ParentEngine engine) {
+    public DrawableGroup(ParentEngine engine)
+    {
         super(-1, engine, false);
+        this.drawables  = new LinkedList<>();
     }
-
-    /**
-     * The list of Drawables associated with their own layers.
-     */
-    private LinkedList<Drawable<ParentEngine>> drawables = new LinkedList<>();
     
     /**
-     * Add a Drawable to this Scene.
+     * Add a <code>{@link jtwod.engine.Drawable Drawable}</code> to this
+     * <code>{@link jtwod.engine.DrawableGroup DrawableGroup}</code>.
      *
-     * @param drawable The Drawable to add.
+     * @param drawable The <code>{@link jtwod.engine.Drawable Drawable}</code>
+     *                 to add.
      */
     public final void addDrawable(Drawable<ParentEngine> drawable)
     {
@@ -40,18 +58,21 @@ public final class DrawableGroup<ParentEngine extends Engine> extends Drawable<P
         drawable.setParentDrawableGroup(this);
         this.drawables.add(drawable);
         
-        Collections.sort(drawables, new Comparator<Drawable<ParentEngine>>() {
-            @Override
-            public int compare(Drawable<ParentEngine> drawable1, Drawable<ParentEngine> drawable2) {
-                return drawable1.getLayer() - drawable2.getLayer();
-            }
-        });
+        Collections.sort(
+            drawables, 
+            (
+                Drawable<ParentEngine> drawable1, 
+                Drawable<ParentEngine> drawable2
+            ) -> drawable1.getLayer() - drawable2.getLayer()
+        );
     }
 
     /**
-     * Remove a Drawable from this DrawableGroup.
+     * Remove a <code>{@link jtwod.engine.Drawable Drawable}</code> from this
+     * <code>{@link jtwod.engine.DrawableGroup DrawableGroup}</code>.
      *
-     * @param drawable The Drawable to remove.
+     * @param drawable The <code>{@link jtwod.engine.Drawable Drawable}</code>
+     *                 to remove.
      */
     public final void removeDrawable(Drawable<ParentEngine> drawable)
     {
@@ -61,23 +82,40 @@ public final class DrawableGroup<ParentEngine extends Engine> extends Drawable<P
         }
     }
     
+    /**
+     * Invoke <code>{@link jtwod.engine.Drawable#update() Drawable.update}</code>
+     * on each <code>{@link jtwod.engine.Drawable Drawable}</code> in this
+     * <code>{@link jtwod.engine.DrawableGroup DrawableGroup}</code>.
+     * 
+     * @see jtwod.engine.Drawable#update()
+     */
     @Override
-    public final void update()
+    protected final void update()
     {
-        for(Drawable<ParentEngine> drawable : this.drawables)
-        {
+        this.drawables.forEach((drawable) -> {
             drawable.update();
-        }
+        });
     }
     
+     /**
+     * Invoke <code>{@link jtwod.engine.Drawable#render Drawable.render}</code>
+     * on each <code>{@link jtwod.engine.Drawable Drawable}</code> in this
+     * <code>{@link jtwod.engine.DrawableGroup DrawableGroup}</code>.
+     * 
+     * @param graphics The AWT <code>Graphics</code> object to use.
+     * @param scene The <code>{@link jtwod.engine.Scene Scene}</code> to which
+     *              the <code>{@link java.awt.Graphics Graphics}</code> are
+     *              being rendered.
+     * 
+     * @see jtwod.engine.Drawable#render(java.awt.Graphics, jtwod.engine.Scene)
+     */
     @Override
-    public final void render(Graphics graphics, Scene<ParentEngine> scene)
+    protected final void render(Graphics graphics, Scene<ParentEngine> scene)
     {
-        for (Drawable<ParentEngine> drawable : drawables)
-        {
-            if (drawable.isVisible()) {
-                drawable.render(graphics, scene);
-            }
-        }
+        drawables.stream().filter(
+            (drawable) -> (drawable.isVisible())
+        ).forEachOrdered((drawable) -> {
+            drawable.render(graphics, scene);
+        });
     }
 }

@@ -14,16 +14,16 @@ public class PongEntityController extends EntityController<PongEngine> {
     public PongEntityController(Scene<PongEngine> screen) {
         super(screen);
         
-        PongEntityController.paddle1 = new Paddle(new Vector(PongEngine.paddleToWallPadding, 0), this.getParentScreen(), 1);
+        PongEntityController.paddle1 = new Paddle(new Vector(PongEngine.paddleToWallPadding, 0), this.getParentScene(), 1);
         PongEntityController.paddle2 = new Paddle(
                 Vector.Max(this.getParentEngine())
                     .plusX(-(PongEngine.paddleDimensions.getWidth() + PongEngine.paddleToWallPadding))
                     .plusY(-PongEngine.paddleDimensions.getHeight()), 
-                this.getParentScreen(),
+                this.getParentScene(),
                 2
         );
         
-        ball = new Ball(Vector.Zero(), this.getParentScreen());
+        ball = new Ball(Vector.Zero(), this.getParentScene());
         ball.startOnPaddle(paddle1);
         
         this.spawnEntity(ball);
@@ -32,7 +32,7 @@ public class PongEntityController extends EntityController<PongEngine> {
     }
     
     @Override
-    public final void runControlTick()
+    public final void runControlUpdate()
     {
         if (! ball.isStarted()) {
             if ( ball.currentPaddle == 1) {

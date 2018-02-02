@@ -22,7 +22,7 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
     /**
      * The Game that the Entity is attached to.
      */
-    private Scene<ParentEngine> parentScene;
+    private final Scene<ParentEngine> parentScene;
 
     /**
      * Kill the Entity after this many seconds.
@@ -61,12 +61,11 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
      * Create a new instance of an Entity.
      *
      * @param position The initial position.
-     * @param screen The Scene to attach the entity to.
+     * @param scene The Scene to attach the entity to.
      */
     public Entity(Vector position, Texture texture, Scene<ParentEngine> scene)
     {
         super(100000, texture, position, scene.getParentEngine());
-
         this.velocity = Vector.Zero();
         this.setPositionConstraint(Vector.Zero());
         this.parentScene = scene;
@@ -242,11 +241,11 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
                     deathTick ++;
                 }else if(deathTick == 15){
                     this.onDeath();
-                    this.parentScene.getController().deSpawnEntity(this);
+                    this.parentScene.getEntityController().removeEntity(this);
                 }
             } else {
                 this.onDeath();
-                this.parentScene.getController().deSpawnEntity(this);
+                this.parentScene.getEntityController().removeEntity(this);
             }
         }
     }

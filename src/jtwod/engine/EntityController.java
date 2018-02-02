@@ -2,63 +2,152 @@ package jtwod.engine;
 
 import java.awt.Graphics;
 import java.util.LinkedList;
-import java.util.Random;
 
 import jtwod.engine.drawable.Entity;
 import jtwod.engine.drawable.Shape;
 
-public abstract class EntityController<ParentEngine extends Engine> extends Drawable<ParentEngine> {
-
+/**
+ * For controlling all <code>{@link jtwod.engine.drawable.Entity Entitiy}</code>
+ * objects associated with a <code>{@link jtwod.engine.Scene Scene}</code>.
+ * 
+ * @param <ParentEngine> 
+ * The type for the parent <code>{@link jtwod.engine.Engine Engine}</code> 
+ * associated with this 
+ * <code>{@link jtwod.engine.EntityController EntityController}</code>.
+ * 
+ * @see 
+ * EntityController#iterateEntityPerControlUpdate(jtwod.engine.drawable.Entity) 
+ * @see EntityController#runControlUpdate() 
+ * @see EntityController#spawnEntity(jtwod.engine.drawable.Entity) 
+ * @see EntityController#removeEntity(jtwod.engine.drawable.Entity) 
+ * @see EntityController#removeAllEntities() 
+ */
+public abstract class EntityController<
+    ParentEngine extends Engine
+> extends Drawable<ParentEngine> 
+{
     /**
-     * A random object for use within the controller.
+     * All <code>{@link jtwod.engine.drawable.Entity Entity}</code>s currently 
+     * being managed by this
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>.
      */
-    private Random random = new Random();
+    private final LinkedList<Entity<ParentEngine>> entities;
 
     /**
-     * All entities currently being rendered alongside this controller.
+     * The parent <code>{@link jtwod.engine.Scene Scene}</code> that this
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * is associated with.
      */
-    private LinkedList<Entity<ParentEngine>> entities = new LinkedList<>();
+    private final Scene<ParentEngine> parentScene;
 
     /**
-     * The screen that this controller is attached to.
-     */
-    private Scene<ParentEngine> parentScreen;
-
-    /**
-     * Create a new EntityController and attach it to the supplied Screen.
+     * Create a new
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * and attach it to the supplied
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
      *
-     * @param screen The Screen associated with this EntityController.
+     * @param scene The Screen associated with this EntityController.
      */
-    public EntityController(Scene<ParentEngine> screen)
+    public EntityController(Scene<ParentEngine> scene)
     {
-        super(-1, screen.getParentEngine());
-        this.parentScreen = screen;
+        super(-1, scene.getParentEngine());
+        this.parentScene = scene;
+        this.entities = new LinkedList<>();
     }
 
     /**
-     * Handles a control tick.
+     * Override to control what happens to this
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * on each tick.
+     * 
+     * <p>
+     * Each tick that occurs on an
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * is handled in this order:
+     * </p>
+     * <ol>
+     * <li>
+     * <code>
+     * {@link EntityController#runControlUpdate()}
+     * </code>
+     * </li>
+     * <li>
+     * <code>
+     * {@link EntityController#iterateEntityPerControlUpdate(Entity)}
+     * </code>
+     * </li>
+     * <li>
+     * Internal check for
+     * <code>{@link jtwod.engine.drawable.Entity Entity}</code>
+     * Collision.
+     * </li>
+     * <li>
+     * <code>{@link jtwod.engine.drawable.Entity#update()}</code>
+     * </li>
+     * </ol>
      */
-    protected void runControlTick() {
+    protected void runControlUpdate()
+    {
         // Not implemented by default.
     }
 
     /**
-     * Handles a control tick on a per Entity basis.
-     * @param entity The Entity to run a Tick for.
+     * Override to control what happens during each tick on a per
+     * <code>{@link jtwod.engine.drawable.Entity Entity}</code> basis.
+     * 
+     * <p>
+     * Each tick that occurs on an
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * is handled in this order:
+     * </p>
+     * <ol>
+     * <li>
+     * <code>
+     * {@link EntityController#runControlUpdate()}
+     * </code>
+     * </li>
+     * <li>
+     * <code>
+     * {@link EntityController#iterateEntityPerControlUpdate(Entity)}
+     * </code>
+     * </li>
+     * <li>
+     * Internal check for
+     * <code>{@link jtwod.engine.drawable.Entity Entity}</code>
+     * Collision.
+     * </li>
+     * <li>
+     * <code>{@link jtwod.engine.drawable.Entity#update()}</code>
+     * </li>
+     * </ol>
+     * 
+     * @param entity 
+     * The <code>{@link jtwod.engine.drawable.Entity Entity}</code>
+     * perform a tick on.
      */
-    protected void iterateEntityPerTick(Entity<ParentEngine> entity)
+    protected void iterateEntityPerControlUpdate(Entity<ParentEngine> entity)
     {
         // Not implemented by default.
     }
 
     /**
-     * Render out all Entities under the scope of this EntityController.
+     * Render out all <code>{@link jtwod.engine.drawable.Entity Entity}</code>s
+     * under the scope of this
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>.
      *
-     * @param graphics The Graphics to use for rendering.
-     * @param screen The Screen to use as an Observer.
+     * @param graphics 
+     * The <code>{@link java.awt.Graphics Graphics}</code> object to use for 
+     * rendering.
+     * 
+     * @param screen 
+     * The <code>{@link jtwod.engine.Scene Scene}</code> that this
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * will be rendering out to.
+     * 
+     * @see jtwod.engine.Drawable#render(java.awt.Graphics, jtwod.engine.Scene) 
      */
     @Override
-    public final void render(Graphics graphics, Scene<ParentEngine> screen)
+    protected final void render(Graphics graphics, Scene<ParentEngine> screen)
     {
         for (int entityId = 0; entityId < getAllEntities().size(); entityId++) {
             getAllEntities().get(entityId).render(graphics, screen);
@@ -66,18 +155,21 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
     }
 
     /**
-     * Perform an update.
+     * Perform a tick on this
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>.
+     * 
+     * @see jtwod.engine.Drawable#update() 
      */
     @Override
-    public final void update()
+    protected final void update()
     {
-        this.runControlTick();
+        this.runControlUpdate();
 
         for (int i = 0; i < this.getAllEntities().size(); i++) {
             Entity<ParentEngine> entity = this.getAllEntities().get(i);
 
             // Perform control tick per entity.
-            iterateEntityPerTick(entity);
+            iterateEntityPerControlUpdate(entity);
 
             // Check bounds
             if (
@@ -94,9 +186,17 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
 
             // Check Entity Collision
             if (! entity.isDead()) {
-                for (int collidingEntityId = 0; collidingEntityId < this.getAllEntities().size(); collidingEntityId++) {
-                    Entity<ParentEngine> collidingEntity = this.getAllEntities().get(collidingEntityId);
-                    if (collidingEntity != entity && !collidingEntity.isDead()) {
+                for (
+                    int collidingEntityId = 0; 
+                    collidingEntityId < this.getAllEntities().size(); 
+                    collidingEntityId++
+                ) {
+                    Entity<ParentEngine> collidingEntity = 
+                        this.getAllEntities().get(collidingEntityId);
+
+                    if (
+                        collidingEntity != entity && !collidingEntity.isDead()
+                    ) {
                         if (entity.isCollidingWith(collidingEntity)) {
                             entity.onCollide(collidingEntity);
                         }
@@ -110,29 +210,24 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
     }
 
     /**
-     * The screen that this Controller is attached to.
+     * Retrieve the <code>{@link jtwod.engine.Scene Scene}</code> that this
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * is associated with.
      *
-     * @return The Screen associated with this EntityController.
+     * @return The <code>{@link jtwod.engine.Scene Scene}</code>.
      */
-    public final Scene<ParentEngine> getParentScreen()
+    public final Scene<ParentEngine> getParentScene()
     {
-        return this.parentScreen;
+        return this.parentScene;
     }
 
     /**
-     * Get the random utility object.
-     *
-     * @return The Random associated with this EntityController.
-     */
-    public final Random getRandom()
-    {
-        return this.random;
-    }
-
-    /**
-     * Retrieve all Entities attached to this EntityController.
-     *
-     * @return All entities being managed by the EntityController.
+     * Retrieve a list of all 
+     * <code>{@link jtwod.engine.drawable.Entity Entity}</code>s 
+     * currently being managed by this
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>.
+     * 
+     * @return The <code>{@link jtwod.engine.drawable.Entity Entity}</code>s.
      */
     public final LinkedList<Entity<ParentEngine>> getAllEntities()
     {
@@ -140,35 +235,42 @@ public abstract class EntityController<ParentEngine extends Engine> extends Draw
     }
 
     /**
-     * Spawn an Entity on this Controller.
+     * Spawn an <code>{@link jtwod.engine.drawable.Entity Entity}</code>
+     * inside this 
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>.
      *
-     * @param entity The Entity to add.
+     * @param entity 
+     * The <code>{@link jtwod.engine.drawable.Entity Entity}</code> to spawn.
      */
     public final void spawnEntity(Entity<ParentEngine> entity)
     {
-        this.parentScreen.addKeyListener(entity);
+        this.parentScene.addKeyListener(entity);
         this.entities.add(entity);
     }
 
     /**
-     * Despawn an Entity from this Controller.
+     * Removes an <code>{@link jtwod.engine.drawable.Entity Entity}</code> from
+     * this <code>{@link jtwod.engine.EntityController EntityController}</code>.
      *
-     * @param entity The Entity to remove.
+     * @param entity
+     * The <code>{@link jtwod.engine.drawable.Entity Entity}</code> to remove.
      */
-    public final void deSpawnEntity(Entity<ParentEngine> entity)
+    public final void removeEntity(Entity<ParentEngine> entity)
     {
-            this.parentScreen.removeKeyListener(entity);
+        this.parentScene.removeKeyListener(entity);
         this.entities.remove(entity);
     }
 
     /**
-     * Despawn all entities from this Controller.
+     * Removes all <code>{@link jtwod.engine.drawable.Entity Entity}</code>s
+     * from this 
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>.
      */
-    public final void deSpawnAllEntities()
+    public final void removeAllEntities()
     {
-            while(entities.size() > 0) {
-                Entity<ParentEngine> entity = entities.pollFirst();
-            this.parentScreen.removeKeyListener(entity);
+        while(entities.size() > 0) {
+            Entity<ParentEngine> entity = entities.pollFirst();
+            this.parentScene.removeKeyListener(entity);
         }
     }
 

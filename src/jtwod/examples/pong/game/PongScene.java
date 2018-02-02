@@ -29,12 +29,12 @@ public class PongScene extends Scene<PongEngine> {
     }
 
     @Override
-    public final void prepare()
+    public final void allocate()
     {
-        this.setController(new PongEntityController(this));
+        this.setEntityController(new PongEntityController(this));
         
         // Add the logo to the drawables.
-        logoText = new Text<PongEngine>(
+        logoText = new Text<>(
             1,
             "Dropshot Pong",
             new Font("Systen", Font.BOLD, 48),
@@ -44,7 +44,7 @@ public class PongScene extends Scene<PongEngine> {
             this.getParentEngine()
         );
         
-        instructionsText = new Text<PongEngine>(
+        instructionsText = new Text<>(
             1,
             "Press 'Space' to begin!",
             new Font("Systen", Font.BOLD, 18),
@@ -54,7 +54,7 @@ public class PongScene extends Scene<PongEngine> {
             this.getParentEngine()
         );
         
-        scoreText = new Text<PongEngine>(
+        scoreText = new Text<>(
             1,
             "0 - 0",
             new Font("Systen", Font.BOLD, 24),
@@ -64,7 +64,7 @@ public class PongScene extends Scene<PongEngine> {
             this.getParentEngine()
         );
         
-        roundText = new Text<PongEngine>(
+        roundText = new Text<>(
             1,
             "Round " + PongEngine.round,
             new Font("Systen", Font.BOLD, 16),
@@ -74,7 +74,7 @@ public class PongScene extends Scene<PongEngine> {
             this.getParentEngine()
         );
         
-        worthText = new Text<PongEngine>(
+        worthText = new Text<>(
             1,
             "Round Worth 0",
             new Font("Systen", Font.BOLD, 14),

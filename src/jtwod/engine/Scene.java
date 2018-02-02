@@ -7,64 +7,83 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 
 /**
- * Represents a Scene that can be rendered out to the window.
+ * Represents a <code>{@link jtwod.engine.Scene Scene}</code> that can be
+ * rendered out through an <code>{@link jtwod.engine.Engine Engine}</code>.
  *
- * @param <ParentEngine> The engine type that this Scene is associated with.
+ * @param <ParentEngine> 
+ * The type for the parent <code>{@link jtwod.engine.Engine Engine}</code> 
+ * associated with this 
+ * <code>{@link jtwod.engine.Scene Scene}</code>.
+ * 
+ * @see jtwod.engine.Scene#allocate() 
+ * @see jtwod.engine.Scene#deallocate() 
+ * @see jtwod.engine.Scene#update() 
+ * @see jtwod.engine.Scene#keyPressed(java.awt.event.KeyEvent) 
+ * @see jtwod.engine.Scene#keyReleased(java.awt.event.KeyEvent) 
  */
-public abstract class Scene<ParentEngine extends Engine> extends Canvas implements Runnable
+public abstract class Scene<
+    ParentEngine extends Engine
+> extends Canvas implements Runnable
 {
     /**
-     * Serial Version UID
-     */
-    private static final long serialVersionUID = -1303916252996012557L;
-    
-    /**
-     * The DrawableGroup to render out to this Scene.
+     * The <code>{@link jtwod.engine.DrawableGroup DrawableGroup}</code> to
+     * render out to this <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     private final DrawableGroup<ParentEngine> drawableGroup;
 
     /**
-     * The name of the Scene.
+     * The name of this <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     private final String name;
 
     /**
-     * The entity controller for controlling
-     * any entities you might want to have
-     * attached to this Scene.
+     * The <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * for managing the 
+     * <code>{@link jtwod.engine.drawable.Entity Entity}</code>s
+     * Rendered through this <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     private EntityController<ParentEngine> controller;
 
     /**
-     * The Ticks Per Second for this Scene.
+     * The Ticks Per Second for this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     private int tps;
 
     /**
-     * The Frames Per Second for this Scene.
+     * The Frames Per Second for this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     private int fps;
 
     /**
-     * Primary thread control.
+     * Used to control the state of the primary
+     * <code>{@link java.lang.Thread Thread}</code> attached to this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     private boolean running = false;
 
     /**
-     * Primary Thread.
+     * The primary <code>{@link java.lang.Thread Thread}</code> for this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     private Thread thread;
 
     /**
-     * The parent Engine for this Scene.
+     * The parent <code>{@link jtwod.engine.Engine Engine}</code> that this
+     * <code>{@link jtwod.engine.Scene Scene}</code> is attached to.
      */
     private final ParentEngine parentEngine;
 
     /**
-     * Initialize the Scene with a parent engine.
+     * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
+     * parent <code>{@link jtwod.engine.Engine Engine}</code>.
      *
-     * @param name The name of the Scene.
-     * @param engine The parent Engine this Scene is associated with.
+     * @param name
+     * The name of the <code>{@link jtwod.engine.Scene Scene}</code>.
+     * @param engine 
+     * The parent <code>{@link jtwod.engine.Engine Engine}</code> this
+     * <code>{@link jtwod.engine.Scene Scene}</code> is attached to.
      */
     public Scene(String name, ParentEngine engine)
     {
@@ -75,14 +94,24 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Initialize the Scene with a parent engine and an EntityController.
+     * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
+     * parent <code>{@link jtwod.engine.Engine Engine}</code> and an
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>.
      *
-     * @param name The name of the Scene.
-     * @param engine The parent Engine this Scene is associated with.
-     * @param controller The EntityController to associate with this Scene.
+     * @param name
+     * The name of the <code>{@link jtwod.engine.Scene Scene}</code>.
+     * @param engine 
+     * The parent <code>{@link jtwod.engine.Engine Engine}</code> this
+     * <code>{@link jtwod.engine.Scene Scene}</code> is attached to.
+     * @param controller 
+     * The <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * to attach with this <code>{@link jtwod.engine.Scene Scene}</code>.
      */
-    public Scene(String name, ParentEngine engine, EntityController<ParentEngine> controller)
-    {
+    public Scene(
+        String name,
+        ParentEngine engine,
+        EntityController<ParentEngine> controller
+    ) {
         this.name = name;
         this.parentEngine = engine;
         this.controller = controller;
@@ -90,22 +119,25 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Called to prepare the Scene.
+     * Override this function to control how the
+     * <code>{@link jtwod.engine.Scene Scene}</code> is prepared.
      */
-    protected void prepare() {
+    protected void allocate() {
         // Not implemented by default.
     }
     
     /**
-     * Called when the Scene has been stopped.
+     * Override this function to control what happens after this
+     * <code>{@link jtwod.engine.Scene Scene}</code> has been stopped.
      */
-    protected void scatter()
+    protected void deallocate()
     {
         // Not implemented by default.
     }
 
     /**
-     * Called when an update to this Scene should occur.
+     * Override to control what happens on each tick of this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     protected void update()
     {
@@ -115,7 +147,8 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     /**
      * Called when a key is pressed down.
      *
-     * @param keyEvent The <code>KeyEvent</code> object associated with the key press.
+     * @param keyEvent The <code>{@link java.awt.event.KeyEvent KeyEvent}</code>
+     * object associated with the key press.
      */
     protected void keyPressed(KeyEvent keyEvent)
     {
@@ -125,7 +158,8 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     /**
      * Called when a key is released.
      *
-     * @param keyEvent The <code>KeyEvent</code> object associated with the key release.
+     * @param keyEvent The <code>{@link java.awt.event.KeyEvent KeyEvent}</code>
+     * object associated with the key release.
      */
     protected void keyReleased(KeyEvent keyEvent)
     {
@@ -133,7 +167,8 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Primary run body for controlling the Scene.
+     * Primary <code>{@link java.lang.Thread Thread}</code> body for controlling
+     * the <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     @Override
     public final void run() {
@@ -165,11 +200,12 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
                 frames = 0;
             }
         }
-        this.scatter();
+        this.deallocate();
     }
 
     /**
-     * Initialize the Scenes primary thread.
+     * Initialize the <code>{@link jtwod.engine.Scene Scene}</code>s primary
+     * <code>{@link java.lang.Thread Thread}</code>.
      */
     public final synchronized void start()
     {
@@ -183,7 +219,8 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Stop the Scenes primary thread.
+     * Stop the <code>{@link jtwod.engine.Scene Scene}</code>s primary
+     * <code>{@link java.lang.Thread Thread}</code>.
      */    
     public final synchronized void stop()
     {
@@ -191,9 +228,9 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Retrieve the name for the Scene.
+     * Retrieve the name for the <code>{@link jtwod.engine.Scene Scene}</code>.
      *
-     * @return The name for this Scene.
+     * @return The name for this <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     public final String getSceneName()
     {
@@ -201,29 +238,40 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Retrieve the controller for the Scene.
+     * Retrieve the
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * attached to this <code>{@link jtwod.engine.Scene Scene}</code>.
      *
-     * @return The EntityController associated with this Scene.
+     * @return
+     * The <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * attached to this <code>{@link jtwod.engine.Scene Scene}</code>.
      */
-    public final EntityController<ParentEngine> getController()
+    public final EntityController<ParentEngine> getEntityController()
     {
         return this.controller;
     }
 
     /**
-     * Assign a new EntityController to the Scene.
+     * Update the
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * attached to this <code>{@link jtwod.engine.Scene Scene}</code>.
      *
-     * @param controller The new EntityController for this Scene.
+     * @param controller
+     * The new
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>.
      */
-    public final void setController(EntityController<ParentEngine> controller)
-    {
+    public final void setEntityController(
+        EntityController<ParentEngine> controller
+    ) {
         this.controller = controller;
     }
 
     /**
-     * Retrieve the Ticks Per Second for the Scene.
+     * Retrieve the Ticks Per Second for the
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
      *
-     * @return The current Ticks Per Second for this Scene.
+     * @return The current Ticks Per Second for this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     public final int getTps()
     {
@@ -231,9 +279,11 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Retrieve the Frames Per Second for the Scene.
+     * Retrieve the Frames Per Second for the
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
      *
-     * @return The current Frames Per Second for this Scene.
+     * @return The current Frames Per Second for this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     public final int getFps()
     {
@@ -241,9 +291,10 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
 
     /**
-     * Retrieve the parent engine.
+     * Retrieve the parent <code>{@link jtwod.engine.Engine Engine}</code> that
+     * this <code>{@link jtwod.engine.Scene Scene}</code> is attached to.
      *
-     * @return The parent Engine associated with this Scene.
+     * @return The parent <code>{@link jtwod.engine.Engine Engine}</code>.
      */
     public final ParentEngine getParentEngine()
     {
@@ -251,9 +302,12 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
     }
     
     /**
-     * Retrieve the DrawableGroup for this Scene.
+     * Retrieve the
+     * <code>{@link jtwod.engine.DrawableGroup DrawableGroup}</code>
+     * for this <code>{@link jtwod.engine.Scene Scene}</code>.
      * 
-     * @return The DrawableGroup associated with the Scene.
+     * @return
+     * The <code>{@link jtwod.engine.DrawableGroup DrawableGroup}</code>.
      */
     public final DrawableGroup<ParentEngine> getDrawableGroup()
     {
@@ -277,27 +331,31 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
                 triggerKeyReleased(e);
             }
         });
-        this.prepare();
+        this.allocate();
     }
     
     /**
-     * Invokes keyPressed with an event.
+     * Invokes keyPressed with a
+     * <code>{@link java.awt.event.KeyEvent KeyEvent}</code>.
      *
-     * @param e The KeyEvent.
+     * @param keyEvent 
+     * The <code>{@link java.awt.event.KeyEvent KeyEvent}</code>.
      */
-    private void triggerKeyPressed(KeyEvent e)
+    private void triggerKeyPressed(KeyEvent keyEvent)
     {
-            this.keyPressed(e);
+        this.keyPressed(keyEvent);
     }
     
     /**
-     * Invokes keyReleased with an event.
+     * Invokes keyReleased with a
+     * <code>{@link java.awt.event.KeyEvent KeyEvent}</code>.
      *
-     * @param e The KeyEvent.
+     * @param keyEvent 
+     * The <code>{@link java.awt.event.KeyEvent KeyEvent}</code>.
      */
-    private void triggerKeyReleased(KeyEvent e)
+    private void triggerKeyReleased(KeyEvent keyEvent)
     {
-            this.keyReleased(e);
+        this.keyReleased(keyEvent);
     }
     
     /**
@@ -312,7 +370,7 @@ public abstract class Scene<ParentEngine extends Engine> extends Canvas implemen
         }
 
         Graphics graphics = bs.getDrawGraphics();
-
+        
         this.drawableGroup.render(graphics, this);
         
         // Entities will always be rendered on top.

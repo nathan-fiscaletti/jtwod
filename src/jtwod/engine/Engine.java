@@ -2,6 +2,7 @@ package jtwod.engine;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -12,91 +13,108 @@ import jtwod.engine.metrics.Dimensions;
 import kuusisto.tinysound.TinySound;
 
 /**
- * Class used to represent the very base of a game.
+ * Used to represent the very base of a game in jtwod.
+ * 
+ * @see Engine#onEngineStart() 
+ * @see Engine#loadTextures() 
+ * @see Engine#setScene(jtwod.engine.Scene) 
+ * @see Engine#getTextureGroup() 
  */
-public abstract class Engine {
-
+public abstract class Engine
+{
     /**
-     * If set to false, sounds played using Sound will not be heard.
+     * <code>{@link java.util.Random Random} utility object.
+     */
+    private final Random random;
+    
+    /**
+     * If set to false, sounds played using
+     * <code>{@link jtwod.engine.sound.Sound Sound}</code> will not be heard.
      */
     private boolean enableSounds = true;
 
     /**
-     * The TextureGroup object that this engine was initialized with.
+     * The <code>{@link jtwod.engine.TextureGroup TextureGroup}</code> object
+     * that this engine was initialized with.
      */
     private TextureGroup textureGroup;
 
     /**
-     * The title for the primary window.
+     * The title for the primary Application Window.
      */
     private String windowTitle;
 
     /**
-     * The size of the main application window.
+     * The size of the primary Application Window.
      */
     private Dimensions windowSize;
 
     /**
-     * The URL for the Application windows Icon.
+     * The URL for the primary Application Windows Icon.
      */
     private String iconUrl;
 
     /**
-     * The main frame for the Application window.
+     * The main <code>{@link javax.swing.JFrame JFrame}</code> for the 
+     * primary Application window.
      */
     private JFrame windowFrame;
 
     /**
-     * The current screen being displayed.
+     * The current <code>{@link jtwod.engine.Scene Scene}</code>
+     * being displayed.
      */
     private Scene<? extends Engine> currentScene;
 
     /**
-     * Initialize a new Engine.
+     * Initialize a new <code>{@link jtwod.engine.Engine Engine}</code>.
      *
-     * @param title The title for the Application window.
-     * @param size The window size
-     * @param iconUrl The icon file for the Application window.
+     * @param title The title for the primary Application window.
+     * @param size The window size for the primary Application Window.
+     * @param iconUrl The icon URL for the primary Application window.
      */
     public Engine(String title, Dimensions size, String iconUrl)
     {
         this.windowTitle = title;
         this.windowSize = size;
         this.iconUrl = iconUrl;
+        this.random = new Random();
     }
 
     /**
-     * Initialize a new Engine.
+     * Initialize a new <code>{@link jtwod.engine.Engine Engine}</code>.
      *
-     * @param title The title for the Application window.
-     * @param size The window size
+     * @param title The title for the primary Application window.
+     * @param size The window size for the primary Application Window.
      */
     public Engine(String title, Dimensions size)
     {
         this.windowTitle = title;
         this.windowSize = size;
+        this.random = new Random();
     }
 
     /**
-     * Initialize a new Engine.
+     * Initialize a new <code>{@link jtwod.engine.Engine Engine}</code>.
      *
-     * @param title The title for the Application window.
+     * @param title The title for the primary Application window.
      */
     public Engine(String title)
     {
         this.windowTitle = title;
+        this.random = new Random();
     }
 
     /**
-     * Initialize a new Engine.
+     * Initialize a new <code>{@link jtwod.engine.Engine Engine}</code>.
      */
     public Engine()
     {
-        // Empty constructor.
+        this.random = new Random();
     }
 
     /**
-     * Start the engine.
+     * Start the <code>{@link jtwod.engine.Engine Engine}</code>.
      */
     public final void start()
     {
@@ -105,8 +123,8 @@ public abstract class Engine {
     }
 
     /**
-     * Primes the Engine by creating the main Application window
-     * and setting the Global defaults.
+     * Primes the <code>{@link jtwod.engine.Engine Engine}</code> by creating 
+     * the primary Application window and setting the Global defaults.
      */
     private void prime()
     {
@@ -115,22 +133,32 @@ public abstract class Engine {
         this.setWindowTitle(this.windowTitle);
 
         windowFrame.setBackground(Color.BLACK);
-        windowFrame.setSize(this.getWindowSize().getWidth(), this.getWindowSize().getHeight());
+        windowFrame.setSize(
+            this.getWindowSize().getWidth(), 
+            this.getWindowSize().getHeight()
+        );
+        
         windowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         windowFrame.setResizable(false);
         windowFrame.setLocationRelativeTo(null);
 
         if (iconUrl != null) {
-            windowFrame.setIconImage(new ImageIcon(getClass().getResource(iconUrl)).getImage());
+            windowFrame.setIconImage(
+                new ImageIcon(getClass().getResource(iconUrl)).getImage()
+            );
         }
 
         windowFrame.setVisible(true);
 
-        /** Tiny Sound by finnkuusisto - https://github.com/finnkuusisto/TinySound */
+        /** Tiny Sound - https://github.com/finnkuusisto/TinySound */
         TinySound.init();
 
-        BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
+        BufferedImage cursorImg = new BufferedImage(
+            16, 16, BufferedImage.TYPE_INT_ARGB
+        );
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+            cursorImg, new Point(0, 0), "blank cursor"
+        );
         windowFrame.getContentPane().setCursor(blankCursor);
 
         this.textureGroup = new TextureGroup();
@@ -138,7 +166,9 @@ public abstract class Engine {
     }
 
     /**
-     * Load the textures for this Engine.
+     * Override this function to load the 
+     * <code>{@link jtwod.engine.graphics.TextureGroup TextureGroup}</code> for
+     * your <code>{@link jtwod.engine.Engine Engine}</code> implementation.
      */
     public void loadTextures()
     {
@@ -146,15 +176,19 @@ public abstract class Engine {
     }
 
     /**
-     * Called after the engine has been primed.
+     * Override this function to control what your
+     * <code>{@link jtwod.engine.Engine Engine}</code> does once it
+     * has been primed.
      */
     public abstract void onEngineStart();
 
     /**
-     * Change the currently active Scene.
+     * Update the currently active
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
      *
-     * @param scene
+     * @param scene The <code>{@link jtwod.engine.Scene Scene}</code>. 
      */
+    @SuppressWarnings("CallToPrintStackTrace")
     public final void setScene(Scene<? extends Engine> scene)
     {
         if (currentScene != null) {
@@ -176,23 +210,27 @@ public abstract class Engine {
     }
 
     /**
-     * Mute the sounds for this engine.
+     * Mute the sounds for this <code>{@link jtwod.engine.Engine Engine}</code>.
      */
-    public final void muteSounds(){
+    public final void muteSounds()
+    {
         this.enableSounds = false;
     }
 
     /**
-     * Unmute the sounds for this engine.
+     * Un-mute the sounds for this
+     * <code>{@link jtwod.engine.Engine Engine}</code>.
      */
-    public final void unmuteSounds(){
+    public final void unmuteSounds()
+    {
         this.enableSounds = true;
     }
 
     /**
-     * Check if the sounds are muted.
+     * Check if the sounds are muted for this
+     * <code>{@link jtwod.engine.Engine Engine}</code>.
      *
-     * @return
+     * @return True if the sounds are muted.
      */
     public final boolean isMuted()
     {
@@ -200,7 +238,7 @@ public abstract class Engine {
     }
 
     /**
-     * Update the title of the main Application window.
+     * Update the title of the primary Application window.
      *
      * @param title The new title.
      */
@@ -212,7 +250,7 @@ public abstract class Engine {
     /**
      * Retrieve the currently active window title.
      *
-     * @return
+     * @return The title of the primary Application Window.
      */
     public final String getWindowTitle()
     {
@@ -220,9 +258,12 @@ public abstract class Engine {
     }
 
     /**
-     * Retrieve the currently active window size.
+     * Retrieve the currently active window
+     * <code>{@link jtwod.engine.metrics.Dimensions Dimensions}</code>.
      *
-     * @return The size of the Main Application Window.
+     * @return
+     * The <code>{@link jtwod.engine.metrics.Dimensions Dimensions}</code> of
+     * the primary Application Window.
      */
     public final Dimensions getWindowSize()
     {
@@ -230,19 +271,26 @@ public abstract class Engine {
     }
 
     /**
-     * Retrieve the TextureGroup.
+     * Retrieve the
+     * <code>{@link jtwod.engine.graphics.TextureGroup TextureGroup}</code>
+     * associated with this <code>{@link jtwod.engine.Engine Engine}</code>.
      *
-     * @return The TextureGroup associated with this Engine.
+     * @return The TextureGroup associated with this 
+     *         <code>{@link jtwod.engine.Engine Engine}</code>.
      */
     public final TextureGroup getTextureGroup()
     {
         return this.textureGroup;
     }
-
-    public final void setFullScreen(boolean fullScreen)
+    
+    /**
+     * Retrieves the currently active 
+     * <code>{@link java.util.Random Random}</code> utility object.
+     *
+     * @return The <code>{@link java.util.Random Random}</code>.
+     */
+    public final Random getRandom()
     {
-        //DisplayMode dm = new DisplayMode(this.getWindowSize().getWidth(), this.getWindowSize().getHeight(), 32, DisplayMode.REFRESH_RATE_UNKNOWN);
-        //GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setDisplayMode(dm);
-        //GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(this.windowFrame);
+        return this.random;
     }
 }

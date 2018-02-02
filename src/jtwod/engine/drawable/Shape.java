@@ -46,7 +46,6 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     public Shape(int layer, ParentEngine engine)
     {
         super(layer, engine);
-
         this.position = Vector.Zero();
         this.size = Dimensions.Zero();
         this.positionConstraint = Vector.Max(engine);
@@ -74,7 +73,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     /**
      * Perform an update on the Shape.
      */
-    public void performUpdate()
+    protected void performUpdate()
     {
         this.updateConstraints();
         this.update();
