@@ -52,5 +52,14 @@ REM Clean up.
 @echo Cleaning up...
 rmdir /S /Q tmp
 
+REM Generate JavDocs
+WHERE javadoc > nul
+IF %ERRORLEVEL% NEQ 0 (
+    ECHO Could not generate javadocs, Error: command 'javadoc' not in path.
+) ELSE (
+    ECHO Generating JavaDocs^.^.^. ^(^.^/docs^)
+    javadoc -sourcepath ./src/ -d ./docs -subpackages jtwod -exclude jtwod.examples > nul
+)
+
 @echo Done.
 echo Output: %file%

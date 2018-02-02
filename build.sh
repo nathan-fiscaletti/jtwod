@@ -56,5 +56,13 @@ jar -cvf $file -C tmp . >/dev/null
 echo "Cleaning up..."
 rm -rf tmp
 
+# Documentation
+if ! [ -x "$(command -v javadoc)" ]; then
+  echo "Could not generate javadocs, Error: command 'javadoc' not in path."
+else
+  echo "Generating JavaDocs... (./docs)"
+  javadoc -sourcepath ./src/ -d ./docs -subpackages jtwod -exclude jtwod.examples >/dev/null 2>&1
+fi
+
 echo "Done."
 echo "Output: $file"
