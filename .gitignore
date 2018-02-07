@@ -13,3 +13,5 @@ manifest.mf
 nbproject/
 /build/
 docs/
+.idea/
+*.iml
