@@ -68,9 +68,10 @@ public final class TestGameEngine extends Engine {
     @Override
     public final void onEngineStart() {
         /*
-         * Initialize the new Screen that we will be using to render things out.
+         * Initialize the new Scene that we will be using to render things out.
          */
-        Scene<TestGameEngine> mainScene = new Scene<TestGameEngine>("Main Screen", this) {
+        Scene<TestGameEngine> mainScene
+                = new Scene<TestGameEngine>("Main Screen", this) {
 
             /**
              * The Serial version UID.

@@ -2,6 +2,7 @@ package jtwod.engine;
 
 import java.awt.Graphics;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 /**
@@ -58,13 +59,7 @@ public final class DrawableGroup<
         drawable.setParentDrawableGroup(this);
         this.drawables.add(drawable);
         
-        Collections.sort(
-            drawables, 
-            (
-                Drawable<ParentEngine> drawable1, 
-                Drawable<ParentEngine> drawable2
-            ) -> drawable1.getLayer() - drawable2.getLayer()
-        );
+        drawables.sort(Comparator.comparingInt(Drawable::getLayer));
     }
 
     /**
@@ -92,9 +87,7 @@ public final class DrawableGroup<
     @Override
     protected final void update()
     {
-        this.drawables.forEach((drawable) -> {
-            drawable.update();
-        });
+        this.drawables.forEach(Drawable::update);
     }
     
      /**
@@ -114,8 +107,6 @@ public final class DrawableGroup<
     {
         drawables.stream().filter(
             (drawable) -> (drawable.isVisible())
-        ).forEachOrdered((drawable) -> {
-            drawable.render(graphics, scene);
-        });
+        ).forEachOrdered((drawable) -> drawable.render(graphics, scene));
     }
 }

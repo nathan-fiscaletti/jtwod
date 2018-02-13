@@ -3,6 +3,8 @@ package jtwod.engine.metrics;
 import jtwod.engine.Engine;
 import jtwod.engine.drawable.Shape;
 
+import java.util.Random;
+
 public final class Vector
 {
     /**
@@ -50,8 +52,9 @@ public final class Vector
      * Constrain this vector to a specific width and height.
      *
      * @param constraint
+     * @return Vector This Vector.
      */
-    public final void constrain(Vector constraint)
+    public final Vector constrain(Vector constraint)
     {
         if (this.x < 0 - constraint.bufferX) {
             this.x = 0 - constraint.bufferX;
@@ -68,6 +71,8 @@ public final class Vector
         if (this.y > constraint.y + constraint.bufferY) {
             this.y = constraint.y + constraint.bufferY;
         }
+
+        return this;
     }
 
     /**
@@ -283,5 +288,31 @@ public final class Vector
     public final static Vector Max(Engine engine) 
     {
         return Vector.Max(0, engine);
+    }
+
+    /**
+     * Retrieve a random vector.
+     * Note: Minimum will automatically go to 0,0.
+     *
+     * @param max The maximum that the Vector can be.
+     * @return The random Vector.
+     */
+    public final static Vector Random(Vector max)
+    {
+        Random r = new Random();
+        return new Vector(r.nextInt(max.x + 1), r.nextInt(max.y + 1));
+    }
+
+    /**
+     * Retrieve a random vector.
+     *
+     * @param min The minimum that the Vector can be.
+     * @param max The maximum that the Vector can be.
+     * @return The random Vector.
+     */
+    public final static Vector Random(Vector min, Vector max)
+    {
+        Random r = new Random();
+        return new Vector(r.nextInt(max.x-min.x)+min.x, r.nextInt(max.y-min.y)+min.y);
     }
 }

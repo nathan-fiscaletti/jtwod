@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import jtwod.engine.Drawable;
+import jtwod.engine.EntityController;
 import jtwod.engine.Scene;
 import jtwod.engine.drawable.Text;
 import jtwod.engine.metrics.Vector;
@@ -37,7 +38,7 @@ public class PongScene extends Scene<PongEngine> {
         logoText = new Text<>(
             1,
             "Dropshot Pong",
-            new Font("Systen", Font.BOLD, 48),
+            new Font("System", Font.BOLD, 48),
             Color.yellow,
             Drawable.Center.Horizontally,
             Vector.Zero().plusY(80),
@@ -47,7 +48,7 @@ public class PongScene extends Scene<PongEngine> {
         instructionsText = new Text<>(
             1,
             "Press 'Space' to begin!",
-            new Font("Systen", Font.BOLD, 18),
+            new Font("System", Font.BOLD, 18),
             Color.gray,
             Drawable.Center.Horizontally,
             Vector.Zero().plusY(112),
@@ -57,7 +58,7 @@ public class PongScene extends Scene<PongEngine> {
         scoreText = new Text<>(
             1,
             "0 - 0",
-            new Font("Systen", Font.BOLD, 24),
+            new Font("System", Font.BOLD, 24),
             Color.white,
             Drawable.Center.Horizontally,
             Vector.Zero().plusY(150),
@@ -67,7 +68,7 @@ public class PongScene extends Scene<PongEngine> {
         roundText = new Text<>(
             1,
             "Round " + PongEngine.round,
-            new Font("Systen", Font.BOLD, 16),
+            new Font("System", Font.BOLD, 16),
             Color.white,
             Drawable.Center.Horizontally,
             Vector.Zero().plusY(180),
@@ -89,9 +90,9 @@ public class PongScene extends Scene<PongEngine> {
         this.getDrawableGroup().addDrawable(logoText);
         this.getDrawableGroup().addDrawable(instructionsText);
         this.getDrawableGroup().addDrawable(scoreText);
-        this.getDrawableGroup().addDrawable(background);
         this.getDrawableGroup().addDrawable(roundText);
         this.getDrawableGroup().addDrawable(worthText);
+        this.getDrawableGroup().addDrawable(background);
     }
     
     @Override

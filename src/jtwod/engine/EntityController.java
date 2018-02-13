@@ -166,7 +166,7 @@ public abstract class EntityController<
      * The <code>{@link java.awt.Graphics Graphics}</code> object to use for 
      * rendering.
      * 
-     * @param screen 
+     * @param screen
      * The <code>{@link jtwod.engine.Scene Scene}</code> that this
      * <code>{@link jtwod.engine.EntityController EntityController}</code>
      * will be rendering out to.

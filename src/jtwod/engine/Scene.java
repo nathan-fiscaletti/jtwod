@@ -69,12 +69,6 @@ public abstract class Scene<
     private boolean running = false;
 
     /**
-     * The primary <code>{@link java.lang.Thread Thread}</code> for this
-     * <code>{@link jtwod.engine.Scene Scene}</code>.
-     */
-    private Thread thread;
-
-    /**
      * The parent <code>{@link jtwod.engine.Engine Engine}</code> that this
      * <code>{@link jtwod.engine.Scene Scene}</code> is attached to.
      */
@@ -86,7 +80,7 @@ public abstract class Scene<
      *
      * @param name
      * The name of the <code>{@link jtwod.engine.Scene Scene}</code>.
-     * @param engine 
+     * @param engine
      * The parent <code>{@link jtwod.engine.Engine Engine}</code> this
      * <code>{@link jtwod.engine.Scene Scene}</code> is attached to.
      */
@@ -94,8 +88,8 @@ public abstract class Scene<
     {
         this.name = name;
         this.parentEngine = engine;
-        this.controller = new EntityController<ParentEngine>(this) {};
-        this.drawableGroup = new DrawableGroup(this.getParentEngine());
+        this.controller = null;
+        this.drawableGroup = new DrawableGroup<>(this.getParentEngine());
     }
 
     /**
@@ -219,8 +213,7 @@ public abstract class Scene<
         }
 
         this.running = true;
-        this.thread = new Thread(this);
-        this.thread.start();
+        new Thread(this).start();
     }
 
     /**
@@ -254,6 +247,21 @@ public abstract class Scene<
     public final EntityController<ParentEngine> getEntityController()
     {
         return this.controller;
+    }
+
+    /**
+     * Retrieve the
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * attached to this <code>{@link jtwod.engine.Scene Scene}</code> as
+     * the specified type..
+     *
+     * @return
+     * The <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * attached to this <code>{@link jtwod.engine.Scene Scene}</code> as the
+     * specified type.
+     */
+    public <Controller extends EntityController<ParentEngine>> Controller getEntityController(Class<Controller> asType) {
+        return asType.cast(this.getEntityController());
     }
 
     /**
