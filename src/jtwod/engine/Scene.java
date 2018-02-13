@@ -253,8 +253,11 @@ public abstract class Scene<
      * Retrieve the
      * <code>{@link jtwod.engine.EntityController EntityController}</code>
      * attached to this <code>{@link jtwod.engine.Scene Scene}</code> as
-     * the specified type..
+     * the specified type.
      *
+     * @param asType
+     * The <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * type to cast the result to.
      * @return
      * The <code>{@link jtwod.engine.EntityController EntityController}</code>
      * attached to this <code>{@link jtwod.engine.Scene Scene}</code> as the
