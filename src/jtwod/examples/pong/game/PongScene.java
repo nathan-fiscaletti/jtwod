@@ -2,6 +2,7 @@ package jtwod.examples.pong.game;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 
 import jtwod.engine.Drawable;
 import jtwod.engine.EntityController;
@@ -22,8 +23,8 @@ public class PongScene extends Scene<PongEngine> {
     public Text<PongEngine> scoreText;
     public Text<PongEngine> roundText;
     public Text<PongEngine> worthText;
-    
-    public static PongBackground background;
+    public Text<PongEngine> tpsText;
+    public Text<PongEngine> fpsText;
     
     public PongScene(PongEngine engine) {
         super("Pong", engine);
@@ -32,6 +33,7 @@ public class PongScene extends Scene<PongEngine> {
     @Override
     public final void allocate()
     {
+        this.setShouldRenderDebug(true);
         this.setEntityController(new PongEntityController(this));
         
         // Add the logo to the drawables.
@@ -84,15 +86,13 @@ public class PongScene extends Scene<PongEngine> {
             Vector.Zero().plusY(210),
             this.getParentEngine()
         );
-        
-        background = new PongBackground(this.getParentEngine());
+
         
         this.getDrawableGroup().addDrawable(logoText);
         this.getDrawableGroup().addDrawable(instructionsText);
         this.getDrawableGroup().addDrawable(scoreText);
         this.getDrawableGroup().addDrawable(roundText);
         this.getDrawableGroup().addDrawable(worthText);
-        this.getDrawableGroup().addDrawable(background);
     }
     
     @Override
@@ -111,5 +111,13 @@ public class PongScene extends Scene<PongEngine> {
         scoreText.setText(PongEntityController.paddle1.score + " - " + PongEntityController.paddle2.score);
         roundText.setText("Round " + PongEngine.round);
         worthText.setText("Round Worth " + PongEntityController.ball.worth);
+    }
+
+    @Override
+    public final void keyReleased(KeyEvent keyEvent)
+    {
+        if (keyEvent.getKeyCode() == KeyEvent.VK_F3) {
+            this.setShouldRenderDebug(! this.shouldRenderDebug());
+        }
     }
 }

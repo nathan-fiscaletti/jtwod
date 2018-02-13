@@ -120,19 +120,6 @@ public final class TestGameEngine extends Engine {
                         this.spawnEntity(myPlayer);
                     }
                 });
-                
-                
-                // Add the background to the Scene.
-                Image<TestGameEngine> background = new Image<>(0,
-                        Texture.colorTexture(
-                                Color.black, 
-                                this.getParentEngine().getWindowSize()
-                        ), 
-                        Vector.Zero(), 
-                        this.getParentEngine()
-                );
-                
-                this.getDrawableGroup().addDrawable(background);
 
                 // Add text to the scene.
                 Text<TestGameEngine> text = new Text<>(

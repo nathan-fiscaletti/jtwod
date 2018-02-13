@@ -65,7 +65,7 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
      */
     public Entity(Vector position, Texture texture, Scene<ParentEngine> scene)
     {
-        super(100000, texture, position, scene.getParentEngine());
+        super(Integer.MAX_VALUE, texture, position, scene.getParentEngine());
         this.velocity = Vector.Zero();
         this.setPositionConstraint(Vector.Zero());
         this.parentScene = scene;
@@ -208,6 +208,16 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
     public final boolean isDead()
     {
         return this.isDead;
+    }
+
+    /**
+     * Retrieve the current number of ticks this entity has been alive.
+     *
+     * @return The ticks.
+     */
+    public final int getLifeLived()
+    {
+        return this.lifeLived;
     }
 
     /**

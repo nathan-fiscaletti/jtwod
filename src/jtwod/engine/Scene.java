@@ -1,13 +1,15 @@
 package jtwod.engine;
 
-import java.awt.Canvas;
-import java.awt.Graphics;
+import jtwod.engine.drawable.Image;
+import jtwod.engine.drawable.Text;
+import jtwod.engine.graphics.Texture;
+import jtwod.engine.metrics.Dimensions;
+import jtwod.engine.metrics.Vector;
+
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
 
 /**
  * Represents a <code>{@link jtwod.engine.Scene Scene}</code> that can be
@@ -90,6 +92,21 @@ public abstract class Scene<
     private boolean isRendering = true;
 
     /**
+     * The <code>{@link jtwod.engine.drawable.Text Text}</code> Renderer for the FPS.
+     */
+    private Text<ParentEngine> fpsRenderer;
+
+    /**
+     * The <code>{@link jtwod.engine.drawable.Text Text}</code> Renderer for the TPS.
+     */
+    private Text<ParentEngine> tpsRenderer;
+
+    /**
+     * The black background drawn behind everything.
+     */
+    private Image<ParentEngine> background;
+
+    /**
      * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
      * parent <code>{@link jtwod.engine.Engine Engine}</code>.
      *
@@ -105,6 +122,42 @@ public abstract class Scene<
         this.parentEngine = engine;
         this.controller = null;
         this.drawableGroup = new DrawableGroup<>(this.getParentEngine());
+
+        this.tpsRenderer = new Text<ParentEngine>(
+                Integer.MAX_VALUE, // Highest possible layer
+                "TPS: " + this.getTps(),
+                new Font("Monospaced", Font.BOLD, 9),
+                Color.white,
+                Vector.Zero().plusY(11),
+                engine
+        );
+        this.tpsRenderer.setVisible(false);
+
+        this.fpsRenderer = new Text<ParentEngine>(
+                Integer.MAX_VALUE, // Highest possible layer
+                "FPS: " + this.getFps(),
+                new Font("Monospaced", Font.BOLD, 9),
+                Color.white,
+                Vector.Zero().plusY(22),
+                engine
+        );
+        this.fpsRenderer.setVisible(false);
+
+        this.background = new Image<ParentEngine>(
+                0, // First layer
+                Texture.colorTexture(Color.black,
+                        new Dimensions(
+                                this.getParentEngine().getWindowSize().getWidth(),
+                                this.getParentEngine().getWindowSize().getHeight()
+                        )
+                ),
+                Vector.Zero(),
+                this.getParentEngine()
+        );
+
+        this.drawableGroup.addDrawable(this.background);
+        this.drawableGroup.addDrawable(this.tpsRenderer);
+        this.drawableGroup.addDrawable(this.fpsRenderer);
     }
 
     /**
@@ -130,6 +183,42 @@ public abstract class Scene<
         this.parentEngine = engine;
         this.controller = controller;
         this.drawableGroup = new DrawableGroup<>(this.getParentEngine());
+
+        this.tpsRenderer = new Text<ParentEngine>(
+            Integer.MAX_VALUE, // Highest possible layer
+            "TPS: " + this.getTps(),
+            new Font("Monospaced", Font.BOLD, 12),
+            Color.white,
+            Vector.Zero().plusY(14),
+            engine
+        );
+        this.tpsRenderer.setVisible(false);
+
+        this.fpsRenderer = new Text<ParentEngine>(
+            Integer.MAX_VALUE, // Highest possible layer
+            "FPS: " + this.getFps(),
+            new Font("Monospaced", Font.BOLD, 12),
+            Color.white,
+            Vector.Zero().plusY(28),
+            engine
+        );
+        this.fpsRenderer.setVisible(false);
+
+        this.background = new Image<ParentEngine>(
+                0, // First layer
+                Texture.colorTexture(Color.black,
+                        new Dimensions(
+                                this.getParentEngine().getWindowSize().getWidth(),
+                                this.getParentEngine().getWindowSize().getHeight()
+                        )
+                ),
+                Vector.Zero(),
+                this.getParentEngine()
+        );
+
+        this.drawableGroup.addDrawable(this.background);
+        this.drawableGroup.addDrawable(this.tpsRenderer);
+        this.drawableGroup.addDrawable(this.fpsRenderer);
     }
 
     /**
@@ -189,10 +278,20 @@ public abstract class Scene<
         init();
         long lastTime = System.nanoTime();
         double delta = 0;
+
+        // Used to store how many Ticks
+        // have occurred this second.
         int updates = 0;
+
+        // Used to store how many Frames
+        // have been rendered this second.
         int frames = 0;
+
+        // Used to keep track of when a second has passed.
         long timer = System.currentTimeMillis();
+
         while(running){
+            // Enforce the tpsLimit currently defined in this class.
             long now = System.nanoTime();
             delta += (now - lastTime) / (1000000000 / this.tpsLimit);
             lastTime = now;
@@ -201,15 +300,16 @@ public abstract class Scene<
                 updates++;
                 delta--;
             }
-            if (this.isRendering) {
-                renderFrame();
-            }
+
+            // Render a frame
+            renderFrame();
             frames++;
 
-            if(System.currentTimeMillis() - timer > 1000){
-                timer += 1000;
-                tps = updates;
-                fps = frames;
+            // Each 1/10th of a second, update the FPS and TPS.
+            if(System.currentTimeMillis() - timer > 100){
+                timer += 100;
+                this.tps = updates*10;
+                this.fps = frames*10;
                 updates = 0;
                 frames = 0;
             }
@@ -358,6 +458,17 @@ public abstract class Scene<
     }
 
     /**
+     * Returns the current render status for this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
+     *
+     * @return Whether or not we should be rendering.
+     */
+    public final boolean shouldRender()
+    {
+        return this.isRendering;
+    }
+
+    /**
      * Update the TPS limit for this <code>{@link jtwod.engine.Scene Scene}</code>.
      *
      * @param tpsLimit The new limit.
@@ -365,6 +476,29 @@ public abstract class Scene<
     public final void setTpsLimit(double tpsLimit)
     {
         this.tpsLimit = tpsLimit;
+    }
+
+    /**
+     * Updates the display of the debug information in this
+     *
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
+     * @param render Whether or not we should render the debug information.
+     */
+    public final void setShouldRenderDebug(boolean render)
+    {
+        this.tpsRenderer.setVisible(render);
+        this.fpsRenderer.setVisible(render);
+    }
+
+    /**
+     * Retrieve the currently active debug visibility for this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
+     *
+     * @return The Visibility.
+     */
+    public final boolean shouldRenderDebug()
+    {
+        return this.fpsRenderer.isVisible() && this.tpsRenderer.isVisible();
     }
     
     /**
@@ -423,12 +557,18 @@ public abstract class Scene<
         }
 
         Graphics graphics = bs.getDrawGraphics();
-        
-        this.drawableGroup.render(graphics, this);
-        
-        // Entities will always be rendered on top.
-        if (this.controller != null) {
-            this.controller.render(graphics, this);
+
+        if (this.isRendering) {
+            this.drawableGroup.render(graphics, this);
+
+            // Entities will always be rendered on top.
+            if (this.controller != null) {
+                this.controller.render(graphics, this);
+            }
+        } else {
+            this.background.render(graphics, this);
+            this.fpsRenderer.render(graphics, this);
+            this.tpsRenderer.render(graphics, this);
         }
 
         graphics.dispose();
@@ -443,7 +583,10 @@ public abstract class Scene<
     private void runUpdate()
     {
         this.drawableGroup.update();
-        
+
+        this.tpsRenderer.setText("TPS: " + this.getTps());
+        this.fpsRenderer.setText("FPS: " + this.getFps());
+
         if (this.controller != null) {
             this.controller.update();
         }
