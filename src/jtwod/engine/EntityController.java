@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 
 import jtwod.engine.drawable.Entity;
 import jtwod.engine.drawable.Shape;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * For controlling all <code>{@link jtwod.engine.drawable.Entity Entitiy}</code>
@@ -305,21 +304,24 @@ public abstract class EntityController<
 
     /**
      * Override for Drawable#keyPressed.
+     *
      * @param e The KeyEvent.
+     * @throws UnsupportedOperationException
      */
     @Override
-    public final void keyPressed(KeyEvent e)
-    {
-        throw new NotImplementedException();
+    public final void keyPressed(KeyEvent e) {
+        throw new UnsupportedOperationException();
     }
 
     /**
      * Override for Drawable#keyReleased.
+     *
      * @param e The KeyEvent.
+     * @throws UnsupportedOperationException
      */
     @Override
     public final void keyReleased(KeyEvent e)
     {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 }
