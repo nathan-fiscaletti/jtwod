@@ -109,7 +109,7 @@ public final class Texture
     /**
      * Retrieve a Texture of a specific color and size.
      *
-     * @param colo The color of the Texture.
+     * @param color The color of the Texture.
      * @param size The size of the Texture.
      * @return A Texture of the specified Color and Size.
      */
@@ -123,6 +123,26 @@ public final class Texture
         
         int[]data=((DataBufferInt) image.getRaster().getDataBuffer()).getData();
         Arrays.fill(data, color.getRGB());
+
+        return new Texture(image);
+    }
+
+    /**
+     * Retrieve a Texture for a circle of the specified radius.
+     *
+     * @param background The background color to use for the Texture.
+     * @param color The color to make the circle.
+     * @param radius The radius to use.
+     * @return The Circle Texture.
+     */
+    public final static Texture colorCircleTexture(Color background, Color color, int radius)
+    {
+        BufferedImage image = Texture.colorTexture(background, new Dimensions(radius, radius)).asBufferedImage();
+
+        Graphics graphics = image.getGraphics();
+        graphics.setColor( Color.white );
+
+        graphics.fillArc(0, 0, radius, radius, 0, 360);
 
         return new Texture(image);
     }
