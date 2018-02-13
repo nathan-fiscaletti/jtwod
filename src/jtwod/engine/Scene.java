@@ -5,6 +5,9 @@ import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 
 /**
  * Represents a <code>{@link jtwod.engine.Scene Scene}</code> that can be
@@ -185,14 +188,13 @@ public abstract class Scene<
     public final void run() {
         init();
         long lastTime = System.nanoTime();
-        double ns = 1000000000 / this.tpsLimit;
         double delta = 0;
         int updates = 0;
         int frames = 0;
         long timer = System.currentTimeMillis();
         while(running){
             long now = System.nanoTime();
-            delta += (now - lastTime) / ns;
+            delta += (now - lastTime) / (1000000000 / this.tpsLimit);
             lastTime = now;
             if(delta >= 1){
                 runUpdate();
