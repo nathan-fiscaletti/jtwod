@@ -1,6 +1,5 @@
 package jtwod.engine;
 
-import javafx.scene.Parent;
 import jtwod.engine.drawable.Graph;
 import jtwod.engine.drawable.Image;
 import jtwod.engine.drawable.Text;
@@ -12,7 +11,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
-import java.util.LinkedList;
+
 
 /**
  * Represents a <code>{@link jtwod.engine.Scene Scene}</code> that can be
@@ -95,6 +94,16 @@ public abstract class Scene<
     private boolean isRendering = true;
 
     /**
+     * The legend item for FPS color.
+     */
+    private Image<ParentEngine> fpsColorBlock;
+
+    /**
+     * The legend item for TPS color.
+     */
+    private Image<ParentEngine> tpsColorBlock;
+
+    /**
      * The <code>{@link jtwod.engine.drawable.Text Text}</code> Renderer for the FPS.
      */
     private Text<ParentEngine> fpsRenderer;
@@ -130,96 +139,7 @@ public abstract class Scene<
         this.parentEngine = engine;
         this.controller = null;
         this.drawableGroup = new DrawableGroup<>(this.getParentEngine());
-
-        this.tpsRenderer = new Text<ParentEngine>(
-                Integer.MAX_VALUE, // Highest possible layer
-                "TPS: " + this.getTps(),
-                new Font("Monospaced", Font.BOLD, 9),
-                Color.white,
-                Vector.Zero().plusY(11),
-                engine
-        );
-        this.tpsRenderer.setVisible(false);
-
-        this.fpsRenderer = new Text<ParentEngine>(
-                Integer.MAX_VALUE, // Highest possible layer
-                "FPS: " + this.getFps(),
-                new Font("Monospaced", Font.BOLD, 9),
-                Color.white,
-                Vector.Zero().plusY(22),
-                engine
-        );
-        this.fpsRenderer.setVisible(false);
-
-        this.background = new Image<ParentEngine>(
-                0, // First layer
-                Texture.colorTexture(Color.black,
-                        new Dimensions(
-                                this.getParentEngine().getWindowSize().getWidth(),
-                                this.getParentEngine().getWindowSize().getHeight()
-                        )
-                ),
-                Vector.Zero(),
-                this.getParentEngine()
-        );
-
-        this.graphRenderer = new Graph<ParentEngine>(
-            Integer.MAX_VALUE,
-            engine,
-            Vector.Zero().plusY(44),
-            new Dimensions(200, 50),
-            2, 1
-        ) {
-            @Override
-            public int getNextValueForDataSet(int dataSet) {
-                switch (dataSet) {
-                    case 0 : {
-                        return getTps();
-                    }
-
-                    case 1 : {
-                        return getFps();
-                    }
-                }
-
-                return 0;
-            }
-
-            @Override
-            public int getMaxValueForDataSet(int dataSet) {
-                switch (dataSet) {
-                    case 0 : {
-                        return (int)tpsLimit;
-                    }
-
-                    case 1 : {
-                        return 2000;
-                    }
-                }
-
-                return 0;
-            }
-
-            @Override
-            public Color getColorForDataSet(int dataSet) {
-                switch (dataSet) {
-                    case 0 : {
-                        return Color.green;
-                    }
-
-                    case 1 : {
-                        return Color.blue;
-                    }
-                }
-
-                return Color.white;
-            }
-        };
-
-        this.drawableGroup.addDrawable(this.graphRenderer);
-        this.drawableGroup.addDrawable(this.background);
-        this.drawableGroup.addDrawable(this.tpsRenderer);
-        this.drawableGroup.addDrawable(this.fpsRenderer);
+        initializeInternalDrawables(engine);
     }
 
     /**
@@ -245,13 +165,22 @@ public abstract class Scene<
         this.parentEngine = engine;
         this.controller = controller;
         this.drawableGroup = new DrawableGroup<>(this.getParentEngine());
+        initializeInternalDrawables(engine);
+    }
 
+    /**
+     * Initialize the internal Drawables for this scene.
+     *
+     * @param engine The engine.
+     */
+    private void initializeInternalDrawables(ParentEngine engine)
+    {
         this.tpsRenderer = new Text<ParentEngine>(
             Integer.MAX_VALUE, // Highest possible layer
             "TPS: " + this.getTps(),
-            new Font("Monospaced", Font.BOLD, 12),
+            new Font("Monospaced", Font.BOLD, 9),
             Color.white,
-            Vector.Zero().plusY(14),
+            Vector.Zero().plusY(11).plusX(20),
             engine
         );
         this.tpsRenderer.setVisible(false);
@@ -259,24 +188,46 @@ public abstract class Scene<
         this.fpsRenderer = new Text<ParentEngine>(
             Integer.MAX_VALUE, // Highest possible layer
             "FPS: " + this.getFps(),
-            new Font("Monospaced", Font.BOLD, 12),
+            new Font("Monospaced", Font.BOLD, 9),
             Color.white,
-            Vector.Zero().plusY(28),
+            Vector.Zero().plusY(24).plusX(20),
             engine
         );
         this.fpsRenderer.setVisible(false);
 
         this.background = new Image<ParentEngine>(
-                0, // First layer
-                Texture.colorTexture(Color.black,
-                        new Dimensions(
-                                this.getParentEngine().getWindowSize().getWidth(),
-                                this.getParentEngine().getWindowSize().getHeight()
-                        )
-                ),
-                Vector.Zero(),
-                this.getParentEngine()
+            0, // First layer
+            Texture.colorTexture(Color.black,
+                    new Dimensions(
+                            this.getParentEngine().getWindowSize().getWidth(),
+                            this.getParentEngine().getWindowSize().getHeight()
+                    )
+            ),
+            Vector.Zero(),
+            this.getParentEngine()
         );
+
+        this.fpsColorBlock = new Image<ParentEngine>(
+            Integer.MAX_VALUE,
+            Texture.colorTexture(
+                    Color.blue,
+                    new Dimensions(10, 10)
+            ),
+            new Vector(5, 15),
+            engine
+        );
+        this.fpsColorBlock.setVisible(false);
+
+        this.tpsColorBlock = new Image<ParentEngine>(
+            Integer.MAX_VALUE,
+            Texture.colorTexture(
+                    Color.green,
+                    new Dimensions(10, 10)
+            ),
+            new Vector(5, 1),
+            engine
+        );
+        this.tpsColorBlock.setVisible(false);
 
         this.graphRenderer = new Graph<ParentEngine>(
             Integer.MAX_VALUE,
@@ -330,12 +281,16 @@ public abstract class Scene<
                 return Color.white;
             }
         };
+        this.graphRenderer.setVisible(false);
 
+        this.drawableGroup.addDrawable(this.fpsColorBlock);
+        this.drawableGroup.addDrawable(this.tpsColorBlock);
         this.drawableGroup.addDrawable(this.graphRenderer);
         this.drawableGroup.addDrawable(this.background);
         this.drawableGroup.addDrawable(this.tpsRenderer);
         this.drawableGroup.addDrawable(this.fpsRenderer);
     }
+
 
     /**
      * Override this function to control how the
@@ -605,6 +560,8 @@ public abstract class Scene<
         this.tpsRenderer.setVisible(render);
         this.fpsRenderer.setVisible(render);
         this.graphRenderer.setVisible(render);
+        this.fpsColorBlock.setVisible(render);
+        this.tpsColorBlock.setVisible(render);
     }
 
     /**

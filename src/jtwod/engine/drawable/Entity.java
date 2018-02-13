@@ -65,7 +65,7 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
      */
     public Entity(Vector position, Texture texture, Scene<ParentEngine> scene)
     {
-        super(Integer.MAX_VALUE, texture, position, scene.getParentEngine());
+        super(Integer.MAX_VALUE - 1, texture, position, scene.getParentEngine());
         this.velocity = Vector.Zero();
         this.setPositionConstraint(Vector.Zero());
         this.parentScene = scene;
