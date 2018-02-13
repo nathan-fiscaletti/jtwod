@@ -103,24 +103,24 @@ public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEng
                 int nextY = this.getPosition().getY() + this.getSize().getHeight()
                     - (1 + (dataSets[dataSetId][dataValueId] == 0 ? 0 : (int) (
                     (
-                            dataSets[dataSetId][dataValueId]
-                                    / this.getMaxValueForDataSet(dataSetId)
+                        dataSets[dataSetId][dataValueId]
+                      / this.getMaxValueForDataSet(dataSetId)
                     ) * this.getSize().getHeight()
                 )));
 
                 if (dataValueId != 0) {
                     graphics.drawLine(
-                            this.getPosition().getX() + dataValueId - 1, lastY,
-                            this.getPosition().getX() + dataValueId, nextY
+                        this.getPosition().getX() + dataValueId - 1, lastY,
+                        this.getPosition().getX() + dataValueId, nextY
                     );
                 }
 
                 graphics.drawRect(
-                        this.getPosition().getX() + dataValueId,
+                    this.getPosition().getX() + dataValueId,
 
-                        nextY,
+                    nextY,
 
-                        1, 1
+                    1, 1
                 );
 
                 lastY = nextY;
