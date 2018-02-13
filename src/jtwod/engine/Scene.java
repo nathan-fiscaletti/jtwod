@@ -260,7 +260,9 @@ public abstract class Scene<
      * attached to this <code>{@link jtwod.engine.Scene Scene}</code> as the
      * specified type.
      */
-    public <Controller extends EntityController<ParentEngine>> Controller getEntityController(Class<Controller> asType) {
+    public final <
+        Controller extends EntityController<ParentEngine>
+    > Controller getEntityController(Class<Controller> asType) {
         return asType.cast(this.getEntityController());
     }
 
