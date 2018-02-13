@@ -50,6 +50,12 @@ public abstract class Scene<
     private EntityController<ParentEngine> controller;
 
     /**
+     * The current limit for this <code>{@link jtwod.engine.Scene Scene}</code>s
+     * ticks per second.
+     */
+    private double tpsLimit = 60;
+
+    /**
      * The Ticks Per Second for this
      * <code>{@link jtwod.engine.Scene Scene}</code>.
      */
@@ -73,6 +79,12 @@ public abstract class Scene<
      * <code>{@link jtwod.engine.Scene Scene}</code> is attached to.
      */
     private final ParentEngine parentEngine;
+
+    /**
+     * If set to false, the <code>{@link jtwod.engine.Scene Scene}</code>
+     * will not be rendered.
+     */
+    private boolean isRendering = true;
 
     /**
      * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
@@ -173,8 +185,7 @@ public abstract class Scene<
     public final void run() {
         init();
         long lastTime = System.nanoTime();
-        final double amountOfTicks = 60.0;
-        double ns = 1000000000 / amountOfTicks;
+        double ns = 1000000000 / this.tpsLimit;
         double delta = 0;
         int updates = 0;
         int frames = 0;
@@ -188,7 +199,9 @@ public abstract class Scene<
                 updates++;
                 delta--;
             }
-            renderFrame();
+            if (this.isRendering) {
+                renderFrame();
+            }
             frames++;
 
             if(System.currentTimeMillis() - timer > 1000){
@@ -330,6 +343,26 @@ public abstract class Scene<
     public final DrawableGroup<ParentEngine> getDrawableGroup()
     {
         return this.drawableGroup;
+    }
+
+    /**
+     * Update the rendering for this <code>{@link jtwod.engine.Scene Scene}</code>.
+     *
+     * @param shouldRender The value.
+     */
+    public final void setShouldRender(boolean shouldRender)
+    {
+        this.isRendering = shouldRender;
+    }
+
+    /**
+     * Update the TPS limit for this <code>{@link jtwod.engine.Scene Scene}</code>.
+     *
+     * @param tpsLimit The new limit.
+     */
+    public final void setTpsLimit(double tpsLimit)
+    {
+        this.tpsLimit = tpsLimit;
     }
     
     /**
