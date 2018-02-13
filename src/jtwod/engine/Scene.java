@@ -63,6 +63,12 @@ public abstract class Scene<
     private double tpsLimit = 60;
 
     /**
+     * The current limit for this <code>{@link jtwod.engine.Scene Scene}</code>s
+     * frames per second.
+     */
+    private double fpsLimit = 60;
+
+    /**
      * The Ticks Per Second for this
      * <code>{@link jtwod.engine.Scene Scene}</code>.
      */
@@ -259,7 +265,7 @@ public abstract class Scene<
                     }
 
                     case 1 : {
-                        return 2000;
+                        return (int)fpsLimit;
                     }
                 }
 
@@ -348,7 +354,8 @@ public abstract class Scene<
     public final void run() {
         init();
         long lastTime = System.nanoTime();
-        double delta = 0;
+        double ticksDelta = 0;
+        double framesDelta = 0;
 
         // Used to store how many Ticks
         // have occurred this second.
@@ -364,17 +371,21 @@ public abstract class Scene<
         while(running){
             // Enforce the tpsLimit currently defined in this class.
             long now = System.nanoTime();
-            delta += (now - lastTime) / (1000000000 / this.tpsLimit);
-            lastTime = now;
-            if(delta >= 1){
+            ticksDelta += (now - lastTime) / (1000000000 / this.tpsLimit);
+
+            if(ticksDelta >= 1){
                 runUpdate();
                 updates++;
-                delta--;
+                ticksDelta--;
             }
 
-            // Render a frame
-            renderFrame();
-            frames++;
+            framesDelta += (now - lastTime) / (1000000000 / this.fpsLimit);
+            if (framesDelta >= 1) {
+                renderFrame();
+                frames++;
+                framesDelta--;
+            }
+            lastTime = now;
 
             // Each 1/10th of a second, update the FPS and TPS.
             if(System.currentTimeMillis() - timer > 100){
@@ -547,6 +558,16 @@ public abstract class Scene<
     public final void setTpsLimit(double tpsLimit)
     {
         this.tpsLimit = tpsLimit;
+    }
+
+    /**
+     * Update the FPS limit for this <code>{@link jtwod.engine.Scene Scene}</code>.
+     *
+     * @param fpsLimit The new limit.
+     */
+    public final void setFpsLimit(double fpsLimit)
+    {
+        this.fpsLimit = fpsLimit;
     }
 
     /**
