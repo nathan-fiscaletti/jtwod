@@ -39,7 +39,8 @@ public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEng
      * @param dataSetCount The number of data sets in this Graph.
      * @param updateRate The update rate in ticks at which to update this Graph.
      */
-    public Graph(int layer, ParentEngine engine, Vector position, Dimensions size, int dataSetCount, int updateRate) {
+    public Graph(int layer, ParentEngine engine, Vector position, Dimensions size, int dataSetCount, int updateRate)
+    {
         super(layer, engine);
         this.setSize(size);
         this.setPosition(position);
@@ -75,7 +76,8 @@ public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEng
      * Update the graph by appending the next value for each data set.
      */
     @Override
-    protected void update() {
+    protected void update()
+    {
         if (curTick % updateRate == 0) {
             for (int i = 0; i < dataSets.length; i++) {
                 dataSets[i] = Arrays.stream(dataSets[i]).skip(1).toArray();
@@ -95,7 +97,8 @@ public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEng
      * @param scene The scene to render it out to.
      */
     @Override
-    public final void render(Graphics graphics, Scene<ParentEngine> scene) {
+    public final void render(Graphics graphics, Scene<ParentEngine> scene)
+    {
         for(int dataSetId = 0;dataSetId<dataSets.length;dataSetId++) {
             int lastY = this.getPosition().getY() + this.getSize().getHeight();
             for (int dataValueId = 0; dataValueId < dataSets[dataSetId].length; dataValueId++) {
