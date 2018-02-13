@@ -1,5 +1,7 @@
 package jtwod.engine;
 
+import javafx.scene.Parent;
+import jtwod.engine.drawable.Graph;
 import jtwod.engine.drawable.Image;
 import jtwod.engine.drawable.Text;
 import jtwod.engine.graphics.Texture;
@@ -10,6 +12,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.util.LinkedList;
 
 /**
  * Represents a <code>{@link jtwod.engine.Scene Scene}</code> that can be
@@ -107,6 +110,11 @@ public abstract class Scene<
     private Image<ParentEngine> background;
 
     /**
+     * A graph for representing FPS and TPS.
+     */
+    private Graph<ParentEngine> graphRenderer;
+
+    /**
      * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
      * parent <code>{@link jtwod.engine.Engine Engine}</code>.
      *
@@ -155,6 +163,60 @@ public abstract class Scene<
                 this.getParentEngine()
         );
 
+        this.graphRenderer = new Graph<ParentEngine>(
+            Integer.MAX_VALUE,
+            engine,
+            Vector.Zero().plusY(44),
+            new Dimensions(200, 50),
+            2, 1
+        ) {
+            @Override
+            public int getNextValueForDataSet(int dataSet) {
+                switch (dataSet) {
+                    case 0 : {
+                        return getTps();
+                    }
+
+                    case 1 : {
+                        return getFps();
+                    }
+                }
+
+                return 0;
+            }
+
+            @Override
+            public int getMaxValueForDataSet(int dataSet) {
+                switch (dataSet) {
+                    case 0 : {
+                        return (int)tpsLimit;
+                    }
+
+                    case 1 : {
+                        return 2000;
+                    }
+                }
+
+                return 0;
+            }
+
+            @Override
+            public Color getColorForDataSet(int dataSet) {
+                switch (dataSet) {
+                    case 0 : {
+                        return Color.green;
+                    }
+
+                    case 1 : {
+                        return Color.blue;
+                    }
+                }
+
+                return Color.white;
+            }
+        };
+
+        this.drawableGroup.addDrawable(this.graphRenderer);
         this.drawableGroup.addDrawable(this.background);
         this.drawableGroup.addDrawable(this.tpsRenderer);
         this.drawableGroup.addDrawable(this.fpsRenderer);
@@ -216,6 +278,60 @@ public abstract class Scene<
                 this.getParentEngine()
         );
 
+        this.graphRenderer = new Graph<ParentEngine>(
+            Integer.MAX_VALUE,
+            engine,
+            Vector.Zero().plusY(44),
+            new Dimensions(200, 50),
+            2, 1
+        ) {
+            @Override
+            public int getNextValueForDataSet(int dataSet) {
+                switch (dataSet) {
+                    case 0 : {
+                        return getTps();
+                    }
+
+                    case 1 : {
+                        return getFps();
+                    }
+                }
+
+                return 0;
+            }
+
+            @Override
+            public int getMaxValueForDataSet(int dataSet) {
+                switch (dataSet) {
+                    case 0 : {
+                        return (int)tpsLimit;
+                    }
+
+                    case 1 : {
+                        return 2000;
+                    }
+                }
+
+                return 0;
+            }
+
+            @Override
+            public Color getColorForDataSet(int dataSet) {
+                switch (dataSet) {
+                    case 0 : {
+                        return Color.green;
+                    }
+
+                    case 1 : {
+                        return Color.blue;
+                    }
+                }
+
+                return Color.white;
+            }
+        };
+
+        this.drawableGroup.addDrawable(this.graphRenderer);
         this.drawableGroup.addDrawable(this.background);
         this.drawableGroup.addDrawable(this.tpsRenderer);
         this.drawableGroup.addDrawable(this.fpsRenderer);
@@ -488,6 +604,7 @@ public abstract class Scene<
     {
         this.tpsRenderer.setVisible(render);
         this.fpsRenderer.setVisible(render);
+        this.graphRenderer.setVisible(render);
     }
 
     /**
