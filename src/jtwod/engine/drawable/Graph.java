@@ -99,36 +99,34 @@ public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEng
     @Override
     public final void render(Graphics graphics, Scene<ParentEngine> scene)
     {
-        if (this.isVisible()) {
-            for (int dataSetId = 0; dataSetId < dataSets.length; dataSetId++) {
-                int lastY = this.getPosition().getY() + this.getSize().getHeight();
-                for (int dataValueId = 0; dataValueId < dataSets[dataSetId].length; dataValueId++) {
-                    graphics.setColor(getColorForDataSet(dataSetId));
-                    int nextY = this.getPosition().getY() + this.getSize().getHeight()
-                            - (1 + (dataSets[dataSetId][dataValueId] == 0 ? 0 : (int) (
-                            (
-                                    dataSets[dataSetId][dataValueId]
-                                            / this.getMaxValueForDataSet(dataSetId)
-                            ) * this.getSize().getHeight()
-                    )));
+        for (int dataSetId = 0; dataSetId < dataSets.length; dataSetId++) {
+            int lastY = this.getPosition().getY() + this.getSize().getHeight();
+            for (int dataValueId = 0; dataValueId < dataSets[dataSetId].length; dataValueId++) {
+                graphics.setColor(getColorForDataSet(dataSetId));
+                int nextY = this.getPosition().getY() + this.getSize().getHeight()
+                        - (1 + (dataSets[dataSetId][dataValueId] == 0 ? 0 : (int) (
+                        (
+                                dataSets[dataSetId][dataValueId]
+                                        / this.getMaxValueForDataSet(dataSetId)
+                        ) * this.getSize().getHeight()
+                )));
 
-                    if (dataValueId != 0) {
-                        graphics.drawLine(
-                                this.getPosition().getX() + dataValueId - 1, lastY,
-                                this.getPosition().getX() + dataValueId, nextY
-                        );
-                    }
-
-                    graphics.drawRect(
-                            this.getPosition().getX() + dataValueId,
-
-                            nextY,
-
-                            1, 1
+                if (dataValueId != 0) {
+                    graphics.drawLine(
+                            this.getPosition().getX() + dataValueId - 1, lastY,
+                            this.getPosition().getX() + dataValueId, nextY
                     );
-
-                    lastY = nextY;
                 }
+
+                graphics.drawRect(
+                        this.getPosition().getX() + dataValueId,
+
+                        nextY,
+
+                        1, 1
+                );
+
+                lastY = nextY;
             }
         }
     }

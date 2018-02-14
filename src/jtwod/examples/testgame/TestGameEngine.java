@@ -181,6 +181,8 @@ public final class TestGameEngine extends Engine {
                     case KeyEvent.VK_RIGHT:
                         myPlayer.setVelocity(myPlayer.getVelocity().setX(0));
                         break;
+                    case KeyEvent.VK_F3:
+                        this.setShouldRenderDebug(! this.shouldRenderDebug());
                     default:
                         break;
                 }

@@ -126,9 +126,7 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
      */
     protected void render(Graphics graphics, Scene<ParentEngine> scene)
     {
-        if (this.isVisible) {
-            this.subDrawableGroup.render(graphics, scene);
-        }
+        this.subDrawableGroup.render(graphics, scene);
     }
 
     /**

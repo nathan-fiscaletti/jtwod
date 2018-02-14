@@ -102,72 +102,70 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     @Override
     public final void render(Graphics graphics, Scene<ParentEngine> scene)
     {
-        if (this.isVisible()) {
-            Font resetFont = graphics.getFont();
-            Color resetColor = graphics.getColor();
+        Font resetFont = graphics.getFont();
+        Color resetColor = graphics.getColor();
 
 
-            graphics.setFont(this.font);
-            graphics.setColor(this.color);
+        graphics.setFont(this.font);
+        graphics.setColor(this.color);
 
-            switch (this.center) {
-                case Horizontally:
-                    graphics.drawChars(
-                            this.text.toCharArray(),
-                            0,
-                            this.text.length(),
-                            (
-                                    this.getParentEngine().getWindowSize().getWidth() / 2
-                            ) - (
-                                    graphics.getFontMetrics().stringWidth(text) / 2
-                            ),
-                            this.getPosition().getY()
-                    );
-                    break;
-                case Vertically:
-                    graphics.drawChars(
-                            this.text.toCharArray(),
-                            0,
-                            this.text.length(),
-                            this.getPosition().getX(),
-                            (
-                                    this.getParentEngine().getWindowSize().getHeight() / 2
-                            ) - (
-                                    graphics.getFontMetrics().getHeight() / 2
-                            )
-                    );
-                    break;
-                case Parent:
-                    graphics.drawChars(
-                            this.text.toCharArray(),
-                            0,
-                            this.text.length(),
-                            (
-                                    this.getParentEngine().getWindowSize().getWidth() / 2
-                            ) - (
-                                    graphics.getFontMetrics().stringWidth(text) / 2
-                            ),
-                            (
-                                    this.getParentEngine().getWindowSize().getHeight() / 2
-                            ) - (
-                                    graphics.getFontMetrics().getHeight() / 2
-                            )
-                    );
-                    break;
-                case None:
-                    graphics.drawChars(
-                            this.text.toCharArray(),
-                            0,
-                            this.text.length(),
-                            this.getPosition().getX(),
-                            this.getPosition().getY()
-                    );
-                    break;
-            }
-
-            graphics.setFont(resetFont);
-            graphics.setColor(resetColor);
+        switch (this.center) {
+            case Horizontally:
+                graphics.drawChars(
+                        this.text.toCharArray(),
+                        0,
+                        this.text.length(),
+                        (
+                                this.getParentEngine().getWindowSize().getWidth() / 2
+                        ) - (
+                                graphics.getFontMetrics().stringWidth(text) / 2
+                        ),
+                        this.getPosition().getY()
+                );
+                break;
+            case Vertically:
+                graphics.drawChars(
+                        this.text.toCharArray(),
+                        0,
+                        this.text.length(),
+                        this.getPosition().getX(),
+                        (
+                                this.getParentEngine().getWindowSize().getHeight() / 2
+                        ) - (
+                                graphics.getFontMetrics().getHeight() / 2
+                        )
+                );
+                break;
+            case Parent:
+                graphics.drawChars(
+                        this.text.toCharArray(),
+                        0,
+                        this.text.length(),
+                        (
+                                this.getParentEngine().getWindowSize().getWidth() / 2
+                        ) - (
+                                graphics.getFontMetrics().stringWidth(text) / 2
+                        ),
+                        (
+                                this.getParentEngine().getWindowSize().getHeight() / 2
+                        ) - (
+                                graphics.getFontMetrics().getHeight() / 2
+                        )
+                );
+                break;
+            case None:
+                graphics.drawChars(
+                        this.text.toCharArray(),
+                        0,
+                        this.text.length(),
+                        this.getPosition().getX(),
+                        this.getPosition().getY()
+                );
+                break;
         }
+
+        graphics.setFont(resetFont);
+        graphics.setColor(resetColor);
     }
 
     /**

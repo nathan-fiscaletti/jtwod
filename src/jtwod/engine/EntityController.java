@@ -177,9 +177,9 @@ public abstract class EntityController<
     @Override
     protected final void render(Graphics graphics, Scene<ParentEngine> screen)
     {
-        for (int entityId = 0; entityId < getAllEntities().size(); entityId++) {
-            getAllEntities().get(entityId).render(graphics, screen);
-        }
+        getAllEntities().stream().filter(
+                (entity) -> (entity.isVisible())
+        ).forEach(entity -> entity.render(graphics, screen));
     }
 
     /**
