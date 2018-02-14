@@ -66,7 +66,7 @@ public abstract class Scene<
      * The current limit for this <code>{@link jtwod.engine.Scene Scene}</code>s
      * frames per second.
      */
-    private double fpsLimit = 60;
+    private double fpsLimit = 288;
 
     /**
      * The Ticks Per Second for this
