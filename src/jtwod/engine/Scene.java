@@ -66,7 +66,7 @@ public abstract class Scene<
      * The current limit for this <code>{@link jtwod.engine.Scene Scene}</code>s
      * frames per second.
      */
-    private double fpsLimit = 288;
+    private double fpsLimit = 120;
 
     /**
      * The Ticks Per Second for this
@@ -552,6 +552,8 @@ public abstract class Scene<
 
     /**
      * Update the TPS limit for this <code>{@link jtwod.engine.Scene Scene}</code>.
+     * Note: FPS Limit should be a multiple of the TPS limit or else movement updates
+     *       will be less smooth.
      *
      * @param tpsLimit The new limit.
      */
@@ -562,6 +564,8 @@ public abstract class Scene<
 
     /**
      * Update the FPS limit for this <code>{@link jtwod.engine.Scene Scene}</code>.
+     * Note: FPS Limit should be a multiple of the TPS limit or else movement updates
+     *       will be less smooth.
      *
      * @param fpsLimit The new limit.
      */
