@@ -54,7 +54,7 @@ public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEng
      * @param dataSet The data set ID to use.
      * @return The next value for the data set.
      */
-    public abstract int getNextValueForDataSet(int dataSet);
+    public abstract double getNextValueForDataSet(int dataSet);
 
     /**
      * Retrieve the maximum possible value for a data set.
@@ -62,7 +62,7 @@ public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEng
      * @param dataSet The data set ID to use.
      * @return The maximum value for the data set.
      */
-    public abstract int getMaxValueForDataSet(int dataSet);
+    public abstract double getMaxValueForDataSet(int dataSet);
 
     /**
      * Retrieve the color for a data set.

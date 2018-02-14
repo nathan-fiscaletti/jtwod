@@ -243,7 +243,7 @@ public abstract class Scene<
             2, 1
         ) {
             @Override
-            public int getNextValueForDataSet(int dataSet) {
+            public double getNextValueForDataSet(int dataSet) {
                 switch (dataSet) {
                     case 0 : {
                         return getTps();
@@ -258,7 +258,7 @@ public abstract class Scene<
             }
 
             @Override
-            public int getMaxValueForDataSet(int dataSet) {
+            public double getMaxValueForDataSet(int dataSet) {
                 switch (dataSet) {
                     case 0 : {
                         return (int)tpsLimit;
@@ -368,12 +368,12 @@ public abstract class Scene<
         // Used to keep track of when a second has passed.
         long timer = System.currentTimeMillis();
 
-        while(running){
+        while(running) {
             // Enforce the tpsLimit currently defined in this class.
             long now = System.nanoTime();
-            ticksDelta += (now - lastTime) / (1000000000 / this.tpsLimit);
 
-            if(ticksDelta >= 1){
+            ticksDelta += (now - lastTime) / (1000000000 / this.tpsLimit);
+            if (ticksDelta >= 1) {
                 runUpdate();
                 updates++;
                 ticksDelta--;
@@ -385,6 +385,7 @@ public abstract class Scene<
                 frames++;
                 framesDelta--;
             }
+
             lastTime = now;
 
             // Each 1/10th of a second, update the FPS and TPS.
