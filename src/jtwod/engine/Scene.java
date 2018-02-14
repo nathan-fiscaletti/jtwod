@@ -261,11 +261,11 @@ public abstract class Scene<
             public double getMaxValueForDataSet(int dataSet) {
                 switch (dataSet) {
                     case 0 : {
-                        return (int)tpsLimit;
+                        return tpsLimit;
                     }
 
                     case 1 : {
-                        return (int)fpsLimit;
+                        return fpsLimit;
                     }
                 }
 
