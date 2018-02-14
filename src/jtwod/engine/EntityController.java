@@ -193,9 +193,7 @@ public abstract class EntityController<
     {
         this.runControlUpdate();
 
-        for (int i = 0; i < this.getAllEntities().size(); i++) {
-            Entity<ParentEngine> entity = this.getAllEntities().get(i);
-
+        this.getAllEntities().stream().forEach((entity) -> {
             // Perform control tick per entity.
             iterateEntityPerControlUpdate(entity);
 
@@ -214,27 +212,19 @@ public abstract class EntityController<
 
             // Check Entity Collision
             if (! entity.isDead()) {
-                for (
-                    int collidingEntityId = 0; 
-                    collidingEntityId < this.getAllEntities().size(); 
-                    collidingEntityId++
-                ) {
-                    Entity<ParentEngine> collidingEntity = 
-                        this.getAllEntities().get(collidingEntityId);
-
-                    if (
-                        collidingEntity != entity && !collidingEntity.isDead()
-                    ) {
-                        if (entity.isCollidingWith(collidingEntity)) {
-                            entity.onCollide(collidingEntity);
-                        }
+                this.getAllEntities().stream().filter(
+                        collidingEntity -> ! collidingEntity.isDead()
+                     && collidingEntity != entity
+                ).forEach((collidingEntity) -> {
+                    if (entity.isCollidingWith(collidingEntity)) {
+                        entity.onCollide(collidingEntity);
                     }
-                }
+                });
             }
 
             // Perform Heart Beat
             entity.performUpdate();
-        }
+        });
     }
 
     /**

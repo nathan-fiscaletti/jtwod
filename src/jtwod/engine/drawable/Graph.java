@@ -12,7 +12,8 @@ import java.util.Arrays;
  * Class used to represent a Graph.
  * @param <ParentEngine> The parent Engine for this Graph.
  */
-public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEngine> {
+public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEngine>
+{
 
     /**
      * The data sets being used for this Graph.
@@ -104,26 +105,26 @@ public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEng
             for (int dataValueId = 0; dataValueId < dataSets[dataSetId].length; dataValueId++) {
                 graphics.setColor(getColorForDataSet(dataSetId));
                 int nextY = this.getPosition().getY() + this.getSize().getHeight()
-                        - (1 + (dataSets[dataSetId][dataValueId] == 0 ? 0 : (int) (
-                        (
-                                dataSets[dataSetId][dataValueId]
-                                        / this.getMaxValueForDataSet(dataSetId)
-                        ) * this.getSize().getHeight()
+                    - (1 + (dataSets[dataSetId][dataValueId] == 0 ? 0 : (int) (
+                    (
+                            dataSets[dataSetId][dataValueId]
+                                    / this.getMaxValueForDataSet(dataSetId)
+                    ) * this.getSize().getHeight()
                 )));
 
                 if (dataValueId != 0) {
                     graphics.drawLine(
-                            this.getPosition().getX() + dataValueId - 1, lastY,
-                            this.getPosition().getX() + dataValueId, nextY
+                        this.getPosition().getX() + dataValueId - 1, lastY,
+                        this.getPosition().getX() + dataValueId, nextY
                     );
                 }
 
                 graphics.drawRect(
-                        this.getPosition().getX() + dataValueId,
+                    this.getPosition().getX() + dataValueId,
 
-                        nextY,
+                    nextY,
 
-                        1, 1
+                    1, 1
                 );
 
                 lastY = nextY;
