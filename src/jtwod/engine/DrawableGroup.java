@@ -105,8 +105,10 @@ public final class DrawableGroup<
     @Override
     protected final void render(Graphics graphics, Scene<ParentEngine> scene)
     {
-        drawables.stream().filter(
-            (drawable) -> (drawable.isVisible())
-        ).forEachOrdered((drawable) -> drawable.render(graphics, scene));
+        if (this.isVisible()) {
+            drawables.stream().filter(
+                    (drawable) -> (drawable.isVisible())
+            ).forEachOrdered((drawable) -> drawable.render(graphics, scene));
+        }
     }
 }

@@ -81,55 +81,57 @@ public class Image<ParentEngine extends Engine> extends Shape<ParentEngine>
     @Override
     public final void render(Graphics graphics, Scene<ParentEngine> screen)
     {
-        switch (this.center) {
-            case Vertically :
-                graphics.drawImage(
-                    this.texture.asBufferedImage(),
-                    this.getPosition().getX(),
-                    (
-                        this.getParentEngine().getWindowSize().getHeight() / 2
-                    ) - (
-                        this.getSize().getHeight() / 2
-                    ),
-                    screen
-                );
-                break;
-            case Horizontally :
-                graphics.drawImage(
-                    this.texture.asBufferedImage(),
-                    (
-                        this.getParentEngine().getWindowSize().getWidth() / 2
-                    ) - (
-                        this.getSize().getWidth() / 2
-                    ),
-                    this.getPosition().getY(),
-                    screen
-                );
-                break;
-            case Parent :
-                graphics.drawImage(
-                    this.texture.asBufferedImage(),
-                    (
-                        this.getParentEngine().getWindowSize().getWidth() / 2
-                    ) - (
-                        this.getSize().getWidth() / 2
-                    ),
-                    (
-                        this.getParentEngine().getWindowSize().getHeight() / 2
-                    ) - (
-                        this.getSize().getHeight() / 2
-                    ),
-                    screen
-                );
-                break;
-            case None :
-                graphics.drawImage(
-                    this.texture.asBufferedImage(),
-                    this.getPosition().getX(),
-                    this.getPosition().getY(),
-                    screen
-                );
-                break;
+        if (this.isVisible()) {
+            switch (this.center) {
+                case Vertically:
+                    graphics.drawImage(
+                            this.texture.asBufferedImage(),
+                            this.getPosition().getX(),
+                            (
+                                    this.getParentEngine().getWindowSize().getHeight() / 2
+                            ) - (
+                                    this.getSize().getHeight() / 2
+                            ),
+                            screen
+                    );
+                    break;
+                case Horizontally:
+                    graphics.drawImage(
+                            this.texture.asBufferedImage(),
+                            (
+                                    this.getParentEngine().getWindowSize().getWidth() / 2
+                            ) - (
+                                    this.getSize().getWidth() / 2
+                            ),
+                            this.getPosition().getY(),
+                            screen
+                    );
+                    break;
+                case Parent:
+                    graphics.drawImage(
+                            this.texture.asBufferedImage(),
+                            (
+                                    this.getParentEngine().getWindowSize().getWidth() / 2
+                            ) - (
+                                    this.getSize().getWidth() / 2
+                            ),
+                            (
+                                    this.getParentEngine().getWindowSize().getHeight() / 2
+                            ) - (
+                                    this.getSize().getHeight() / 2
+                            ),
+                            screen
+                    );
+                    break;
+                case None:
+                    graphics.drawImage(
+                            this.texture.asBufferedImage(),
+                            this.getPosition().getX(),
+                            this.getPosition().getY(),
+                            screen
+                    );
+                    break;
+            }
         }
     }
 
