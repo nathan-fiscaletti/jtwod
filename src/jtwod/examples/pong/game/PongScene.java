@@ -5,10 +5,8 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 
 import jtwod.engine.Drawable;
-import jtwod.engine.EntityController;
 import jtwod.engine.Scene;
 import jtwod.engine.drawable.Text;
-import jtwod.engine.metrics.Dimensions;
 import jtwod.engine.metrics.Vector;
 
 public class PongScene extends Scene<PongEngine> {

@@ -148,6 +148,48 @@ public final class Texture
     }
 
     /**
+     * Retrieve a dashed Texture.
+     *
+     * @param size The Dimensions of the Texture.
+     * @param horizontal Whether or not we should draw from left to right.
+     * @param color1 The first color.
+     * @param color2 The second color.
+     * @return
+     */
+    public static final Texture dashedTexture(Dimensions size, boolean horizontal, Color color1, Color color2)
+    {
+        BufferedImage image = Texture.colorTexture(Color.BLACK, size).asBufferedImage();
+
+        Graphics graphics = image.getGraphics();
+
+        if (horizontal) {
+            int dashCount = size.getWidth() / 10;
+            for (int i = 0; i < dashCount; i++) {
+                if (i % 2 == 0) {
+                    graphics.setColor(color1);
+                } else {
+                    graphics.setColor(color2);
+                }
+
+                graphics.fillRect(i*10, 0, 10, size.getHeight());
+            }
+        } else {
+            int dashCount = size.getHeight() / 10;
+            for (int i = 0; i < dashCount; i++) {
+                if (i % 2 == 0) {
+                    graphics.setColor(color2);
+                } else {
+                    graphics.setColor(color1);
+                }
+
+                graphics.fillRect(0, i*10, size.getWidth(), 10);
+            }
+        }
+
+        return new Texture(image);
+    }
+
+    /**
      * Retrieve the placeholder Texture for the unknown texture.
      *
      * @param size The size of the Texture.

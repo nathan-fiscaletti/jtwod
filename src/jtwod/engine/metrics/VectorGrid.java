@@ -1,13 +1,19 @@
 package jtwod.engine.metrics;
 
+import jtwod.engine.Drawable;
 import jtwod.engine.Engine;
-import jtwod.engine.EntityController;
+
 import jtwod.engine.Scene;
+import jtwod.engine.drawable.Image;
+import jtwod.engine.graphics.Texture;
+import jtwod.engine.graphics.TextureGroup;
+
+import java.awt.*;
 
 /**
  * Represents a grid of Vectors with a specified cell size.
  */
-public final class VectorGrid {
+public final class VectorGrid<ParentEngine extends Engine> extends Drawable<ParentEngine> {
 
     /**
      * The starting point for this VectorGrid.
@@ -32,8 +38,10 @@ public final class VectorGrid {
      */
     public VectorGrid(
         Dimensions cellDimensions,
-        Scene<? extends Engine> scene
+        ParentEngine engine,
+        Scene<ParentEngine> scene
     ) {
+        super(Integer.MAX_VALUE, engine, scene);
         this.setLocation(Vector.Zero());
         this.cellDimensions = cellDimensions;
         this.gridDimensions = scene.getParentEngine().getWindowSize();
@@ -47,6 +55,8 @@ public final class VectorGrid {
             this.gridDimensions.getHeight()
           - this.cellDimensions.getHeight()
         );
+
+        initializeGridLines();
     }
 
     /**
@@ -59,8 +69,10 @@ public final class VectorGrid {
     public VectorGrid(
         Vector location,
         Dimensions cellDimensions,
-        Scene<? extends Engine> scene
+        ParentEngine engine,
+        Scene<ParentEngine> scene
     ) {
+        super(Integer.MAX_VALUE, engine, scene);
         this.setLocation(location);
         this.cellDimensions = cellDimensions;
         this.gridDimensions = scene.getParentEngine().getWindowSize();
@@ -74,6 +86,8 @@ public final class VectorGrid {
             this.gridDimensions.getHeight()
           - this.cellDimensions.getHeight()
         );
+
+        initializeGridLines();
     }
 
     /**
@@ -82,8 +96,14 @@ public final class VectorGrid {
      * @param cellDimensions The Dimensions for a cell on this VectorGrid.
      * @param gridDimensions The Dimensions for this VectorGrid.
      */
-    public VectorGrid(Dimensions cellDimensions, Dimensions gridDimensions)
-    {
+    public VectorGrid(
+        Dimensions cellDimensions,
+        Dimensions gridDimensions,
+        ParentEngine engine,
+        Scene<ParentEngine> scene
+    )  {
+        super(Integer.MAX_VALUE, engine, scene);
+
         this.setLocation(Vector.Zero());
         this.cellDimensions = cellDimensions;
         this.gridDimensions = gridDimensions;
@@ -97,6 +117,8 @@ public final class VectorGrid {
             this.gridDimensions.getHeight()
           - this.cellDimensions.getHeight()
         );
+
+        initializeGridLines();
     }
 
     /**
@@ -106,8 +128,15 @@ public final class VectorGrid {
      * @param cellDimensions The Dimensions for a cell on this VectorGrid.
      * @param gridDimensions The Dimensions for this VectorGrid.
      */
-    public VectorGrid(Vector location, Dimensions cellDimensions, Dimensions gridDimensions)
-    {
+    public VectorGrid(
+            Vector location,
+            Dimensions cellDimensions,
+            Dimensions gridDimensions,
+            ParentEngine engine,
+            Scene<ParentEngine> scene
+    ) {
+        super(Integer.MAX_VALUE, engine, scene);
+
         this.setLocation(location);
         this.cellDimensions = cellDimensions;
         this.gridDimensions = gridDimensions;
@@ -121,6 +150,26 @@ public final class VectorGrid {
             this.gridDimensions.getHeight()
           - this.cellDimensions.getHeight()
         );
+
+        initializeGridLines();
+    }
+
+    /**
+     * Retrieve a Vector at the specified x and y coordinates of this VectorGrid
+     * and constrains it to the bounds of this VectorGrid.
+     *
+     * @param x The X coordinate.
+     * @param y The Y coordinate.
+     * @return The Vector.
+     */
+    public final Vector getVectorAtGridPoint(int x, int y)
+    {
+        return this.getUnconstrainedVectorAtGridPoint(x, y)
+            .constrain (
+                Vector.Zero()
+                    .plusX(this.gridDimensions.getWidth())
+                    .plusY(this.gridDimensions.getHeight())
+            );
     }
 
     /**
@@ -130,7 +179,7 @@ public final class VectorGrid {
      * @param y The Y coordinate.
      * @return The Vector.
      */
-    public final Vector getVectorAtGridPoint(int x, int y)
+    public final Vector getUnconstrainedVectorAtGridPoint(int x, int y)
     {
         return this.getLocation()
             .plusX (
@@ -142,11 +191,6 @@ public final class VectorGrid {
                 (
                     this.cellDimensions.getHeight() * y
                 ) - this.cellDimensions.getHeight()
-            )
-            .constrain (
-                Vector.Zero()
-                    .plusX(this.gridDimensions.getWidth())
-                    .plusY(this.gridDimensions.getHeight())
             );
     }
 
@@ -240,5 +284,103 @@ public final class VectorGrid {
     public final void setCellDimensions(Dimensions dimensions)
     {
         this.cellDimensions = dimensions;
+    }
+
+    /**
+     * Initialize the drawables for this VectorGrids Grid Lines.
+     */
+    private void initializeGridLines()
+    {
+        // Get the line counts
+        int horizontalLines = this.gridDimensions.getWidth() / this.cellDimensions.getWidth();
+        int verticalLines = this.gridDimensions.getHeight() / this.cellDimensions.getHeight();
+
+        // Initialize the textures
+        TextureGroup lineTextures = new TextureGroup();
+        lineTextures.addTexture(
+            "VerticalLine",
+            Texture.dashedTexture(
+                new Dimensions(
+                    1,
+                    this.gridDimensions.getHeight() + this.cellDimensions.getHeight()
+                ),
+                false,
+                Color.white,
+                Color.black
+            )
+        );
+
+        lineTextures.addTexture(
+            "HorizontalLine",
+            Texture.dashedTexture(
+                new Dimensions(
+                    this.gridDimensions.getWidth() + this.cellDimensions.getWidth(),
+                    1
+                ),
+                true,
+                Color.white,
+                Color.black
+            )
+        );
+
+        // Create Vertical lines
+        for (int i = 0;i<=verticalLines+1; i++) {
+            this.getSubDrawableGroup().addDrawable(
+                new Image<>(
+                    Integer.MAX_VALUE,
+                    lineTextures.getTexture(
+                        "VerticalLine"
+                    ),
+                    this.getUnconstrainedVectorAtGridPoint(
+                        i+1,
+                        1
+                    ),
+                    this.getParentEngine(),
+                    this.getParentScene()
+                )
+            );
+        }
+
+        for (int i = 0;i<=horizontalLines+1; i++) {
+            this.getSubDrawableGroup().addDrawable(
+                new Image<>(
+                    Integer.MAX_VALUE,
+                    lineTextures.getTexture(
+                        "HorizontalLine"
+                    ),
+                    this.getUnconstrainedVectorAtGridPoint(
+                        1,
+                        i+1
+                    ),
+                    this.getParentEngine(),
+                    this.getParentScene()
+                )
+            );
+        }
+    }
+
+    /**
+     * Render this VectorGrid to a Scene.
+     *
+     * @param scene The Scene to render to.
+     */
+    public void startRenderingTo(Scene<ParentEngine> scene)
+    {
+        scene.getDrawableGroup().addDrawable(this);
+    }
+
+    /**
+     * Stop rendering this VectorGrid on a Scene.
+     *
+     * @param scene The Scene to remove this VectorGrid form.
+     */
+    public void stopRenderingTo(Scene<ParentEngine> scene)
+    {
+        scene.getDrawableGroup().removeDrawable(this);
+    }
+
+    @Override
+    protected void update() {
+        // Not implemented.
     }
 }

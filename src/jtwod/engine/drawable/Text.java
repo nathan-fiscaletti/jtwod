@@ -199,7 +199,7 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
                        this.parentDimensions.getHeight() / 2
                     ) - (
                         graphics.getFontMetrics().getHeight() / 2
-                    ) + parentStart.getY()
+                    ) + parentStart.getY() + (graphics.getFontMetrics().getHeight() / 2)
                 );
                 break;
             case Parent:
@@ -208,15 +208,15 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
                     0,
                     this.text.length(),
                     (
-                       this.parentDimensions.getWidth() / 2
+                        this.parentDimensions.getWidth() / 2
                     ) - (
                         graphics.getFontMetrics().stringWidth(text) / 2
                     ) + this.parentStart.getX(),
                     (
-                            this.parentDimensions.getHeight() / 2
+                        this.parentDimensions.getHeight() / 2
                     ) - (
                         graphics.getFontMetrics().getHeight() / 2
-                    ) + this.parentStart.getY()
+                    ) + this.parentStart.getY() + (graphics.getFontMetrics().getHeight() / 2)
                 );
                 break;
             case None:
