@@ -40,9 +40,9 @@ public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEng
      * @param dataSetCount The number of data sets in this Graph.
      * @param updateRate The update rate in ticks at which to update this Graph.
      */
-    public Graph(int layer, ParentEngine engine, Vector position, Dimensions size, int dataSetCount, int updateRate)
+    public Graph(int layer, ParentEngine engine, Scene<ParentEngine> scene, Vector position, Dimensions size, int dataSetCount, int updateRate)
     {
-        super(layer, engine);
+        super(layer, engine, scene);
         this.setSize(size);
         this.setPosition(position);
         this.updateRate = updateRate;

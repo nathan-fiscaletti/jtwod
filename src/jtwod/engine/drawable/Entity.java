@@ -20,11 +20,6 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
     private Vector velocity;
 
     /**
-     * The Game that the Entity is attached to.
-     */
-    private final Scene<ParentEngine> parentScene;
-
-    /**
      * Kill the Entity after this many seconds.
      */
     private int shouldKillAfter = 0;
@@ -65,10 +60,9 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
      */
     public Entity(Vector position, Texture texture, Scene<ParentEngine> scene)
     {
-        super(Integer.MAX_VALUE - 1, texture, position, scene.getParentEngine());
+        super(Integer.MAX_VALUE - 1, texture, position, scene.getParentEngine(), scene);
         this.velocity = Vector.Zero();
         this.setPositionConstraint(Vector.Zero());
-        this.parentScene = scene;
         this.random = new Random();
     }
 
@@ -193,16 +187,6 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
     }
 
     /**
-     * Get the parent Scene.
-     *
-     * @return
-     */
-    public Scene<ParentEngine> getParentScene()
-    {
-        return this.parentScene;
-    }
-
-    /**
      * Check if the entity is dead.
      */
     public final boolean isDead()
@@ -251,11 +235,11 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
                     deathTick ++;
                 }else if(deathTick == 15){
                     this.onDeath();
-                    this.parentScene.getEntityController().removeEntity(this);
+                    this.getParentScene().getEntityController().removeEntity(this);
                 }
             } else {
                 this.onDeath();
-                this.parentScene.getEntityController().removeEntity(this);
+                this.getParentScene().getEntityController().removeEntity(this);
             }
         }
     }

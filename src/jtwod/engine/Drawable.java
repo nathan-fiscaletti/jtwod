@@ -69,6 +69,11 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
      * through this <code>{@link jtwod.engine.Drawable Drawable}</code>.
      */
     private DrawableGroup<ParentEngine> subDrawableGroup;
+
+    /**
+     * The Game that the Entity is attached to.
+     */
+    private Scene<ParentEngine> parentScene;
     
     /**
      * Create the <code>{@link jtwod.engine.Drawable Drawable}</code> with a
@@ -81,11 +86,12 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
      *               associated with this 
      *               <code>{@link jtwod.engine.Drawable Drawable}</code>.
      */
-    public Drawable(int layer, ParentEngine engine)
+    public Drawable(int layer, ParentEngine engine, Scene<ParentEngine> scene)
     {
         this.layer = layer;
         this.parentEngine = engine;
-        this.subDrawableGroup = new DrawableGroup<>(engine);
+        this.parentScene = scene;
+        this.subDrawableGroup = new DrawableGroup<>(engine, scene);
     }
     
     /**
@@ -103,13 +109,14 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
      *                      can be added as sub-components to this
      *                      <code>{@link jtwod.engine.Drawable Drawable}</code>.
      */
-    public Drawable(int layer, ParentEngine engine, boolean allowChildren)
+    public Drawable(int layer, ParentEngine engine, Scene<ParentEngine> scene, boolean allowChildren)
     {
         this.layer = layer;
         this.parentEngine = engine;
+        this.parentScene = scene;
         
         if (allowChildren) {
-            this.subDrawableGroup = new DrawableGroup<>(engine);
+            this.subDrawableGroup = new DrawableGroup<>(engine, scene);
         } else {
             this.allowChildren = false;
         }
@@ -255,5 +262,16 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
     public final void setParentDrawableGroup(DrawableGroup<ParentEngine> group)
     {
         this.parentDrawableGroup = group;
+    }
+
+    /**
+     * Get the parent <code>{@link jtwod.engine.Scene Scene}</code> for this
+     * <code>{@link jtwod.engine.Drawable Drawable}</code>.
+     *
+     * @return The parent <code>{@link jtwod.engine.Scene Scene}</code>.
+     */
+    public Scene<ParentEngine> getParentScene()
+    {
+        return this.parentScene;
     }
 }

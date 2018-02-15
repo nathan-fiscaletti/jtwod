@@ -1,7 +1,9 @@
 package jtwod.engine.drawable;
 
+import javafx.scene.Parent;
 import jtwod.engine.Drawable;
 import jtwod.engine.Engine;
+import jtwod.engine.Scene;
 import jtwod.engine.metrics.Dimensions;
 import jtwod.engine.metrics.Vector;
 
@@ -43,9 +45,9 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     /**
      * Construct the Shape.
      */
-    public Shape(int layer, ParentEngine engine)
+    public Shape(int layer, ParentEngine engine, Scene<ParentEngine> scene)
     {
-        super(layer, engine);
+        super(layer, engine, scene);
         this.position = Vector.Zero();
         this.size = Dimensions.Zero();
         this.positionConstraint = Vector.Max(engine);
@@ -178,7 +180,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
         Engine engine,
         int buffer
     ) {
-        return new Shape<ParentEngine>(-1, type.cast(engine)){
+        return new Shape<ParentEngine>(-1, type.cast(engine), null){
             {
                 this.setSize(new Dimensions(engine.getWindowSize().getWidth() + buffer, engine.getWindowSize().getHeight() + buffer));
                 this.setPosition(Vector.Zero().plusX(-buffer).plusY(-buffer));

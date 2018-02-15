@@ -35,14 +35,15 @@ public class PongScene extends Scene<PongEngine> {
         this.setEntityController(new PongEntityController(this));
         
         // Add the logo to the drawables.
-        logoText = new Text<>(
+        logoText = new Text<PongEngine>(
             1,
             "Dropshot Pong",
             new Font("System", Font.BOLD, 48),
             Color.yellow,
             Drawable.Center.Horizontally,
             Vector.Zero().plusY(80),
-            this.getParentEngine()
+            this.getParentEngine(),
+            this
         );
         
         instructionsText = new Text<>(
@@ -52,7 +53,8 @@ public class PongScene extends Scene<PongEngine> {
             Color.gray,
             Drawable.Center.Horizontally,
             Vector.Zero().plusY(112),
-            this.getParentEngine()
+            this.getParentEngine(),
+            this
         );
         
         scoreText = new Text<>(
@@ -62,7 +64,8 @@ public class PongScene extends Scene<PongEngine> {
             Color.white,
             Drawable.Center.Horizontally,
             Vector.Zero().plusY(150),
-            this.getParentEngine()
+            this.getParentEngine(),
+            this
         );
         
         roundText = new Text<>(
@@ -72,7 +75,8 @@ public class PongScene extends Scene<PongEngine> {
             Color.white,
             Drawable.Center.Horizontally,
             Vector.Zero().plusY(180),
-            this.getParentEngine()
+            this.getParentEngine(),
+            this
         );
         
         worthText = new Text<>(
@@ -82,7 +86,8 @@ public class PongScene extends Scene<PongEngine> {
             Color.white,
             Drawable.Center.Horizontally,
             Vector.Zero().plusY(210),
-            this.getParentEngine()
+            this.getParentEngine(),
+            this
         );
 
         

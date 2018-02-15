@@ -144,7 +144,7 @@ public abstract class Scene<
         this.name = name;
         this.parentEngine = engine;
         this.controller = null;
-        this.drawableGroup = new DrawableGroup<>(this.getParentEngine());
+        this.drawableGroup = new DrawableGroup<>(this.getParentEngine(), this);
         initializeInternalDrawables(engine);
     }
 
@@ -170,7 +170,7 @@ public abstract class Scene<
         this.name = name;
         this.parentEngine = engine;
         this.controller = controller;
-        this.drawableGroup = new DrawableGroup<>(this.getParentEngine());
+        this.drawableGroup = new DrawableGroup<>(this.getParentEngine(), this);
         initializeInternalDrawables(engine);
     }
 
@@ -187,7 +187,7 @@ public abstract class Scene<
             new Font("Monospaced", Font.BOLD, 9),
             Color.white,
             Vector.Zero().plusY(11).plusX(20),
-            engine
+            engine, this
         );
         this.tpsRenderer.setVisible(false);
 
@@ -197,7 +197,7 @@ public abstract class Scene<
             new Font("Monospaced", Font.BOLD, 9),
             Color.white,
             Vector.Zero().plusY(24).plusX(20),
-            engine
+            engine, this
         );
         this.fpsRenderer.setVisible(false);
 
@@ -210,7 +210,8 @@ public abstract class Scene<
                     )
             ),
             Vector.Zero(),
-            this.getParentEngine()
+            engine,
+            this
         );
 
         this.fpsColorBlock = new Image<ParentEngine>(
@@ -220,7 +221,7 @@ public abstract class Scene<
                     new Dimensions(10, 10)
             ),
             new Vector(5, 15),
-            engine
+            engine, this
         );
         this.fpsColorBlock.setVisible(false);
 
@@ -231,13 +232,14 @@ public abstract class Scene<
                     new Dimensions(10, 10)
             ),
             new Vector(5, 1),
-            engine
+            engine, this
         );
         this.tpsColorBlock.setVisible(false);
 
         this.graphRenderer = new Graph<ParentEngine>(
             Integer.MAX_VALUE,
             engine,
+            this,
             Vector.Zero().plusY(44),
             new Dimensions(200, 50),
             2, 1

@@ -1,5 +1,7 @@
 package jtwod.engine;
 
+import javafx.scene.Parent;
+
 import java.awt.Graphics;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,9 +38,9 @@ public final class DrawableGroup<
      * @param engine The parent <code>{@link jtwod.engine.Engine Engine}</code>
      *               with which this DrawableGroup will be associated.
      */
-    public DrawableGroup(ParentEngine engine)
+    public DrawableGroup(ParentEngine engine, Scene<ParentEngine> scene)
     {
-        super(-1, engine, false);
+        super(-1, engine, scene, false);
         this.drawables  = new LinkedList<>();
     }
     

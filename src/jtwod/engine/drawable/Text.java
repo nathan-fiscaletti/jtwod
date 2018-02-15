@@ -45,9 +45,9 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
      * @param color The color to make the text.
      * @param engine The parent Engine associated with this Drawable.
      */
-    public Text(int layer, String text, Font font, Color color, ParentEngine engine)
+    public Text(int layer, String text, Font font, Color color, ParentEngine engine, Scene<ParentEngine> scene)
     {
-        super(layer, engine);
+        super(layer, engine, scene);
         this.text = text;
         this.font = font;
         this.color = color;
@@ -63,9 +63,9 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
      * @param position The position in which to put the Text.
      * @param engine The parent Engine for this Text object.
      */
-    public Text(int layer, String text, Font font, Color color, Vector position, ParentEngine engine)
+    public Text(int layer, String text, Font font, Color color, Vector position, ParentEngine engine, Scene<ParentEngine> scene)
     {
-        super(layer, engine);
+        super(layer, engine, scene);
         this.text = text;
         this.font = font;
         this.color = color;
@@ -83,9 +83,9 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
      * @param position The position in which to put the Text working along side the Drawable.Center value.
      * @param engine The parent Engine for this Text object.
      */
-    public Text(int layer, String text, Font font, Color color, Center centerType, Vector position, ParentEngine engine)
+    public Text(int layer, String text, Font font, Color color, Center centerType, Vector position, ParentEngine engine, Scene<ParentEngine> scene)
     {
-        super(layer, engine);
+        super(layer, engine, scene);
         this.text = text;
         this.font = font;
         this.color = color;

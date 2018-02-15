@@ -62,13 +62,6 @@ public abstract class EntityController<
     private final LinkedList<Entity<ParentEngine>> entities;
 
     /**
-     * The parent <code>{@link jtwod.engine.Scene Scene}</code> that this
-     * <code>{@link jtwod.engine.EntityController EntityController}</code>
-     * is associated with.
-     */
-    private final Scene<ParentEngine> parentScene;
-
-    /**
      * Create a new
      * <code>{@link jtwod.engine.EntityController EntityController}</code>
      * and attach it to the supplied
@@ -78,8 +71,7 @@ public abstract class EntityController<
      */
     public EntityController(Scene<ParentEngine> scene)
     {
-        super(-1, scene.getParentEngine());
-        this.parentScene = scene;
+        super(-1, scene.getParentEngine(), scene);
         this.entities = new LinkedList<>();
     }
 
@@ -228,18 +220,6 @@ public abstract class EntityController<
     }
 
     /**
-     * Retrieve the <code>{@link jtwod.engine.Scene Scene}</code> that this
-     * <code>{@link jtwod.engine.EntityController EntityController}</code>
-     * is associated with.
-     *
-     * @return The <code>{@link jtwod.engine.Scene Scene}</code>.
-     */
-    public final Scene<ParentEngine> getParentScene()
-    {
-        return this.parentScene;
-    }
-
-    /**
      * Retrieve a list of all 
      * <code>{@link jtwod.engine.drawable.Entity Entity}</code>s 
      * currently being managed by this
@@ -262,7 +242,7 @@ public abstract class EntityController<
      */
     public final void spawnEntity(Entity<ParentEngine> entity)
     {
-        this.parentScene.addKeyListener(entity);
+        this.getParentScene().addKeyListener(entity);
         this.entities.add(entity);
     }
 
@@ -275,7 +255,7 @@ public abstract class EntityController<
      */
     public final void removeEntity(Entity<ParentEngine> entity)
     {
-        this.parentScene.removeKeyListener(entity);
+        this.getParentScene().removeKeyListener(entity);
         this.entities.remove(entity);
     }
 
@@ -288,7 +268,7 @@ public abstract class EntityController<
     {
         while(entities.size() > 0) {
             Entity<ParentEngine> entity = entities.pollFirst();
-            this.parentScene.removeKeyListener(entity);
+            this.getParentScene().removeKeyListener(entity);
         }
     }
 

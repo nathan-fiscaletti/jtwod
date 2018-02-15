@@ -129,7 +129,8 @@ public final class TestGameEngine extends Engine {
                     Color.white,
                     Drawable.Center.Horizontally,
                     Vector.Zero().plusY(130),
-                    this.getParentEngine()
+                    this.getParentEngine(),
+                    this
                 );
                 
                 this.getDrawableGroup().addDrawable(text);
