@@ -267,7 +267,7 @@ public abstract class Engine
      */
     public final Dimensions getWindowSize()
     {
-        return this.windowSize;
+        return new Dimensions(this.windowSize.getWidth(), this.windowSize.getHeight());
     }
 
     /**
