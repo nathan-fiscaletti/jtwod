@@ -16,6 +16,7 @@ public class PongEngine extends Engine {
     public final static int        paddleToWallPadding = 25;
     public final static int        ballToPaddlePadding = 10;
     public final static int        paddleSpeed         = 10;
+    public final static int        aiPaddleSpeed       = 8;
     public final static Dimensions paddleDimensions    = new Dimensions(20, 75);
     public final static Dimensions ballDimensions      = new Dimensions(20, 20);
     

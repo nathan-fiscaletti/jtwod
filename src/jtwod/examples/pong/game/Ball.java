@@ -27,16 +27,42 @@ public class Ball extends Entity<PongEngine> {
                 Vector currentVelocity = this.getVelocity();
                 this.setVelocity(currentVelocity.setX(-(currentVelocity.getX())));
                 this.worth += 1;
+
+                if (((Paddle)entity).paddleID == 1) {
+                    PongEntityController.aiHitBallLast = true;
+                } else {
+                    PongEntityController.aiHitBallLast = false;
+                }
             }
         }
+    }
+
+    @Override
+    public final void update()
+    {
+        //if (this.getParentScene().getEntityController(PongEntityController.class).playerControllingPaddle == 2) {
+        //    if (! this.isStarted()) {
+        //        if (this.random.nextInt(3) == 2){
+        //            if (PongEntityController.ball != null) {
+        //                PongEntityController.ball.setStarted(true);
+        //                this.getParentScene().getEntityController(PongEntityController.class).playerControllingPaddle = 2;
+        //            }
+        //        }
+        //    }
+        //}
     }
     
     @Override
     public final void keyPressed(KeyEvent keyEvent)
     {
-            if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+        if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
             if (! this.isStarted()) {
                 this.setStarted(true);
+                if (currentPaddle == 2) {
+                    this.getParentScene().getEntityController(PongEntityController.class).aiHitBallLast = false;
+                } else {
+                    this.getParentScene().getEntityController(PongEntityController.class).aiHitBallLast = true;
+                }
             }
         }
     }
@@ -57,7 +83,7 @@ public class Ball extends Entity<PongEngine> {
                 this.startOnPaddle(PongEntityController.paddle1);
                 break;
             case RightXAxis:
-                    PongEntityController.paddle1.score += this.worth;
+                PongEntityController.paddle1.score += this.worth;
                 this.worth = 1;
                 PongEngine.round += 1;
                 this.startOnPaddle(PongEntityController.paddle2);
@@ -68,6 +94,7 @@ public class Ball extends Entity<PongEngine> {
     public void startOnPaddle(Paddle paddle)
     {
         this.currentPaddle = paddle.paddleID;
+        //this.getParentScene().getEntityController(PongEntityController.class).aiHitBallLast = true;
         this.setVelocity(Vector.Zero());
         this.setStarted(false);
     }

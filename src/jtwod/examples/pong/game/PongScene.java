@@ -23,8 +23,6 @@ public class PongScene extends Scene<PongEngine> {
     public Text<PongEngine> scoreText;
     public Text<PongEngine> roundText;
     public Text<PongEngine> worthText;
-    public Text<PongEngine> tpsText;
-    public Text<PongEngine> fpsText;
     
     public PongScene(PongEngine engine) {
         super("Pong", engine);
