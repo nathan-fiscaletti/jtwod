@@ -158,6 +158,17 @@ public final class Dimensions
     }
 
     /**
+     * Create a perfectly square Dimensions object using the specified size.
+     *
+     * @param size The width and height of the Dimensions.
+     * @return The Dimensions.
+     */
+    public static final Dimensions Square(int size)
+    {
+        return new Dimensions(size, size);
+    }
+
+    /**
      * Retrieve the Zero dimension.
      *
      * @return
