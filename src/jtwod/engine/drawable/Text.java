@@ -2,6 +2,7 @@ package jtwod.engine.drawable;
 
 import jtwod.engine.Engine;
 import jtwod.engine.Scene;
+import jtwod.engine.metrics.Dimensions;
 import jtwod.engine.metrics.Vector;
 
 import java.awt.Font;
@@ -37,6 +38,16 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     private Center center;
 
     /**
+     * The position of this Text objects parent container.
+     */
+    private Vector parentStart;
+
+    /**
+     * The Dimensions of this Text objects parent container.
+     */
+    private Dimensions parentDimensions;
+
+    /**
      * Create the new Text object and default to Center.Parent.
      *
      * @param layer The layer to render this Drawable on.
@@ -52,6 +63,8 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
         this.font = font;
         this.color = color;
         this.center = Center.Parent;
+        this.parentStart = Vector.Zero();
+        this.parentDimensions = this.getParentEngine().getWindowSize();
     }
     
     /**
@@ -71,6 +84,9 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
         this.color = color;
         this.center = Center.None;
         this.setPosition(position);
+
+        this.parentStart = Vector.Zero();
+        this.parentDimensions = this.getParentEngine().getWindowSize();
     }
 
     /**
@@ -90,6 +106,56 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
         this.font = font;
         this.color = color;
         this.center = centerType;
+        this.setPosition(position);
+
+        this.parentStart = Vector.Zero();
+        this.parentDimensions = this.getParentEngine().getWindowSize();
+    }
+
+    /**
+     * Create the new Text object.
+     *
+     * @param text The text to display.
+     * @param font THe font to use.
+     * @param color The color to make the text.
+     * @param parentStart The starting point for the parent of this Text object.
+     * @param parentDimensions The dimensions of the parent of this Text Object.
+     * @param engine The parent Engine for this Text object.
+     */
+    public Text(int layer, String text, Font font, Color color, Vector parentStart, Dimensions parentDimensions, ParentEngine engine, Scene<ParentEngine> scene)
+    {
+        super(layer, engine, scene);
+        this.text = text;
+        this.font = font;
+        this.color = color;
+        this.center = Center.Parent;
+
+        this.parentStart = parentStart;
+        this.parentDimensions = parentDimensions;
+    }
+
+    /**
+     * Create the new Text object.
+     *
+     * @param text The text to display.
+     * @param font THe font to use.
+     * @param color The color to make the text.
+     * @param centerType The Drawable.Center value to use.
+     * @param position The position in which to put the Text working along side the Drawable.Center value.
+     * @param parentStart The starting point for the parent of this Text object.
+     * @param parentDimensions The dimensions of the parent of this Text Object.
+     * @param engine The parent Engine for this Text object.
+     */
+    public Text(int layer, String text, Font font, Color color, Center centerType, Vector position, Vector parentStart, Dimensions parentDimensions, ParentEngine engine, Scene<ParentEngine> scene)
+    {
+        super(layer, engine, scene);
+        this.text = text;
+        this.font = font;
+        this.color = color;
+        this.center = centerType;
+
+        this.parentStart = parentStart;
+        this.parentDimensions = parentDimensions;
         this.setPosition(position);
     }
 
@@ -112,54 +178,54 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
         switch (this.center) {
             case Horizontally:
                 graphics.drawChars(
-                        this.text.toCharArray(),
-                        0,
-                        this.text.length(),
-                        (
-                                this.getParentEngine().getWindowSize().getWidth() / 2
-                        ) - (
-                                graphics.getFontMetrics().stringWidth(text) / 2
-                        ),
-                        this.getPosition().getY()
+                    this.text.toCharArray(),
+                    0,
+                    this.text.length(),
+                    (
+                        this.parentDimensions.getWidth() / 2
+                    ) - (
+                        graphics.getFontMetrics().stringWidth(text) / 2
+                    ) + parentStart.getX(),
+                    this.getPosition().getY()
                 );
                 break;
             case Vertically:
                 graphics.drawChars(
-                        this.text.toCharArray(),
-                        0,
-                        this.text.length(),
-                        this.getPosition().getX(),
-                        (
-                                this.getParentEngine().getWindowSize().getHeight() / 2
-                        ) - (
-                                graphics.getFontMetrics().getHeight() / 2
-                        )
+                    this.text.toCharArray(),
+                    0,
+                    this.text.length(),
+                    this.getPosition().getX(),
+                    (
+                       this.parentDimensions.getHeight() / 2
+                    ) - (
+                        graphics.getFontMetrics().getHeight() / 2
+                    ) + parentStart.getY()
                 );
                 break;
             case Parent:
                 graphics.drawChars(
-                        this.text.toCharArray(),
-                        0,
-                        this.text.length(),
-                        (
-                                this.getParentEngine().getWindowSize().getWidth() / 2
-                        ) - (
-                                graphics.getFontMetrics().stringWidth(text) / 2
-                        ),
-                        (
-                                this.getParentEngine().getWindowSize().getHeight() / 2
-                        ) - (
-                                graphics.getFontMetrics().getHeight() / 2
-                        )
+                    this.text.toCharArray(),
+                    0,
+                    this.text.length(),
+                    (
+                       this.parentDimensions.getWidth() / 2
+                    ) - (
+                        graphics.getFontMetrics().stringWidth(text) / 2
+                    ) + this.parentStart.getX(),
+                    (
+                            this.parentDimensions.getHeight() / 2
+                    ) - (
+                        graphics.getFontMetrics().getHeight() / 2
+                    ) + this.parentStart.getY()
                 );
                 break;
             case None:
                 graphics.drawChars(
-                        this.text.toCharArray(),
-                        0,
-                        this.text.length(),
-                        this.getPosition().getX(),
-                        this.getPosition().getY()
+                    this.text.toCharArray(),
+                    0,
+                    this.text.length(),
+                    this.getPosition().getX(),
+                    this.getPosition().getY()
                 );
                 break;
         }

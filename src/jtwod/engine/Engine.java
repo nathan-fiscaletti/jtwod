@@ -34,7 +34,7 @@ public abstract class Engine
     private boolean enableSounds = true;
 
     /**
-     * The <code>{@link jtwod.engine.TextureGroup TextureGroup}</code> object
+     * The <code>{@link jtwod.engine.graphics.TextureGroup TextureGroup}</code> object
      * that this engine was initialized with.
      */
     private TextureGroup textureGroup;

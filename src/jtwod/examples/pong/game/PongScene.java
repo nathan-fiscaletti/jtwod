@@ -8,6 +8,7 @@ import jtwod.engine.Drawable;
 import jtwod.engine.EntityController;
 import jtwod.engine.Scene;
 import jtwod.engine.drawable.Text;
+import jtwod.engine.metrics.Dimensions;
 import jtwod.engine.metrics.Vector;
 
 public class PongScene extends Scene<PongEngine> {
@@ -33,7 +34,7 @@ public class PongScene extends Scene<PongEngine> {
     {
         this.setShouldRenderDebug(true);
         this.setEntityController(new PongEntityController(this));
-        
+
         // Add the logo to the drawables.
         logoText = new Text<PongEngine>(
             1,
@@ -82,7 +83,7 @@ public class PongScene extends Scene<PongEngine> {
         worthText = new Text<>(
             1,
             "Round Worth 0",
-            new Font("Systen", Font.BOLD, 14),
+            new Font("System", Font.BOLD, 14),
             Color.white,
             Drawable.Center.Horizontally,
             Vector.Zero().plusY(210),
@@ -90,7 +91,6 @@ public class PongScene extends Scene<PongEngine> {
             this
         );
 
-        
         this.getDrawableGroup().addDrawable(logoText);
         this.getDrawableGroup().addDrawable(instructionsText);
         this.getDrawableGroup().addDrawable(scoreText);
