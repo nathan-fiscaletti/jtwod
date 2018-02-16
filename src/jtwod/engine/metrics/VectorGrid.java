@@ -5,6 +5,7 @@ import jtwod.engine.Engine;
 
 import jtwod.engine.Scene;
 import jtwod.engine.drawable.Image;
+import jtwod.engine.drawable.Text;
 import jtwod.engine.graphics.Texture;
 import jtwod.engine.graphics.TextureGroup;
 
@@ -388,6 +389,42 @@ public final class VectorGrid<ParentEngine extends Engine> extends Drawable<Pare
                     this.getParentScene()
                 )
             );
+        }
+
+        int cellCountX = this.gridDimensions.getWidth() / this.cellDimensions.getWidth();
+        int cellCountY = this.gridDimensions.getHeight() / this.cellDimensions.getHeight();
+
+        for (int row = 1; row<=cellCountY+1; row++) {
+            for (int column = 1; column<=cellCountX+1; column++) {
+                Vector start = this.getUnconstrainedVectorAtGridPoint(column, row);
+                this.getSubDrawableGroup().addDrawable(
+                    new Text<>(
+                        Integer.MAX_VALUE,
+                        "x: " + column + ", y: " + row,
+                        new Font(
+                            "System",
+                            Font.PLAIN,
+                            10
+                        ),
+                        Color.yellow,
+                        start.plusY(10).plusX(3),
+                        this.getParentEngine(),
+                        this.getParentScene()
+                    )
+                );
+                this.getSubDrawableGroup().addDrawable(
+                    new Image<>(
+                        Integer.MAX_VALUE,
+                        Texture.colorTexture(
+                            Color.RED,
+                            Dimensions.Square(3)
+                        ),
+                        start.plusY(-1).plusX(-1),
+                        this.getParentEngine(),
+                        this.getParentScene()
+                    )
+                );
+            }
         }
     }
 
