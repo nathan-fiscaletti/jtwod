@@ -8,6 +8,7 @@ import jtwod.engine.metrics.Vector;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Text that can be rendered out as a Drawable.
@@ -203,6 +204,8 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
                 );
                 break;
             case Parent:
+                Rectangle2D textBounds = graphics.getFontMetrics().getStringBounds(text, graphics);
+
                 graphics.drawChars(
                     this.text.toCharArray(),
                     0,
@@ -210,13 +213,14 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
                     (
                         this.parentDimensions.getWidth() / 2
                     ) - (
-                        graphics.getFontMetrics().stringWidth(text) / 2
+                        (int)textBounds.getWidth() / 2
                     ) + this.parentStart.getX(),
                     (
-                        this.parentDimensions.getHeight() / 2
-                    ) - (
-                        graphics.getFontMetrics().getHeight() / 2
-                    ) + this.parentStart.getY() + (graphics.getFontMetrics().getHeight() / 2)
+                        (
+                            parentDimensions.getHeight()
+                          - graphics.getFontMetrics().getHeight()
+                        ) / 2
+                    ) + graphics.getFontMetrics().getAscent() + this.parentStart.getY()
                 );
                 break;
             case None:

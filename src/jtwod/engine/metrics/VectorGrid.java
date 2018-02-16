@@ -364,7 +364,7 @@ public final class VectorGrid<ParentEngine extends Engine> extends Drawable<Pare
      *
      * @param scene The Scene to render to.
      */
-    public void startRenderingTo(Scene<ParentEngine> scene)
+    public final void startRenderingTo(Scene<ParentEngine> scene)
     {
         scene.getDrawableGroup().addDrawable(this);
     }
@@ -374,7 +374,7 @@ public final class VectorGrid<ParentEngine extends Engine> extends Drawable<Pare
      *
      * @param scene The Scene to remove this VectorGrid form.
      */
-    public void stopRenderingTo(Scene<ParentEngine> scene)
+    public final void stopRenderingTo(Scene<ParentEngine> scene)
     {
         scene.getDrawableGroup().removeDrawable(this);
     }
