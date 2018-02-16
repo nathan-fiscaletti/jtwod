@@ -173,7 +173,7 @@ public final class VectorGrid<ParentEngine extends Engine> extends Drawable<Pare
     }
 
     /**
-     * Retrieve a Vector at the specified x and y coordinates of this VectorGrid.
+     * Retrieve an unconstrained Vector at the specified x and y coordinates of this VectorGrid.
      *
      * @param x The X coordinate.
      * @param y The Y coordinate.
@@ -192,6 +192,38 @@ public final class VectorGrid<ParentEngine extends Engine> extends Drawable<Pare
                     this.cellDimensions.getHeight() * y
                 ) - this.cellDimensions.getHeight()
             );
+    }
+
+    /**
+     * Retrieve a Vector at the center of the cell of this VectorGrid specified by x and y coordinates.
+     *
+     * @param x The X coordinate.
+     * @param y The Y coordinate.
+     * @return The Vector.
+     */
+    public final Vector getVectorAtCenterOfGridPoint(int x, int y)
+    {
+        return this.getUnconstrainedVectorAtCenterOfGridPoint(x, y)
+            .constrain(
+                Vector.Zero()
+                    .plusX(this.gridDimensions.getWidth())
+                    .plusY(this.gridDimensions.getHeight())
+            );
+    }
+
+    /**
+     * Retrieve an unconstrained Vector at the center of the cell of this VectorGrid specified by x and y coordinates.
+     *
+     * @param x The X coordinate.
+     * @param y The Y coordinate.
+     * @return The Vector.
+     */
+    public final Vector getUnconstrainedVectorAtCenterOfGridPoint(int x, int y)
+    {
+        return this.getUnconstrainedVectorAtGridPoint(x, y).plus(
+            -(this.cellDimensions.getWidth() / 2),
+            -(this.cellDimensions.getHeight() / 2)
+        );
     }
 
     /**

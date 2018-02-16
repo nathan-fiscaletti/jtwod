@@ -100,6 +100,40 @@ public final class Dimensions
     }
 
     /**
+     * Add to the width of these Dimensions.
+     *
+     * @param width The width to add.
+     * @return These Dimensions.
+     */
+    public final Dimensions plusWidth(int width)
+    {
+        return new Dimensions(this.width + width, this.height);
+    }
+
+    /**
+     * Add to the height of these Dimensions.
+     *
+     * @param height The height to add.
+     * @return These Dimensions.
+     */
+    public final Dimensions plusHeight(int height)
+    {
+        return new Dimensions(this.width, this.height + height);
+    }
+
+    /**
+     * Add to the width height of these Dimensions.
+     *
+     * @param width The width to add.
+     * @param height The height to add.
+     * @return These Dimensions.
+     */
+    public final Dimensions plus(int width, int height)
+    {
+        return new Dimensions(this.width + width, this.height + height);
+    }
+
+    /**
      * Retrieve the aspect ratio.
      *
      * @return aspectRatio
