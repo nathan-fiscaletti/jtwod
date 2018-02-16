@@ -217,7 +217,7 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
                     ) + this.parentStart.getX(),
                     (
                         (
-                            parentDimensions.getHeight()
+                            this.parentDimensions.getHeight()
                           - graphics.getFontMetrics().getHeight()
                         ) / 2
                     ) + graphics.getFontMetrics().getAscent() + this.parentStart.getY()
