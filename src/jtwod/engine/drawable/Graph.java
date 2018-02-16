@@ -95,11 +95,13 @@ public abstract class Graph<ParentEngine extends Engine> extends Shape<ParentEng
      *
      * @param graphics The <code>{@link java.awt.Graphics Graphics}</code>
      *                 object to use for rendering.
-     * @param scene The scene to render it out to.
+     * @param screen The scene to render it out to.
      */
     @Override
-    public final void render(Graphics graphics, Scene<ParentEngine> scene)
+    public final void render(Graphics graphics, Scene<ParentEngine> screen)
     {
+        super.render(graphics, screen);
+
         for (int dataSetId = 0; dataSetId < dataSets.length; dataSetId++) {
             int lastY = this.getPosition().getY() + this.getSize().getHeight();
             for (int dataValueId = 0; dataValueId < dataSets[dataSetId].length; dataValueId++) {

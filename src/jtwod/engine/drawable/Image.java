@@ -81,6 +81,8 @@ public class Image<ParentEngine extends Engine> extends Shape<ParentEngine>
     @Override
     public final void render(Graphics graphics, Scene<ParentEngine> screen)
     {
+        super.render(graphics, screen);
+
         switch (this.center) {
             case Vertically:
                 graphics.drawImage(

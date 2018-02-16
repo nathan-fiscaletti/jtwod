@@ -169,6 +169,7 @@ public final class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     @Override
     public final void render(Graphics graphics, Scene<ParentEngine> scene)
     {
+        super.render(graphics, scene);
         Font resetFont = graphics.getFont();
         Color resetColor = graphics.getColor();
 
