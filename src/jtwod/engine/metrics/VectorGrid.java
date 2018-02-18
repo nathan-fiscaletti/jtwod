@@ -428,26 +428,6 @@ public final class VectorGrid<ParentEngine extends Engine> extends Drawable<Pare
         }
     }
 
-    /**
-     * Render this VectorGrid to a Scene.
-     *
-     * @param scene The Scene to render to.
-     */
-    public final void startRenderingTo(Scene<ParentEngine> scene)
-    {
-        scene.getDrawableGroup().addDrawable(this);
-    }
-
-    /**
-     * Stop rendering this VectorGrid on a Scene.
-     *
-     * @param scene The Scene to remove this VectorGrid form.
-     */
-    public final void stopRenderingTo(Scene<ParentEngine> scene)
-    {
-        scene.getDrawableGroup().removeDrawable(this);
-    }
-
     @Override
     protected void update() {
         // Not implemented.
