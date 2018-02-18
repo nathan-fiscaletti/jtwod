@@ -191,7 +191,7 @@ public abstract class Scene<
      */
     private void initializeInternalDrawables(ParentEngine engine)
     {
-        this.tpsRenderer = new Text<ParentEngine>(
+        this.tpsRenderer = new Text<>(
             Integer.MAX_VALUE, // Highest possible layer
             "TPS: " + this.getTps(),
             new Font("Monospaced", Font.BOLD, 9),
@@ -201,7 +201,7 @@ public abstract class Scene<
         );
         this.tpsRenderer.setVisible(false);
 
-        this.fpsRenderer = new Text<ParentEngine>(
+        this.fpsRenderer = new Text<>(
             Integer.MAX_VALUE, // Highest possible layer
             "FPS: " + this.getFps(),
             new Font("Monospaced", Font.BOLD, 9),
@@ -211,7 +211,7 @@ public abstract class Scene<
         );
         this.fpsRenderer.setVisible(false);
 
-        this.background = new Image<ParentEngine>(
+        this.background = new Image<>(
             0, // First layer
             Texture.colorTexture(Color.black,
                     new Dimensions(
@@ -224,7 +224,7 @@ public abstract class Scene<
             this
         );
 
-        this.fpsColorBlock = new Image<ParentEngine>(
+        this.fpsColorBlock = new Image<>(
             Integer.MAX_VALUE,
             Texture.colorTexture(
                     Color.blue,
@@ -235,7 +235,7 @@ public abstract class Scene<
         );
         this.fpsColorBlock.setVisible(false);
 
-        this.tpsColorBlock = new Image<ParentEngine>(
+        this.tpsColorBlock = new Image<>(
             Integer.MAX_VALUE,
             Texture.colorTexture(
                     Color.green,
