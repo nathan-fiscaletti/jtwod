@@ -6,11 +6,13 @@ import jtwod.engine.drawable.Text;
 import jtwod.engine.graphics.Texture;
 import jtwod.engine.metrics.Dimensions;
 import jtwod.engine.metrics.Vector;
+import jtwod.engine.timing.RecurringTimer;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.util.LinkedList;
 
 
 /**
@@ -100,6 +102,12 @@ public abstract class Scene<
     private boolean isRendering = true;
 
     /**
+     * <code>{@link jtwod.engine.timing.RecurringTimer RecurringTimer}</code>s
+     * that can be attached to this <code>{@link jtwod.engine.Scene Scene}</code>.
+     */
+    private LinkedList<RecurringTimer<ParentEngine>> recurringTimers;
+
+    /**
      * The legend item for FPS color.
      */
     private Image<ParentEngine> fpsColorBlock;
@@ -145,6 +153,7 @@ public abstract class Scene<
         this.parentEngine = engine;
         this.controller = null;
         this.drawableGroup = new DrawableGroup<>(this.getParentEngine(), this);
+        this.recurringTimers = new LinkedList<>();
         initializeInternalDrawables(engine);
     }
 
@@ -171,6 +180,7 @@ public abstract class Scene<
         this.parentEngine = engine;
         this.controller = controller;
         this.drawableGroup = new DrawableGroup<>(this.getParentEngine(), this);
+        this.recurringTimers = new LinkedList<>();
         initializeInternalDrawables(engine);
     }
 
@@ -602,7 +612,21 @@ public abstract class Scene<
     {
         return this.fpsRenderer.isVisible() && this.tpsRenderer.isVisible();
     }
-    
+
+    /**
+     * Adds a
+     * <code>{@link jtwod.engine.timing.RecurringTimer RecurringTimer}</code>
+     * to this <code>{@link jtwod.engine.Scene Scene}</code>.
+     *
+     * @param timer
+     * The <code>{@link jtwod.engine.timing.RecurringTimer RecurringTimer}</code>
+     * to add.
+     */
+    public final void addRecurringTimer(RecurringTimer<ParentEngine> timer)
+    {
+        this.recurringTimers.add(timer);
+    }
+
     /**
      * Internal initialization function.
      */
@@ -684,13 +708,15 @@ public abstract class Scene<
      */
     private void runUpdate()
     {
-        this.drawableGroup.update();
+        this.recurringTimers.forEach(RecurringTimer::notifyUpdate);
+
+        this.drawableGroup.notifyUpdate();
 
         this.tpsRenderer.setText("TPS: " + this.getTps());
         this.fpsRenderer.setText("FPS: " + this.getFps());
 
         if (this.controller != null) {
-            this.controller.update();
+            this.controller.notifyUpdate();
         }
 
         this.update();

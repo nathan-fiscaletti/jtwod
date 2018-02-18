@@ -1,8 +1,11 @@
 package jtwod.engine;
 
+import jtwod.engine.timing.RecurringTimer;
+
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.LinkedList;
 
 /**
  * Class for implementing both render and update methods.
@@ -12,7 +15,7 @@ import java.awt.event.KeyEvent;
  *                       associated with this
  *                       <code>{@link jtwod.engine.Drawable Drawable}</code>.
  * 
- * @see Drawable#update() 
+ * @see Drawable#update()
  * @see Drawable#render(java.awt.Graphics, jtwod.engine.Scene) 
  * @see Drawable#keyPressed(java.awt.event.KeyEvent) 
  * @see Drawable#keyReleased(java.awt.event.KeyEvent) 
@@ -74,6 +77,12 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
      * The Game that the Entity is attached to.
      */
     private Scene<ParentEngine> parentScene;
+
+    /**
+     * <code>{@link jtwod.engine.timing.RecurringTimer RecurringTimer}</code>s
+     * that can be attached to this <code>{@link jtwod.engine.Drawable Drawable}</code>.
+     */
+    private LinkedList<RecurringTimer<ParentEngine>> recurringTimers;
     
     /**
      * Create the <code>{@link jtwod.engine.Drawable Drawable}</code> with a
@@ -91,6 +100,7 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
         this.layer = layer;
         this.parentEngine = engine;
         this.parentScene = scene;
+        this.recurringTimers = new LinkedList<>();
         this.subDrawableGroup = new DrawableGroup<>(engine, scene);
     }
     
@@ -114,6 +124,7 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
         this.layer = layer;
         this.parentEngine = engine;
         this.parentScene = scene;
+        this.recurringTimers = new LinkedList<>();
         
         if (allowChildren) {
             this.subDrawableGroup = new DrawableGroup<>(engine, scene);
@@ -135,6 +146,20 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
     {
         if (this.allowChildren) {
             this.subDrawableGroup.render(graphics, scene);
+        }
+    }
+
+    /**
+     * Notifies the <code>{@link jtwod.engine.Drawable Drawable}</code>
+     * to perform an Update call.
+     */
+    protected void notifyUpdate()
+    {
+        this.recurringTimers.forEach(RecurringTimer::notifyUpdate);
+        this.update();
+
+        if (this.allowChildren) {
+            this.subDrawableGroup.notifyUpdate();
         }
     }
 
@@ -275,5 +300,19 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
     public Scene<ParentEngine> getParentScene()
     {
         return this.parentScene;
+    }
+
+    /**
+     * Adds a
+     * <code>{@link jtwod.engine.timing.RecurringTimer RecurringTimer}</code>
+     * to this <code>{@link jtwod.engine.Scene Scene}</code>.
+     *
+     * @param timer
+     * The <code>{@link jtwod.engine.timing.RecurringTimer RecurringTimer}</code>
+     * to add.
+     */
+    public final void addRecurringTimer(RecurringTimer<ParentEngine> timer)
+    {
+        this.recurringTimers.add(timer);
     }
 }

@@ -131,18 +131,30 @@ public final class Texture
      * Retrieve a Texture for a circle of the specified radius.
      *
      * @param background The background color to use for the Texture.
-     * @param color The color to make the circle.
+     * @param border The border color.
+     * @param fill The color to fill the circle with. (Leave null for none).
+     * @param borderThickness The thickness to make the border if the circle has a border.
      * @param radius The radius to use.
      * @return The Circle Texture.
      */
-    public final static Texture colorCircleTexture(Color background, Color color, int radius)
+    public final static Texture colorCircleTexture(Color background, Color border, Color fill, int borderThickness, int radius)
     {
         BufferedImage image = Texture.colorTexture(background, new Dimensions(radius, radius)).asBufferedImage();
 
         Graphics graphics = image.getGraphics();
-        graphics.setColor( Color.white );
 
-        graphics.fillArc(0, 0, radius, radius, 0, 360);
+        if (fill != null) {
+            graphics.setColor( Color.white );
+            graphics.fillArc(0, 0, radius, radius, 0, 360);
+        }
+
+        if (border != null) {
+            graphics.setColor(border);
+            Graphics2D g2d = (Graphics2D)graphics;
+            g2d.setStroke(new BasicStroke(borderThickness));
+
+            g2d.drawArc(0, 0, radius, radius, 0, 360);
+        }
 
         return new Texture(image);
     }

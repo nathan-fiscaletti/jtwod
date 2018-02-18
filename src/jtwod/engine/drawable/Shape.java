@@ -75,10 +75,11 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     /**
      * Perform an update on the Shape.
      */
-    protected void performUpdate()
+    @Override
+    protected void notifyUpdate()
     {
+        super.notifyUpdate();
         this.updateConstraints();
-        this.update();
     }
 
     /**

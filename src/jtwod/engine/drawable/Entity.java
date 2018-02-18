@@ -105,15 +105,14 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
      * Called when an update tick occurs.
      */
     @Override
-    public void performUpdate()
+    public final void notifyUpdate()
     {
+        super.notifyUpdate();
+
         // Update velocity
         if (! this.velocity.isZero()) {
             this.move(velocity);
         }
-
-        // Perform the heart beat
-        this.update();
 
         // Update the constraints
         this.updateConstraints();

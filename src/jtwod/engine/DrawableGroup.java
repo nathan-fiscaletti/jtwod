@@ -89,7 +89,7 @@ public final class DrawableGroup<
     @Override
     protected final void update()
     {
-        this.drawables.forEach(Drawable::update);
+        this.drawables.forEach(Drawable::notifyUpdate);
     }
     
      /**

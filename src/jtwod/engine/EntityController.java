@@ -215,7 +215,7 @@ public abstract class EntityController<
             }
 
             // Perform Heart Beat
-            entity.performUpdate();
+            entity.notifyUpdate();
         });
     }
 
