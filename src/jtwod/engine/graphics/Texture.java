@@ -118,7 +118,7 @@ public final class Texture
         BufferedImage image = new BufferedImage (
                 size.getWidth(),
                 size.getHeight(),
-                BufferedImage.TYPE_INT_RGB
+                BufferedImage.TYPE_INT_ARGB
         );
         
         int[]data=((DataBufferInt) image.getRaster().getDataBuffer()).getData();
@@ -137,14 +137,14 @@ public final class Texture
      * @param radius The radius to use.
      * @return The Circle Texture.
      */
-    public final static Texture colorCircleTexture(Color background, Color border, Color fill, int borderThickness, int radius)
+    public final static Texture colorCircleTexture(Color border, Color fill, int borderThickness, int radius)
     {
-        BufferedImage image = Texture.colorTexture(background, new Dimensions(radius, radius)).asBufferedImage();
+        BufferedImage image = Texture.colorTexture(new Color(0,0,0,0), new Dimensions(radius, radius)).asBufferedImage();
 
         Graphics graphics = image.getGraphics();
 
         if (fill != null) {
-            graphics.setColor( Color.white );
+            graphics.setColor( fill );
             graphics.fillArc(0, 0, radius, radius, 0, 360);
         }
 

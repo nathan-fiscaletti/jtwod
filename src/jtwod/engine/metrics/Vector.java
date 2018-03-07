@@ -136,9 +136,10 @@ public final class Vector
      * 
      * @param bufferX
      */
-    public final void setXBuffer(int bufferX)
+    public final Vector setXBuffer(int bufferX)
     {
         this.bufferX = bufferX;
+        return this;
     }
 
     /**
@@ -156,9 +157,10 @@ public final class Vector
      * 
      * @param bufferY
      */
-    public final void setYBuffer(int bufferY)
+    public final Vector setYBuffer(int bufferY)
     {
         this.bufferY = bufferY;
+        return this;
     }
 
     /**

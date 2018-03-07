@@ -37,7 +37,7 @@ public abstract class RecurringTimer<ParentEngine extends Engine> {
     public final void notifyUpdate()
     {
         if (scene.getTps() > 0 && ((double)currentTickInSecond / (double)scene.getTps()) >= this.seconds) {
-            update();
+            this.update();
             currentTickInSecond=0;
         }
 
