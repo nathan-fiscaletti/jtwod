@@ -27,9 +27,14 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     private Dimensions size;
 
     /**
-     * The positional constraint for the Shape.
+     * The maximum positional constraint for the Shape.
      */
-    private Vector positionConstraint;
+    private Vector constraintMax;
+
+    /**
+     * The minimum positional constraint for the Shape.
+     */
+    private Vector constraintMin;
     
     /**
      * Enumeration definition for constraint event types.
@@ -50,7 +55,6 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
         super(layer, engine, scene);
         this.position = Vector.Zero();
         this.size = Dimensions.Zero();
-        this.positionConstraint = Vector.Max(engine);
     }
     
     /**
@@ -114,8 +118,12 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
      */
     public final void updateConstraints()
     {
-        if (this.position != null && this.positionConstraint != null && ! this.positionConstraint.isZero()) {
-            this.constrainCustom(this.positionConstraint);
+        if (
+            this.position != null &&
+            this.constraintMax != null &&
+            this.constraintMin != null
+        ) {
+            this.constrain(this.constraintMin, this.constraintMax);
         }
     }
 
@@ -162,11 +170,13 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     /**
      * Update the position constraint for this Shape.
      *
-     * @param positionConstraint The new positional constraint.
+     * @param min The new positional constraint minimum.
+     * @param max The new positional constraint maximum.
      */
-    public final void setPositionConstraint(Vector positionConstraint)
+    public final void setPositionConstraint(Vector min, Vector max)
     {
-        this.positionConstraint = positionConstraint;
+        this.constraintMin = min;
+        this.constraintMax = max;
     }
 
     /**
@@ -193,29 +203,30 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
      * A custom implementation of the Vector constraint mechanism.
      * This will call back to the {@link Shape#onConstrained(ConstrainedEventType)} function.
      * 
-     * We use this instead of {@link Vector#constrain(Vector)}
+     * We use this instead of {@link Vector#constrain(Vector, Vector)}
      *
-     * @param constraint The constraint to use.
+     * @param min The minimum constraint to use.
+     * @param max The maximum constraint to use.
      */
-    private void constrainCustom(Vector constraint)
+    private void constrain(Vector min, Vector max)
     {
-        if (this.position.getX() < 0 - constraint.getXBuffer()) {
-            this.position.setX(0);
+        if (this.position.getX() < min.getX() - min.getXBuffer()) {
+            this.position.setX(min.getX() - min.getXBuffer());
             this.onConstrained(ConstrainedEventType.LeftXAxis);
         }
 
-        if (this.position.getY() < 0 - constraint.getYBuffer()) {
-            this.position.setY(0);
+        if (this.position.getY() < min.getY() - min.getYBuffer()) {
             this.onConstrained(ConstrainedEventType.TopYAxis);
+            this.position.setY(min.getY() - min.getYBuffer());
         }
 
-        if (this.position.getX() > constraint.getX() - constraint.getXBuffer()) {
-            this.position.setX(constraint.getX());
+        if (this.position.getX() > max.getX() - max.getXBuffer()) {
+            this.position.setX(max.getX() - max.getXBuffer());
             this.onConstrained(ConstrainedEventType.RightXAxis);
         }
 
-        if (this.position.getY() > constraint.getY() - constraint.getYBuffer()) {
-            this.position.setY(constraint.getY());
+        if (this.position.getY() > max.getY() - max.getYBuffer()) {
+            this.position.setY(max.getY() - max.getYBuffer());
             this.onConstrained(ConstrainedEventType.BottomYAxis);
         }
     }

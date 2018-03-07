@@ -15,7 +15,7 @@ public class Paddle extends Entity<PongEngine> {
     public Paddle(Vector position, Scene<PongEngine> scene, int paddleID) {
         super(position, scene.getParentEngine().getTextureGroup().getTexture("Paddle"), scene);
         this.paddleID = paddleID;
-        this.setPositionConstraint(Vector.Max(this.getParentEngine()).plusY(-this.getSize().getHeight()));
+        this.setPositionConstraint(Vector.Zero(), Vector.Max(this.getParentEngine()).plusY(-this.getSize().getHeight()));
     }
 
     int curTick = 0;

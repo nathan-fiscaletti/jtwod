@@ -49,27 +49,29 @@ public final class Vector
     }
 
     /**
-     * Constrain this vector to a specific width and height.
+     * Constrain this vector to a specific max and min constraint.
      *
-     * @param constraint
+     * @param min The minimum constraint to use.
+     * @param max The maximum constraint to use.
+     *
      * @return Vector This Vector.
      */
-    public final Vector constrain(Vector constraint)
+    public final Vector constrain(Vector min, Vector max)
     {
-        if (this.x < 0 - constraint.bufferX) {
-            this.x = 0 - constraint.bufferX;
+        if (this.x < min.x - min.bufferX) {
+            this.x = min.x - min.bufferX;
         }
 
-        if (this.y < 0 - constraint.bufferY) {
-            this.y = 0 - constraint.bufferY;
+        if (this.y < min.y - min.bufferY) {
+            this.y = min.y - min.bufferY;
         }
 
-        if (this.x > constraint.x + constraint.bufferX) {
-            this.x = constraint.x + constraint.bufferX;
+        if (this.x > max.x + max.bufferX) {
+            this.x = max.x + max.bufferX;
         }
 
-        if (this.y > constraint.y + constraint.bufferY) {
-            this.y = constraint.y + constraint.bufferY;
+        if (this.y > max.y + max.bufferY) {
+            this.y = max.y + max.bufferY;
         }
 
         return this;

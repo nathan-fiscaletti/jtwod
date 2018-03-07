@@ -100,6 +100,18 @@ public final class Dimensions
     }
 
     /**
+     * Convert this Dimensions object into a Vector object
+     * mapping the Width property to the X coordinate and
+     * the Height property to the Y coordinate.
+     *
+     * @return The new Vector.
+     */
+    public final Vector asVector()
+    {
+        return new Vector(this.width, this.height);
+    }
+
+    /**
      * Add to the width of these Dimensions.
      *
      * @param width The width to add.

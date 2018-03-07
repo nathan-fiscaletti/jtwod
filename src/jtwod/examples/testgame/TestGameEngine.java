@@ -103,6 +103,7 @@ public final class TestGameEngine extends Engine {
                             {
                                 // Constrain the entity to the screen bounds.
                                 this.setPositionConstraint(
+                                    Vector.Zero(),
                                     Vector.Max(
                                         this.getParentEngine()
                                     ).plusX(

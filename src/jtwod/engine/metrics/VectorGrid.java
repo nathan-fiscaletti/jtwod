@@ -167,6 +167,7 @@ public final class VectorGrid<ParentEngine extends Engine> extends Drawable<Pare
     {
         return this.getUnconstrainedVectorAtGridPoint(x, y)
             .constrain (
+                Vector.Zero(),
                 Vector.Zero()
                     .plusX(this.gridDimensions.getWidth())
                     .plusY(this.gridDimensions.getHeight())
@@ -206,6 +207,7 @@ public final class VectorGrid<ParentEngine extends Engine> extends Drawable<Pare
     {
         return this.getUnconstrainedVectorAtCenterOfGridPoint(x, y)
             .constrain(
+                Vector.Zero(),
                 Vector.Zero()
                     .plusX(this.gridDimensions.getWidth())
                     .plusY(this.gridDimensions.getHeight())
