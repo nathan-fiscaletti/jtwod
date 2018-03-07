@@ -139,6 +139,7 @@ public final class Vector
     public final Vector setXBuffer(int bufferX)
     {
         this.bufferX = bufferX;
+
         return this;
     }
 
@@ -160,6 +161,7 @@ public final class Vector
     public final Vector setYBuffer(int bufferY)
     {
         this.bufferY = bufferY;
+
         return this;
     }
 
@@ -203,13 +205,63 @@ public final class Vector
     /**
      * Add on Vector to another Vector to create a new Vector.
      *
-     * @param velocity The Vector to add to this Vector.
+     * @param plus The Vector to add to this Vector.
      *
      * @return Vector
      */
-    public final Vector plus(Vector velocity) 
+    public final Vector plus(Vector plus)
     {
-        return new Vector(this.x + velocity.x, this.y + velocity.y);
+        return new Vector(this.x + plus.x, this.y + plus.y);
+    }
+
+    /**
+     * Multiply the X and Y values of this vector by the values passed to create a new Vector.
+     *
+     * @param x The value to multiply X by.
+     * @param y The value to multiply Y by.
+     *
+     * @return Vector
+     */
+    public final Vector multipliedBy(int x, int y)
+    {
+        return new Vector(this.x * x, this.y * y);
+    }
+
+    /**
+     * Multiply this Vector by another Vector to create a new Vector.
+     *
+     * @param multipliedBy The Vector to multiply this Vector by.
+     *
+     * @return Vector
+     */
+    public final Vector multipliedBy(Vector multipliedBy)
+    {
+        return new Vector(this.x * multipliedBy.x, this.y * multipliedBy.y);
+    }
+
+    /**
+     * Divide the X and Y values of this vector by the values passed to create a new Vector.
+     *
+     * @param x The value to divide X by.
+     * @param y The value to divide Y by.
+     *
+     * @return Vector
+     */
+    public final Vector dividedBy(int x, int y)
+    {
+        return new Vector(this.x * x, this.y * y);
+    }
+
+    /**
+     * Divide this Vector by another Vector to create a new Vector.
+     *
+     * @param dividedby The Vector to divide this Vector by.
+     *
+     * @return Vector
+     */
+    public final Vector dividedBy(Vector dividedby)
+    {
+        return new Vector(this.x * dividedby.x, this.y * dividedby.y);
     }
 
     /**
