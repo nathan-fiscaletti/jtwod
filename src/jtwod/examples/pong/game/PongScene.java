@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import jtwod.engine.Drawable;
 import jtwod.engine.Scene;
 import jtwod.engine.drawable.Text;
+import jtwod.engine.graphics.Texture;
+import jtwod.engine.metrics.Dimensions;
 import jtwod.engine.metrics.Vector;
 
 public class PongScene extends Scene<PongEngine> {
@@ -24,7 +26,22 @@ public class PongScene extends Scene<PongEngine> {
     public Text<PongEngine> worthText;
     
     public PongScene(PongEngine engine) {
-        super("Pong", engine, null, true);
+        super(
+            "Pong",
+            engine,
+            null,
+
+            // Enable showing the Cursor on this Scene.
+            true,
+
+            // Set the Cursor Texture to a Blue Circle.
+            Texture.colorCircleTexture(
+                Color.BLUE,
+                null,
+                5,
+                15
+            )
+        );
     }
 
     @Override

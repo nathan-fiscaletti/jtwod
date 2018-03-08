@@ -142,6 +142,11 @@ public abstract class Scene<
     private boolean showCursor;
 
     /**
+     * The current texture for the Cursor.
+     */
+    private Texture currentCursorTexture;
+
+    /**
      * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
      * parent <code>{@link jtwod.engine.Engine Engine}</code>.
      *
@@ -219,6 +224,43 @@ public abstract class Scene<
         this.drawableGroup = new DrawableGroup<>(this.getParentEngine(), this);
         this.recurringTimers = new LinkedList<>();
         this.showCursor = showCursor;
+        this.currentCursorTexture = null;
+        initializeInternalDrawables(engine);
+    }
+
+    /**
+     * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
+     * parent <code>{@link jtwod.engine.Engine Engine}</code> and an
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>.
+     *
+     * @param name
+     * The name of the <code>{@link jtwod.engine.Scene Scene}</code>.
+     * @param engine
+     * The parent <code>{@link jtwod.engine.Engine Engine}</code> this
+     * <code>{@link jtwod.engine.Scene Scene}</code> is attached to.
+     * @param controller
+     * The <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * to attach with this <code>{@link jtwod.engine.Scene Scene}</code>.
+     * @param showCursor
+     * If set to true, the Cursor will be displayed in this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
+     * @param cursorTexture
+     * The Texture for the Cursor.
+     */
+    public Scene(
+            String name,
+            ParentEngine engine,
+            EntityController<ParentEngine> controller,
+            boolean showCursor,
+            Texture cursorTexture
+    ) {
+        this.name = name;
+        this.parentEngine = engine;
+        this.controller = controller;
+        this.drawableGroup = new DrawableGroup<>(this.getParentEngine(), this);
+        this.recurringTimers = new LinkedList<>();
+        this.showCursor = showCursor;
+        this.currentCursorTexture = cursorTexture;
         initializeInternalDrawables(engine);
     }
 
@@ -356,8 +398,32 @@ public abstract class Scene<
      */
     public final void setCursorVisible(boolean value)
     {
-        this.getParentEngine().setCursorVisible(value);
+        this.getParentEngine().setCursorVisible(value, null);
         this.showCursor = value;
+    }
+
+    /**
+     * Update the current Cursor visibility for this
+     * <code>{@link jtwod.engine.Scene Scene}</code>
+     * and set it's Texture.
+     *
+     * @param value The new Cursor visibility.
+     * @param cursor The new Cursor Texture.
+     */
+    public final void setCursorVisible(boolean value, Texture cursor)
+    {
+        this.getParentEngine().setCursorVisible(value, cursor);
+        this.showCursor = value;
+    }
+
+    /**
+     * Retrieve the current Texture for the Cursor.
+     *
+     * @return The current Texture for the Cursor.
+     */
+    public final Texture getCurrentCursorTexture()
+    {
+        return this.currentCursorTexture;
     }
 
     /**

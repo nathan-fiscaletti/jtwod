@@ -7,6 +7,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import jtwod.engine.graphics.Texture;
 import jtwod.engine.graphics.TextureGroup;
 import jtwod.engine.metrics.Dimensions;
 
@@ -154,7 +155,7 @@ public abstract class Engine
         /** Tiny Sound - https://github.com/finnkuusisto/TinySound */
         TinySound.init();
 
-        this.setCursorVisible(false);
+        this.setCursorVisible(false, null);
 
         this.textureGroup = new TextureGroup();
         this.loadTextures();
@@ -162,12 +163,21 @@ public abstract class Engine
 
     /**
      * Update the cursor for the <code>{@link jtwod.engine.Engine Engine}</code>.
+     *
      * @param value The new Cursor visibility.
+     * @param cursor The new Cursor Texture.
      */
-    protected final void setCursorVisible(boolean value)
+    protected final void setCursorVisible(boolean value, Texture cursor)
     {
         if (value) {
-            windowFrame.getContentPane().setCursor(Cursor.getDefaultCursor());
+            if (cursor == null) {
+                windowFrame.getContentPane().setCursor(Cursor.getDefaultCursor());
+            } else {
+                Cursor newCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                  cursor.asBufferedImage(), new Point(0, 0), "Cursor"
+                );
+                windowFrame.getContentPane().setCursor(newCursor);
+            }
         } else {
             BufferedImage cursorImg = new BufferedImage(
                     16, 16, BufferedImage.TYPE_INT_ARGB
@@ -222,7 +232,7 @@ public abstract class Engine
         windowFrame.pack();
         currentScene.start();
 
-        this.setCursorVisible(currentScene.isCursorVisible());
+        this.setCursorVisible(currentScene.isCursorVisible(), currentScene.getCurrentCursorTexture());
     }
 
     /**

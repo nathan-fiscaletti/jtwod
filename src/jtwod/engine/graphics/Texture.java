@@ -142,7 +142,13 @@ public final class Texture
      */
     public final static Texture colorCircleTexture(Color border, Color fill, int borderThickness, int radius)
     {
-        BufferedImage image = Texture.colorTexture(new Color(0,0,0,0), new Dimensions(radius, radius)).asBufferedImage();
+        BufferedImage image = Texture.colorTexture(
+            null,
+            new Dimensions(
+                radius + (borderThickness * 2),
+                radius + (borderThickness * 2)
+            )
+        ).asBufferedImage();
 
         Graphics graphics = image.getGraphics();
 
@@ -156,7 +162,7 @@ public final class Texture
             Graphics2D g2d = (Graphics2D)graphics;
             g2d.setStroke(new BasicStroke(borderThickness));
 
-            g2d.drawArc(0, 0, radius, radius, 0, 360);
+            g2d.drawArc(borderThickness, borderThickness, radius, radius, 0, 360);
         }
 
         return new Texture(image);
