@@ -3,6 +3,7 @@ package jtwod.engine.metrics;
 import jtwod.engine.Engine;
 import jtwod.engine.drawable.Shape;
 
+import java.awt.*;
 import java.util.Random;
 
 public final class Vector
@@ -267,6 +268,50 @@ public final class Vector
     }
 
     /**
+     * Check if this Vector is to the left of another Vector.
+     * @param vector The vector to check against.
+     *
+     * @return True if this Vector is to the left of the other Vector.
+     */
+    public final boolean isLeftOf(Vector vector)
+    {
+        return this.getX() < vector.getX();
+    }
+
+    /**
+     * Check if this Vector is to the right of another Vector.
+     * @param vector The vector to check against.
+     *
+     * @return True if this Vector is to the right of the other Vector.
+     */
+    public final boolean isRightOf(Vector vector)
+    {
+        return this.getX() > vector.getX();
+    }
+
+    /**
+     * Check if this Vector is above another Vector.
+     * @param vector The vector to check against.
+     *
+     * @return True if this Vector is above the other Vector.
+     */
+    public final boolean isAbove(Vector vector)
+    {
+        return this.getY() < vector.getY();
+    }
+
+    /**
+     * Check if this Vector is below another Vector.
+     * @param vector The vector to check against.
+     *
+     * @return True if this Vector is below the other Vector.
+     */
+    public final boolean isBelow(Vector vector)
+    {
+        return this.getY() > vector.getY();
+    }
+
+    /**
      * Check if this vector is zero.
      *
      * @return boolean
@@ -291,6 +336,33 @@ public final class Vector
                 this.x > shape.getPosition().x + shape.getSize().getWidth() ||
                 this.y > shape.getPosition().y + shape.getSize().getHeight()
         );
+    }
+
+    /**
+     * Retrieves the negative version of this Vector.
+
+     * @return The negative version of this Vector.
+     */
+    public final Vector negative()
+    {
+        return new Vector(-this.getX(), -this.getY());
+    }
+
+    @Override
+    public final String toString()
+    {
+        return "jtwod.engine.metrics.Vector { x: " + this.getX() + ", y: " + this.getY() + " }";
+    }
+
+    /**
+     * Convert an AWT point to a Vector.
+     *
+     * @param point The point to convert.
+     * @return The new Vector.
+     */
+    public final static Vector fromPoint(Point point)
+    {
+        return new Vector(point.x, point.y);
     }
 
     /**

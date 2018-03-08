@@ -39,7 +39,13 @@ public class Paddle extends Entity<PongEngine> {
 
         curTick++;
     }
-    
+
+    @Override
+    public void mouseClicked(int button, Vector position)
+    {
+        System.out.println("Mouse button " + button + " clicked at " + position + " on Paddle.");
+    }
+
     @Override
     public final void keyPressed(KeyEvent keyEvent)
     {

@@ -24,7 +24,7 @@ public class PongScene extends Scene<PongEngine> {
     public Text<PongEngine> worthText;
     
     public PongScene(PongEngine engine) {
-        super("Pong", engine);
+        super("Pong", engine, null, true);
     }
 
     @Override

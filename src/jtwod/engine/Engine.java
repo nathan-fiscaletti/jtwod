@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import jtwod.engine.graphics.TextureGroup;
 import jtwod.engine.metrics.Dimensions;
 
+import jtwod.engine.metrics.Vector;
 import kuusisto.tinysound.TinySound;
 
 /**
@@ -153,16 +154,29 @@ public abstract class Engine
         /** Tiny Sound - https://github.com/finnkuusisto/TinySound */
         TinySound.init();
 
-        BufferedImage cursorImg = new BufferedImage(
-            16, 16, BufferedImage.TYPE_INT_ARGB
-        );
-        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-            cursorImg, new Point(0, 0), "blank cursor"
-        );
-        windowFrame.getContentPane().setCursor(blankCursor);
+        this.setCursorVisible(false);
 
         this.textureGroup = new TextureGroup();
         this.loadTextures();
+    }
+
+    /**
+     * Update the cursor for the <code>{@link jtwod.engine.Engine Engine}</code>.
+     * @param value The new Cursor visibility.
+     */
+    protected final void setCursorVisible(boolean value)
+    {
+        if (value) {
+            windowFrame.getContentPane().setCursor(Cursor.getDefaultCursor());
+        } else {
+            BufferedImage cursorImg = new BufferedImage(
+                    16, 16, BufferedImage.TYPE_INT_ARGB
+            );
+            Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                    cursorImg, new Point(0, 0), "blank cursor"
+            );
+            windowFrame.getContentPane().setCursor(blankCursor);
+        }
     }
 
     /**
@@ -207,6 +221,8 @@ public abstract class Engine
         windowFrame.add(currentScene);
         windowFrame.pack();
         currentScene.start();
+
+        this.setCursorVisible(currentScene.isCursorVisible());
     }
 
     /**
@@ -292,5 +308,19 @@ public abstract class Engine
     public final Random getRandom()
     {
         return this.random;
+    }
+
+    /**
+     * Retrieves the current cursor position on the Screen.
+     *
+     * @return
+     * A Vector representing the current Cursor position
+     * relative to the Screen.
+     */
+    public final Vector getCursorLocation()
+    {
+        return  Vector.fromPoint(
+            MouseInfo.getPointerInfo().getLocation()
+        );
     }
 }

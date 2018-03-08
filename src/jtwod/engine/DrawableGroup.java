@@ -1,6 +1,7 @@
 package jtwod.engine;
 
 import javafx.scene.Parent;
+import jtwod.engine.drawable.Shape;
 
 import java.awt.Graphics;
 import java.util.Collections;
@@ -62,6 +63,10 @@ public final class DrawableGroup<
         this.drawables.add(drawable);
         
         drawables.sort(Comparator.comparingInt(Drawable::getLayer));
+
+        if (drawable instanceof Shape) {
+            this.getParentScene().addMouseListener(((Shape)drawable).getMouseAdapter());
+        }
     }
 
     /**
@@ -74,6 +79,9 @@ public final class DrawableGroup<
     public final void removeDrawable(Drawable<ParentEngine> drawable)
     {
         if (this.drawables.contains(drawable)) {
+            if (drawable instanceof Shape) {
+                this.getParentScene().removeMouseListener(((Shape)drawable).getMouseAdapter());
+            }
             this.drawables.remove(drawable);
             drawable.setParentDrawableGroup(null);
         }

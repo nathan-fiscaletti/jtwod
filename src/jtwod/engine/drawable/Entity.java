@@ -128,14 +128,6 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
     }
 
     /**
-     * Called when this entity leaves the render bounds.
-     */
-    public void onExitBounds()
-    {
-        this.kill();
-    }
-
-    /**
      * Tell the Entity that it should die and set it's Velocity to 0.
      */
     public final void kill()

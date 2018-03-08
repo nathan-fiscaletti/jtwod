@@ -168,7 +168,7 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
      * <code>{@link jtwod.engine.Drawable Drawable}</code>.
      */
     protected abstract void update();
-    
+
     /**
      * Event triggered when a key is pressed.
      *

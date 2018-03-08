@@ -40,16 +40,7 @@ public class Ball extends Entity<PongEngine> {
     @Override
     public final void update()
     {
-        //if (this.getParentScene().getEntityController(PongEntityController.class).playerControllingPaddle == 2) {
-        //    if (! this.isStarted()) {
-        //        if (this.random.nextInt(3) == 2){
-        //            if (PongEntityController.ball != null) {
-        //                PongEntityController.ball.setStarted(true);
-        //                this.getParentScene().getEntityController(PongEntityController.class).playerControllingPaddle = 2;
-        //            }
-        //        }
-        //    }
-        //}
+        // Not implemented.
     }
     
     @Override
@@ -59,30 +50,30 @@ public class Ball extends Entity<PongEngine> {
             if (! this.isStarted()) {
                 this.setStarted(true);
                 if (currentPaddle == 2) {
-                    this.getParentScene().getEntityController(PongEntityController.class).aiHitBallLast = false;
+                    PongEntityController.aiHitBallLast = false;
                 } else {
-                    this.getParentScene().getEntityController(PongEntityController.class).aiHitBallLast = true;
+                    PongEntityController.aiHitBallLast = true;
                 }
             }
         }
     }
     
     @Override
-    protected void onConstrained(ConstrainedEventType event)
+    protected void onConstrained(AxisEventType event)
     {
         switch (event) {
-            case TopYAxis :
-            case BottomYAxis :
+            case TopY :
+            case BottomY :
                 Vector currentVelocity = this.getVelocity();
                 this.setVelocity(currentVelocity.setY(-(currentVelocity.getY())));
                 break;
-            case LeftXAxis:
+            case LeftX:
                     PongEntityController.paddle2.score += this.worth;
                 this.worth = 1;
                 PongEngine.round += 1;
                 this.startOnPaddle(PongEntityController.paddle1);
                 break;
-            case RightXAxis:
+            case RightX:
                 PongEntityController.paddle1.score += this.worth;
                 this.worth = 1;
                 PongEngine.round += 1;
@@ -108,7 +99,7 @@ public class Ball extends Entity<PongEngine> {
         }
     }
     
-    public void setStarted(boolean value)
+    private void setStarted(boolean value)
     {
         this.started = value;
         if (started) {

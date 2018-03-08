@@ -189,19 +189,6 @@ public abstract class EntityController<
             // Perform control tick per entity.
             iterateEntityPerControlUpdate(entity);
 
-            // Check bounds
-            if (
-                ! entity.getPosition().isInsideBoundsOf(
-                    Shape.MaxSizeBaseObject(
-                        entity.getParentEngine().getClass(),
-                        this.getParentEngine(),
-                        128
-                    )
-                )
-            ) {
-                entity.onExitBounds();
-            }
-
             // Check Entity Collision
             if (! entity.isDead()) {
                 this.getAllEntities().stream().filter(
@@ -243,6 +230,7 @@ public abstract class EntityController<
     public final void spawnEntity(Entity<ParentEngine> entity)
     {
         this.getParentScene().addKeyListener(entity);
+        this.getParentScene().addMouseListener(entity.getMouseAdapter());
         this.entities.add(entity);
     }
 
@@ -256,6 +244,7 @@ public abstract class EntityController<
     public final void removeEntity(Entity<ParentEngine> entity)
     {
         this.getParentScene().removeKeyListener(entity);
+        this.getParentScene().removeMouseListener(entity.getMouseAdapter());
         this.entities.remove(entity);
     }
 
@@ -269,6 +258,7 @@ public abstract class EntityController<
         while(entities.size() > 0) {
             Entity<ParentEngine> entity = entities.pollFirst();
             this.getParentScene().removeKeyListener(entity);
+            this.getParentScene().removeMouseListener(entity.getMouseAdapter());
         }
     }
 

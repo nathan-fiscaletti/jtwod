@@ -1,6 +1,5 @@
 package jtwod.engine.drawable;
 
-import javafx.scene.Parent;
 import jtwod.engine.Drawable;
 import jtwod.engine.Engine;
 import jtwod.engine.Scene;
@@ -8,6 +7,8 @@ import jtwod.engine.metrics.Dimensions;
 import jtwod.engine.metrics.Vector;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * A base object in the engine.
@@ -35,16 +36,21 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
      * The minimum positional constraint for the Shape.
      */
     private Vector constraintMin;
+
+    /**
+     * Adapter for listening for Mouse Clicks.
+     */
+    private MouseAdapter mouseAdapter;
     
     /**
      * Enumeration definition for constraint event types.
      */
-    public enum ConstrainedEventType 
+    public enum AxisEventType
     {
-        LeftXAxis,
-        RightXAxis,
-        TopYAxis,
-        BottomYAxis
+        LeftX,
+        RightX,
+        TopY,
+        BottomY
     }
 
     /**
@@ -55,14 +61,56 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
         super(layer, engine, scene);
         this.position = Vector.Zero();
         this.size = Dimensions.Zero();
+
+        this.mouseAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (getParentScene().isCursorVisible()) {
+                    Vector mouseLocation = new Vector(e.getX(), e.getY());
+                    if (containsVector(mouseLocation)) {
+                        Shape.this.mouseClicked(e.getButton(), mouseLocation);
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (getParentScene().isCursorVisible()) {
+                    Vector mouseLocation = new Vector(e.getX(), e.getY());
+                    if (containsVector(mouseLocation)) {
+                        Shape.this.mousePressed(e.getButton(), mouseLocation);
+                    }
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (getParentScene().isCursorVisible()) {
+                    Vector mouseLocation = new Vector(e.getX(), e.getY());
+                    if (containsVector(mouseLocation)) {
+                        Shape.this.mouseReleased(e.getButton(), mouseLocation);
+                    }
+                }
+            }
+        };
     }
-    
+
+    /**
+     * Retrieve the MouseAdapter associated with this Shape.
+     *
+     * @return The MouseAdapter.
+     */
+    public MouseAdapter getMouseAdapter()
+    {
+        return this.mouseAdapter;
+    }
+
     /**
      * Called when this Shape was constrained on a specific axis.
      *
      * @param event The constraint border that this Shape was constrained on.
      */
-    protected void onConstrained(ConstrainedEventType event)
+    protected void onConstrained(AxisEventType event)
     {
         // Not implemented by default.
     }
@@ -128,6 +176,20 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     }
 
     /**
+     * Check if a Vector is within this Shape.
+     * @param vector The Vector to use.
+     */
+    public final boolean containsVector(Vector vector)
+    {
+        return (
+            vector.getX() >= this.position.getX() &&
+            vector.getX() <= this.position.getX() + this.size.getWidth() &&
+            vector.getY() >= this.position.getY() &&
+            vector.getY() <= this.position.getY() + this.size.getHeight()
+        );
+    }
+
+    /**
      * Retrieve the position of this Shape.
      *
      * @return The position of this Shape
@@ -180,6 +242,39 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     }
 
     /**
+     * Called when the mouse clicks this Shape.
+     *
+     * @param button The mouse button that was pressed. (1, 2, 3)
+     * @param location The location in the Scene that the mouse was.
+     */
+    protected void mouseClicked(int button, Vector location)
+    {
+        // Not implemented by default.
+    }
+
+    /**
+     * Called when the mouse presses down on this Shape.
+     *
+     * @param button The mouse button that was pressed. (1, 2, 3)
+     * @param location The location in the Scene that the mouse was.
+     */
+    protected void mousePressed(int button, Vector location)
+    {
+        // Not implemented by default.
+    }
+
+    /**
+     * Called when the mouse releases on this Shape.
+     *
+     * @param button The mouse button that was pressed. (1, 2, 3)
+     * @param location The location in the Scene that the mouse was.
+     */
+    protected void mouseReleased(int button, Vector location)
+    {
+        // Not implemented by default.
+    }
+
+    /**
      * Retrieves a Shape for the specified engine at the largest size possible.
      *
      * @param engine The engine to pull the Shape from.
@@ -201,7 +296,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     
     /**
      * A custom implementation of the Vector constraint mechanism.
-     * This will call back to the {@link Shape#onConstrained(ConstrainedEventType)} function.
+     * This will call back to the {@link Shape#onConstrained(AxisEventType)} function.
      * 
      * We use this instead of {@link Vector#constrain(Vector, Vector)}
      *
@@ -212,22 +307,22 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     {
         if (this.position.getX() < min.getX() - min.getXBuffer()) {
             this.position.setX(min.getX() - min.getXBuffer());
-            this.onConstrained(ConstrainedEventType.LeftXAxis);
+            this.onConstrained(AxisEventType.LeftX);
         }
 
         if (this.position.getY() < min.getY() - min.getYBuffer()) {
-            this.onConstrained(ConstrainedEventType.TopYAxis);
+            this.onConstrained(AxisEventType.TopY);
             this.position.setY(min.getY() - min.getYBuffer());
         }
 
         if (this.position.getX() > max.getX() - max.getXBuffer()) {
             this.position.setX(max.getX() - max.getXBuffer());
-            this.onConstrained(ConstrainedEventType.RightXAxis);
+            this.onConstrained(AxisEventType.RightX);
         }
 
         if (this.position.getY() > max.getY() - max.getYBuffer()) {
             this.position.setY(max.getY() - max.getYBuffer());
-            this.onConstrained(ConstrainedEventType.BottomYAxis);
+            this.onConstrained(AxisEventType.BottomY);
         }
     }
 }

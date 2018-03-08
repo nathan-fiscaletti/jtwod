@@ -9,8 +9,7 @@ import jtwod.engine.metrics.Vector;
 import jtwod.engine.timing.RecurringTimer;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.util.LinkedList;
 
@@ -138,6 +137,11 @@ public abstract class Scene<
     private Graph<ParentEngine> graphRenderer;
 
     /**
+     * If set to true, the Cursor will be displayed.
+     */
+    private boolean showCursor;
+
+    /**
      * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
      * parent <code>{@link jtwod.engine.Engine Engine}</code>.
      *
@@ -154,6 +158,7 @@ public abstract class Scene<
         this.controller = null;
         this.drawableGroup = new DrawableGroup<>(this.getParentEngine(), this);
         this.recurringTimers = new LinkedList<>();
+        this.showCursor = false;
         initializeInternalDrawables(engine);
     }
 
@@ -181,6 +186,39 @@ public abstract class Scene<
         this.controller = controller;
         this.drawableGroup = new DrawableGroup<>(this.getParentEngine(), this);
         this.recurringTimers = new LinkedList<>();
+        this.showCursor = false;
+        initializeInternalDrawables(engine);
+    }
+
+    /**
+     * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
+     * parent <code>{@link jtwod.engine.Engine Engine}</code> and an
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>.
+     *
+     * @param name
+     * The name of the <code>{@link jtwod.engine.Scene Scene}</code>.
+     * @param engine
+     * The parent <code>{@link jtwod.engine.Engine Engine}</code> this
+     * <code>{@link jtwod.engine.Scene Scene}</code> is attached to.
+     * @param controller
+     * The <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * to attach with this <code>{@link jtwod.engine.Scene Scene}</code>.
+     * @param showCursor
+     * If set to true, the Cursor will be displayed in this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
+     */
+    public Scene(
+            String name,
+            ParentEngine engine,
+            EntityController<ParentEngine> controller,
+            boolean showCursor
+    ) {
+        this.name = name;
+        this.parentEngine = engine;
+        this.controller = controller;
+        this.drawableGroup = new DrawableGroup<>(this.getParentEngine(), this);
+        this.recurringTimers = new LinkedList<>();
+        this.showCursor = showCursor;
         initializeInternalDrawables(engine);
     }
 
@@ -309,6 +347,48 @@ public abstract class Scene<
         this.drawableGroup.addDrawable(this.fpsRenderer);
     }
 
+    /**
+     * Update the current Cursor visibility for this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
+     * Note: This should not be used on initialization.
+     *
+     * @param value The new Cursor visibility.
+     */
+    public final void setCursorVisible(boolean value)
+    {
+        this.getParentEngine().setCursorVisible(value);
+        this.showCursor = value;
+    }
+
+    /**
+     * Check if this <code>{@link jtwod.engine.Scene Scene}</code>
+     * has it's Cursor value set to Visible.
+     *
+     * @return The Cursor visibility.
+     */
+    public final boolean isCursorVisible()
+    {
+        return this.showCursor;
+    }
+
+    /**
+     * Retrieves the current cursor position within this
+     * <code>{@link jtwod.engine.Scene Scene}</code>.
+     *
+     * @return
+     * A Vector representing the current Cursor position
+     * relative to this <code>{@link jtwod.engine.Scene Scene}</code>.
+     */
+    public final Vector getCursorLocation()
+    {
+        return  Vector.fromPoint(
+            MouseInfo.getPointerInfo().getLocation()
+        ).plus(
+            Vector.fromPoint(
+                this.getLocation()
+            ).negative()
+        );
+    }
 
     /**
      * Override this function to control how the

@@ -116,11 +116,15 @@ public final class Texture
     public final static Texture colorTexture(Color color, Dimensions size)
     {
         BufferedImage image = new BufferedImage (
-                size.getWidth(),
-                size.getHeight(),
-                BufferedImage.TYPE_INT_ARGB
+            size.getWidth(),
+            size.getHeight(),
+            BufferedImage.TYPE_INT_ARGB
         );
-        
+
+        if (color == null) {
+            color = new Color(0, 0, 0, 0);
+        }
+
         int[]data=((DataBufferInt) image.getRaster().getDataBuffer()).getData();
         Arrays.fill(data, color.getRGB());
 
@@ -130,7 +134,6 @@ public final class Texture
     /**
      * Retrieve a Texture for a circle of the specified radius.
      *
-     * @param background The background color to use for the Texture.
      * @param border The border color.
      * @param fill The color to fill the circle with. (Leave null for none).
      * @param borderThickness The thickness to make the border if the circle has a border.
