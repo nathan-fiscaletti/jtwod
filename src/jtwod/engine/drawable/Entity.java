@@ -62,7 +62,6 @@ public abstract class Entity<ParentEngine extends Engine> extends Image<ParentEn
     {
         super(Integer.MAX_VALUE - 1, texture, position, scene.getParentEngine(), scene);
         this.velocity = Vector.Zero();
-        this.setPositionConstraint(Vector.Zero(), scene.getParentEngine().getWindowSize().asVector());
         this.random = new Random();
     }
 
