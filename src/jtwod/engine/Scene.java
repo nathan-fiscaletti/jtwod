@@ -164,6 +164,7 @@ public abstract class Scene<
         this.drawableGroup = new DrawableGroup<>(this.getParentEngine(), this);
         this.recurringTimers = new LinkedList<>();
         this.showCursor = false;
+        this.currentCursorTexture = null;
         initializeInternalDrawables(engine);
     }
 
@@ -192,13 +193,15 @@ public abstract class Scene<
         this.drawableGroup = new DrawableGroup<>(this.getParentEngine(), this);
         this.recurringTimers = new LinkedList<>();
         this.showCursor = false;
+        this.currentCursorTexture = null;
         initializeInternalDrawables(engine);
     }
 
     /**
      * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
-     * parent <code>{@link jtwod.engine.Engine Engine}</code> and an
+     * parent <code>{@link jtwod.engine.Engine Engine}</code>, an
      * <code>{@link jtwod.engine.EntityController EntityController}</code>.
+     * as well as a cursor initial state.
      *
      * @param name
      * The name of the <code>{@link jtwod.engine.Scene Scene}</code>.
@@ -213,10 +216,10 @@ public abstract class Scene<
      * <code>{@link jtwod.engine.Scene Scene}</code>.
      */
     public Scene(
-            String name,
-            ParentEngine engine,
-            EntityController<ParentEngine> controller,
-            boolean showCursor
+        String name,
+        ParentEngine engine,
+        EntityController<ParentEngine> controller,
+        boolean showCursor
     ) {
         this.name = name;
         this.parentEngine = engine;
@@ -230,8 +233,11 @@ public abstract class Scene<
 
     /**
      * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
-     * parent <code>{@link jtwod.engine.Engine Engine}</code> and an
-     * <code>{@link jtwod.engine.EntityController EntityController}</code>.
+     * parent <code>{@link jtwod.engine.Engine Engine}</code>, an
+     * <code>{@link jtwod.engine.EntityController EntityController}</code>
+     * as well as a cursor initial state and a
+     * <code>{@link jtwod.engine.graphics.Texture Texture}</code> to
+     * associate with the Cursor.
      *
      * @param name
      * The name of the <code>{@link jtwod.engine.Scene Scene}</code>.
@@ -245,14 +251,15 @@ public abstract class Scene<
      * If set to true, the Cursor will be displayed in this
      * <code>{@link jtwod.engine.Scene Scene}</code>.
      * @param cursorTexture
-     * The Texture for the Cursor.
+     * The <code>{@link jtwod.engine.graphics.Texture Texture}</code>
+     * for the Cursor.
      */
     public Scene(
-            String name,
-            ParentEngine engine,
-            EntityController<ParentEngine> controller,
-            boolean showCursor,
-            Texture cursorTexture
+        String name,
+        ParentEngine engine,
+        EntityController<ParentEngine> controller,
+        boolean showCursor,
+        Texture cursorTexture
     ) {
         this.name = name;
         this.parentEngine = engine;
