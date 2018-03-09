@@ -175,6 +175,9 @@ public class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
         this.initializeClickableShape();
     }
 
+    /**
+     * Initialize the Clickable hitbox for this Text Object.
+     */
     private void initializeClickableShape()
     {
         this.clickableShape = new Shape<ParentEngine>(
