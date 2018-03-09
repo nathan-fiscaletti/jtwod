@@ -147,6 +147,11 @@ public abstract class Scene<
     private Texture currentCursorTexture;
 
     /**
+     * The current AWT Graphics object.
+     */
+    private Graphics currentAwtGraphics;
+
+    /**
      * Initialize the <code>{@link jtwod.engine.Scene Scene}</code> with a
      * parent <code>{@link jtwod.engine.Engine Engine}</code>.
      *
@@ -823,6 +828,16 @@ public abstract class Scene<
     {
         this.keyReleased(keyEvent);
     }
+
+    /**
+     * Retrieve the currently active AWT Graphics object.
+     *
+     * @return The currently active AWT Graphics object.
+     */
+    public final Graphics getCurrentAwtGraphics()
+    {
+        return this.currentAwtGraphics;
+    }
     
     /**
      * Internal renderFrame function.
@@ -836,6 +851,7 @@ public abstract class Scene<
         }
 
         Graphics graphics = bs.getDrawGraphics();
+        this.currentAwtGraphics = graphics;
 
         if (this.isRendering) {
             this.drawableGroup.render(graphics, this);
@@ -850,6 +866,7 @@ public abstract class Scene<
             this.tpsRenderer.render(graphics, this);
         }
 
+        this.currentAwtGraphics = null;
         graphics.dispose();
         try {
             bs.show();

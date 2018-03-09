@@ -297,7 +297,7 @@ public abstract class Drawable<ParentEngine extends Engine> extends KeyAdapter
      *
      * @return The parent <code>{@link jtwod.engine.Scene Scene}</code>.
      */
-    public Scene<ParentEngine> getParentScene()
+    public final Scene<ParentEngine> getParentScene()
     {
         return this.parentScene;
     }

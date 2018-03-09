@@ -31,7 +31,7 @@ public class VectorGridExampleEngine extends Engine {
 
     @Override
     public void onEngineStart() {
-        this.setScene(new Scene<VectorGridExampleEngine>("MainScene", this){
+        this.setScene(new Scene<VectorGridExampleEngine>("MainScene", this, null, true){
             VectorGrid<VectorGridExampleEngine> grid;
             Text<VectorGridExampleEngine> text;
 
@@ -59,7 +59,7 @@ public class VectorGridExampleEngine extends Engine {
                 //
                 // The parent starting point and Dimensions will be used
                 // to properly center the Text object.
-                text = new Text<>(
+                text = new Text<VectorGridExampleEngine>(
                     Integer.MAX_VALUE,
                     "Center",
                     new Font(
@@ -72,7 +72,12 @@ public class VectorGridExampleEngine extends Engine {
                     Dimensions.Square(gridElementSize),
                     this.getParentEngine(),
                     this
-                );
+                ) {
+                    @Override
+                    public void mouseClicked(int button, Vector position) {
+                        System.out.println("The center text was clicked.");
+                    }
+                };
 
                 // Tell the Scene to render the VectorGrid.
                 this.getDrawableGroup().addDrawable(grid);
