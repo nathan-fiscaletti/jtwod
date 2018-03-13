@@ -451,6 +451,26 @@ public class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
     }
 
     /**
+     * Update the parent start Vector for this Text object.
+     *
+     * @param vector The new start Vector.
+     */
+    public final void setParentStartPosition(Vector vector)
+    {
+        this.parentStart = vector;
+    }
+
+    /**
+     * Update the parent dimensions for this Text Object.
+     *
+     * @param dimensions The new dimensions.
+     */
+    public final void setParentDimensions(Dimensions dimensions)
+    {
+        this.parentDimensions = dimensions;
+    }
+
+    /**
      * Override the getMouseAdapter function for this object
      * to return the MouseAdapter associated with the
      * clickable Shape.

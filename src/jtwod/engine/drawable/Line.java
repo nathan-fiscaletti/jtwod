@@ -166,7 +166,8 @@ public final class Line<ParentEngine extends Engine> extends Drawable<ParentEngi
      * Update the Line.
      */
     @Override
-    protected final void update() {
+    protected final void update()
+    {
         // Not implemented by default.
     }
 }
