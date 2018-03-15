@@ -77,6 +77,12 @@ public class VectorGridExampleEngine extends Engine {
                     public void mouseClicked(int button, Vector position) {
                         System.out.println("The center text was clicked.");
                     }
+
+                    @Override
+                    public void mouseEntered()
+                    {
+                        System.out.println("Mouse entered.");
+                    }
                 };
 
                 // Tell the Scene to render the VectorGrid.

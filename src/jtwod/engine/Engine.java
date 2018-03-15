@@ -69,6 +69,11 @@ public abstract class Engine
     private Scene<? extends Engine> currentScene;
 
     /**
+     * The last known cursor location.
+     */
+    private Vector lastKnownCursorLocation = Vector.Zero();
+
+    /**
      * Initialize a new <code>{@link jtwod.engine.Engine Engine}</code>.
      *
      * @param title The title for the primary Application window.
@@ -329,8 +334,20 @@ public abstract class Engine
      */
     public final Vector getCursorLocation()
     {
-        return  Vector.fromPoint(
-            MouseInfo.getPointerInfo().getLocation()
-        );
+        try {
+            lastKnownCursorLocation = new Vector(
+                (int) (
+                    MouseInfo.getPointerInfo().getLocation().getX()
+                  - currentScene.getLocationOnScreen().getX()
+                ),
+                (int) (
+                    MouseInfo.getPointerInfo().getLocation().getY()
+                  - currentScene.getLocationOnScreen().getY()
+                )
+            );
+            return lastKnownCursorLocation;
+        } catch (Exception e) {
+            return lastKnownCursorLocation;
+        }
     }
 }

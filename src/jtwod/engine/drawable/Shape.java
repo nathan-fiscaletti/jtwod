@@ -41,6 +41,11 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
      * Adapter for listening for Mouse Clicks.
      */
     private MouseAdapter mouseAdapter;
+
+    /**
+     * Internal variable used to store the last state of the cursor.
+     */
+    private boolean isCursorOver = false;
     
     /**
      * Enumeration definition for constraint event types.
@@ -131,6 +136,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     protected void notifyUpdate()
     {
         super.notifyUpdate();
+        this.updateCursorOver();
         this.updateConstraints();
     }
 
@@ -172,6 +178,21 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
             this.constraintMin != null
         ) {
             this.constrain(this.constraintMin, this.constraintMax);
+        }
+    }
+
+    /**
+     * Update the current tracking of the cursor over this Shape.
+     */
+    private void updateCursorOver()
+    {
+        if (this.containsVector(this.getParentEngine().getCursorLocation())) {
+            if (! this.isCursorOver) {
+                this.isCursorOver = true;
+                this.mouseEntered();
+            }
+        } else {
+            this.isCursorOver = false;
         }
     }
 
@@ -270,6 +291,14 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
      * @param location The location in the Scene that the mouse was.
      */
     protected void mouseReleased(int button, Vector location)
+    {
+        // Not implemented by default.
+    }
+
+    /**
+     * Called when the mouse enters this shape.
+     */
+    protected void mouseEntered()
     {
         // Not implemented by default.
     }

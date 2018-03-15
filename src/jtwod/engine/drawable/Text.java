@@ -199,7 +199,22 @@ public class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
             protected void mouseReleased(int button, Vector location) {
                 Text.this.mouseReleased(button, location);
             }
+
+            @Override
+            protected void mouseEntered() {
+                Text.this.mouseEntered();
+            }
         };
+    }
+
+    /**
+     * Forward the update function to the Clickable hitbox.
+     */
+    @Override
+    public final void update()
+    {
+        super.update();
+        clickableShape.notifyUpdate();
     }
 
     /**
@@ -470,7 +485,7 @@ public class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
         this.parentDimensions = dimensions;
     }
 
-    /**
+    /**f
      * Override the getMouseAdapter function for this object
      * to return the MouseAdapter associated with the
      * clickable Shape.
