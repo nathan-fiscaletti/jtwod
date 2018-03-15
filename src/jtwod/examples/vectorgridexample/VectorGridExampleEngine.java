@@ -83,6 +83,12 @@ public class VectorGridExampleEngine extends Engine {
                     {
                         System.out.println("Mouse entered.");
                     }
+
+                    @Override
+                    public void mouseLeft()
+                    {
+                        System.out.println("Mouse left.");
+                    }
                 };
 
                 // Tell the Scene to render the VectorGrid.

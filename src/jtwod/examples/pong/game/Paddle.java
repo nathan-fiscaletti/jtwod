@@ -5,12 +5,12 @@ import java.awt.event.KeyEvent;
 import jtwod.engine.EntityController;
 import jtwod.engine.Scene;
 import jtwod.engine.drawable.Entity;
+import jtwod.engine.graphics.Texture;
 import jtwod.engine.metrics.Vector;
 
 public class Paddle extends Entity<PongEngine> {
     public int paddleID = 0;
     public int score = 0;
-
 
     public Paddle(Vector position, Scene<PongEngine> scene, int paddleID) {
         super(position, scene.getParentEngine().getTextureGroup().getTexture("Paddle"), scene);
@@ -44,6 +44,18 @@ public class Paddle extends Entity<PongEngine> {
     public void mouseClicked(int button, Vector position)
     {
         System.out.println("Mouse button " + button + " clicked at " + position + " on Paddle.");
+    }
+
+    @Override
+    public void mouseEntered()
+    {
+        this.setTexture(getParentEngine().getTextureGroup().getTexture("PaddleWhite"));
+    }
+
+    @Override
+    public void mouseLeft()
+    {
+        this.setTexture(getParentEngine().getTextureGroup().getTexture("Paddle"));
     }
 
     @Override

@@ -41,6 +41,7 @@ public class PongEngine extends Engine {
     {
         this.getTextureGroup().addTexture("Ball", Texture.colorCircleTexture(null, Color.white, 0, ballDimensions.getWidth()));
         this.getTextureGroup().addTexture("Paddle", Texture.colorTexture(Color.gray, paddleDimensions));
+        this.getTextureGroup().addTexture("PaddleWhite", Texture.colorTexture(Color.white, paddleDimensions));
     }
     
     @Override

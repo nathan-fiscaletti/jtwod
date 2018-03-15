@@ -192,6 +192,9 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
                 this.mouseEntered();
             }
         } else {
+            if (this.isCursorOver) {
+                this.mouseLeft();
+            }
             this.isCursorOver = false;
         }
     }
@@ -296,9 +299,17 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
     }
 
     /**
-     * Called when the mouse enters this shape.
+     * Called when the mouse enters this Shape.
      */
     protected void mouseEntered()
+    {
+        // Not implemented by default.
+    }
+
+    /**
+     * Called when the mouse leaves this Shape.
+     */
+    protected void mouseLeft()
     {
         // Not implemented by default.
     }

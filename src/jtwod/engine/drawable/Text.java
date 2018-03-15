@@ -204,6 +204,11 @@ public class Text<ParentEngine extends Engine> extends Shape<ParentEngine>
             protected void mouseEntered() {
                 Text.this.mouseEntered();
             }
+
+            @Override
+            protected void mouseLeft() {
+                Text.this.mouseLeft();
+            }
         };
     }
 
