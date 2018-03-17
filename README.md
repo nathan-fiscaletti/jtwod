@@ -26,7 +26,7 @@ C:\> build.bat (--release | --debug)
 
 [Glide: A space shooter](http://github.com/nathan-fiscaletti/glide)
 
-[StickRPG](https://github.com/danetuso/StickRPG1.5) by [Dane Tuso](http://github.com/danetuso)
+[StickRPG1.5](https://github.com/danetuso/StickRPG1.5) by [Dane Tuso](http://github.com/danetuso)
 
 ### Examples
 
