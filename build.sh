@@ -25,7 +25,7 @@ mkdir tmp
 
 # Compile jtwod Files
 echo "Compiling jtwod classes..."
-cp -R src/ tmp/
+cp -R src/* tmp/
 cd tmp/
 find . -name "*.java" > sources.txt
 javac -cp ../lib/tinysound-1.1.1.jar @sources.txt
