@@ -72,7 +72,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
             public void mouseClicked(MouseEvent e) {
                 if (getParentScene().isCursorVisible()) {
                     Vector mouseLocation = new Vector(e.getX(), e.getY());
-                    if (containsVector(mouseLocation)) {
+                    if (containsVector(mouseLocation) && isVisible()) {
                         Shape.this.mouseClicked(e.getButton(), mouseLocation);
                     }
                 }
@@ -82,7 +82,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
             public void mousePressed(MouseEvent e) {
                 if (getParentScene().isCursorVisible()) {
                     Vector mouseLocation = new Vector(e.getX(), e.getY());
-                    if (containsVector(mouseLocation)) {
+                    if (containsVector(mouseLocation) && isVisible()) {
                         Shape.this.mousePressed(e.getButton(), mouseLocation);
                     }
                 }
@@ -92,7 +92,7 @@ public abstract class Shape<ParentEngine extends Engine> extends Drawable<Parent
             public void mouseReleased(MouseEvent e) {
                 if (getParentScene().isCursorVisible()) {
                     Vector mouseLocation = new Vector(e.getX(), e.getY());
-                    if (containsVector(mouseLocation)) {
+                    if (containsVector(mouseLocation) && isVisible()) {
                         Shape.this.mouseReleased(e.getButton(), mouseLocation);
                     }
                 }
