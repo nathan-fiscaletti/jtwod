@@ -169,6 +169,66 @@ public final class Texture
     }
 
     /**
+     * Retrieve a Texture for a circle of the specified radius.
+     *
+     * @param border The border color. (Leave null for no border)
+     * @param fill The color to fill the rect with. (Leave null for none).
+     * @param borderThickness The thickness to make the border if the rect has a border.
+     * @param width The width of the rect.
+     * @param height The height of the rect.
+     * @param arcWidth The arc width of the rect.
+     * @param arcHeight The arc height of the rect.
+     * @return The RoundRect Texture.
+     */
+    public final static Texture colorRoundedRectangleTexture(
+        Color border, 
+        Color fill, 
+        int borderThickness, 
+        int width, 
+        int height, 
+        int arcWidth, 
+        int arcHeight
+    ) {
+        BufferedImage image = Texture.colorTexture(
+            null,
+            new Dimensions(
+                width + borderThickness * 2,
+                height + borderThickness * 2
+            )
+        ).asBufferedImage();
+
+        Graphics graphics = image.getGraphics();
+
+        if (fill == null) {
+            fill = new Color(0, 0, 0, 0);
+        }
+
+        if (border != null) {
+            graphics.setColor(border);
+            graphics.fillRoundRect(
+                0, 0, 
+                width + borderThickness * 2, 
+                height + borderThickness * 2, 
+                arcWidth, arcHeight
+            );
+        
+            graphics.setColor(fill);
+            graphics.fillRoundRect(
+                borderThickness, 
+                borderThickness, 
+                width, 
+                height, 
+                arcWidth, arcHeight
+            );
+        } else {
+            graphics.setColor(fill);
+            graphics.fillRoundRect(0, 0, width, height, arcWidth, arcHeight);
+        }
+
+        return new Texture(image);
+    }
+
+    /**
      * Retrieve a dashed Texture.
      *
      * @param size The Dimensions of the Texture.
