@@ -105,6 +105,23 @@ public final class Texture
     {
         return this.image.getHeight();
     }
+
+    /**
+     * Retrieve a blank Texture of a specific size.
+     *
+     * @param size The size of the Texture.
+     * @return A blank Texture of the specified size.
+     */
+    public final static Texture blankTexture(Dimensions size)
+    {
+        BufferedImage image = new BufferedImage (
+            size.getWidth(),
+            size.getHeight(),
+            BufferedImage.TYPE_INT_ARGB
+        );
+
+        return new Texture(image);
+    }
     
     /**
      * Retrieve a Texture of a specific color and size.
@@ -115,11 +132,9 @@ public final class Texture
      */
     public final static Texture colorTexture(Color color, Dimensions size)
     {
-        BufferedImage image = new BufferedImage (
-            size.getWidth(),
-            size.getHeight(),
-            BufferedImage.TYPE_INT_ARGB
-        );
+        BufferedImage image = Texture.blankTexture(
+            size
+        ).asBufferedImage();
 
         if (color == null) {
             color = new Color(0, 0, 0, 0);
