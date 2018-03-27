@@ -41,14 +41,39 @@ public final class SpriteSheet {
      * @param row The row to pull from.
      * @return The Texture at the specified column and row.
      */
-    public Texture getTexture(int col, int row)
+    public final Texture getTexture(int col, int row)
     {
         return this.texture.getSubTexture (
-                ( col-1 ) * this.colWidth,
-                ( row-1 ) * this.rowHeight,
-                this.colWidth,
-                this.rowHeight
+            ( col-1 ) * this.colWidth,
+            ( row-1 ) * this.rowHeight,
+            this.colWidth,
+            this.rowHeight
         );
     }
 
+    /**
+     * Retrieves a Texture from the SpriteSheet.
+     *
+     * @param col The starting Column.
+     * @param row The starting Row.
+     * @param divergeX The divergence from the specified column parameter.
+     * @param divergeY The divergence from the specified row parameter.
+     * @param width The width of the Texture to retrieve.
+     * @param height The height of the Texture to retrieve.
+     *
+     * @return The sub Texture from this SpriteSheet.
+     */
+    public final Texture getTextureStartingAt(int col, int row, int divergeX, int divergeY, int width, int height)
+    {
+        return this.texture.getSubTexture(
+            (
+                col*this.colWidth
+            ) + divergeX,
+            (
+                row*this.rowHeight
+            ) + divergeY,
+            width,
+            height
+        );
+    }
 }
