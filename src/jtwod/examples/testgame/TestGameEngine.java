@@ -56,7 +56,7 @@ public final class TestGameEngine extends Engine {
          * Load the Player texture into the game. 
          * We just use the built in "Unknown Texture".
          */
-        this.getTextureGroup().addTexture("Player", Texture.unknownTexture(new Dimensions(32, 32)));
+        this.getTextureGroup().addTexture("Player", Texture.colorCircleTexture(Color.WHITE, Color.RED, 3, 60));
     }
 
     /*

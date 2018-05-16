@@ -169,7 +169,7 @@ public final class Texture
 
         if (fill != null) {
             graphics.setColor( fill );
-            graphics.fillArc(0, 0, radius, radius, 0, 360);
+            graphics.fillArc(borderThickness, borderThickness, radius, radius, 0, 360);
         }
 
         if (border != null) {

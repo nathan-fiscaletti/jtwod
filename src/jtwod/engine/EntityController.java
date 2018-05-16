@@ -178,7 +178,7 @@ public abstract class EntityController<
      * Perform a tick on this
      * <code>{@link jtwod.engine.EntityController EntityController}</code>.
      * 
-     * @see jtwod.engine.Drawable#update() 
+     * @see jtwod.engine.Drawable#update()
      */
     @Override
     protected final void update()
@@ -207,11 +207,11 @@ public abstract class EntityController<
     }
 
     /**
-     * Retrieve a list of all 
+     * Retrieve a list of all
      * <code>{@link jtwod.engine.drawable.Entity Entity}</code>s 
      * currently being managed by this
      * <code>{@link jtwod.engine.EntityController EntityController}</code>.
-     * 
+     *
      * @return The <code>{@link jtwod.engine.drawable.Entity Entity}</code>s.
      */
     public final LinkedList<Entity<ParentEngine>> getAllEntities()
