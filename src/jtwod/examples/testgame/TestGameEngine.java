@@ -54,7 +54,7 @@ public final class TestGameEngine extends Engine {
     {
         /*
          * Load the Player texture into the game. 
-         * We just use the built in "Unknown Texture".
+         * We just use the built in "Color Circle Texture".
          */
         this.getTextureGroup().addTexture("Player", Texture.colorCircleTexture(Color.WHITE, Color.RED, 3, 60));
     }
@@ -71,7 +71,7 @@ public final class TestGameEngine extends Engine {
          * Initialize the new Scene that we will be using to render things out.
          */
         Scene<TestGameEngine> mainScene
-                = new Scene<TestGameEngine>("Main Screen", this) {
+                = new Scene<TestGameEngine>("Main Scene", this) {
 
             /**
              * The Serial version UID.
@@ -79,15 +79,15 @@ public final class TestGameEngine extends Engine {
             private static final long serialVersionUID = -1982332528698274277L;
 
             /*
-             * Override this function to handle the Priming of the Screen.
+             * Override this function to handle the Priming of the Scene.
              * 
-             * @see jtwod.engine.Screen#allocate()
+             * @see jtwod.engine.Scene#allocate()
              */
             @Override
             protected final void allocate()
             {
                 /*
-                 * Assign a new EntityController to the screen.
+                 * Assign a new EntityController to the scene.
                  * When the entity controller is initialized, we spawn our player onto it.
                  */
                 this.setEntityController(new EntityController<TestGameEngine>(this) {
@@ -97,11 +97,11 @@ public final class TestGameEngine extends Engine {
                          *
                          * This is a very simple entity, just a rendered sprite of a white block
                          * for the entity sprite, and then we constrain the entities position
-                         * to the bounds of the screen so that they cannot leave it.
+                         * to the bounds of the scene so that they cannot leave it.
                          */
                         myPlayer = new Entity<TestGameEngine>(Vector.Zero(), this.getParentEngine().getTextureGroup().getTexture("Player"), this.getParentScene()) {
                             {
-                                // Constrain the entity to the screen bounds.
+                                // Constrain the entity to the scene bounds.
                                 this.setPositionConstraint(
                                     Vector.Zero(),
                                     Vector.Max(
@@ -192,7 +192,7 @@ public final class TestGameEngine extends Engine {
         };
         
         /*
-         * Set the main screen for the engine to get things rolling.
+         * Set the main scene for the engine to get things rolling.
          */
         this.setScene(mainScene);
     }

@@ -3,7 +3,8 @@ package jtwod.engine.graphics;
 /**
  * A class for representing a Texture with several sub Textures.
  */
-public final class SpriteSheet {
+public final class SpriteSheet
+{
 
     /**
      * The base texture for the SpriteSheet.

@@ -92,6 +92,8 @@ public class VectorGridExampleEngine extends Engine {
                 };
 
                 // Tell the Scene to render the VectorGrid.
+                // This is optional and should only really be used
+                // to debug the grid.
                 this.getDrawableGroup().addDrawable(grid);
 
                 // Add the Text object to the Scene's Drawables.
