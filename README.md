@@ -1,7 +1,9 @@
 # JTwoD
-> A Java game Engine
+> A Java game Engine (Read my [blog post about this](https://me.nathanf.tk/2019/02/26/jtwod/))
 
 [![GitHub issues](https://img.shields.io/github/issues/nathan-fiscaletti/jtwod.svg)](https://github.com/nathan-fiscaletti/jtwod/issues) [![GitHub forks](https://img.shields.io/github/forks/nathan-fiscaletti/jtwod.svg)](https://github.com/nathan-fiscaletti/jtwod/network) [![GitHub stars](https://img.shields.io/github/stars/nathan-fiscaletti/jtwod.svg)](https://github.com/nathan-fiscaletti/jtwod/stargazers) [![GitHub license](https://img.shields.io/github/license/nathan-fiscaletti/jtwod.svg)](https://github.com/nathan-fiscaletti/jtwod/blob/master/LICENSE)
+
+![Glide](https://github.com/nathan-fiscaletti/glide/blob/gh-pages/images/glide6.png?raw=true)
 
 ### Building
 
